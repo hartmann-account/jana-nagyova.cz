@@ -1,29 +1,33 @@
-// Navigation, hero portrait switching, filmography filter and gallery lightbox.
+// Navigation, scene buttons of the paper theatre, filmography filters and the lightbox.
 const $ = (sel, root = document) => root.querySelector(sel);
 const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
 
-/* header */
+/* header: light over the stage, paper as soon as the page moves */
 const top = $('.top');
-const hero = $('.hero');
-const onScroll = () => {
-  const limit = hero ? hero.offsetHeight - 70 : 40;
-  top && top.classList.toggle('is-scrolled', window.scrollY > limit);
-};
+const onScroll = () => top && top.classList.toggle('is-scrolled', window.scrollY > 8);
 window.addEventListener('scroll', onScroll, { passive: true });
-window.addEventListener('resize', onScroll);
 onScroll();
 
 const nav = $('.top__nav');
 const toggle = $('.top__toggle');
 if (nav && toggle) {
-  const close = () => { nav.classList.remove('is-open'); toggle.setAttribute('aria-expanded', 'false'); };
-  toggle.addEventListener('click', () => {
-    const open = nav.classList.toggle('is-open');
+  const setOpen = (open) => {
+    nav.classList.toggle('is-open', open);
+    top.classList.toggle('menu-open', open);
     toggle.setAttribute('aria-expanded', String(open));
+    toggle.textContent = open ? toggle.dataset.close : toggle.dataset.open;
+  };
+  let openedAt = 0;
+  toggle.addEventListener('click', () => {
+    const open = !nav.classList.contains('is-open');
+    setOpen(open);
+    if (open) openedAt = window.scrollY;
   });
-  $$('a', nav).forEach((a) => a.addEventListener('click', close));
+  $$('a', nav).forEach((a) => a.addEventListener('click', () => setOpen(false)));
+  document.addEventListener('pointerdown', (e) => { if (nav.classList.contains('is-open') && !top.contains(e.target)) setOpen(false); });
+  window.addEventListener('scroll', () => { if (nav.classList.contains('is-open') && Math.abs(window.scrollY - openedAt) > 40) setOpen(false); }, { passive: true });
   document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && nav.classList.contains('is-open')) { close(); toggle.focus(); }
+    if (e.key === 'Escape' && nav.classList.contains('is-open')) { setOpen(false); toggle.focus(); }
   });
 }
 
@@ -42,57 +46,83 @@ if ('IntersectionObserver' in window) {
   links.forEach((_, id) => { const s = document.getElementById(id); if (s) io.observe(s); });
 }
 
-/* hero portraits: the 3D scene animates, this keeps the controls and the fallback in sync */
+/* paper theatre scenes: buttons, keyboard, taps on the figure (reported by the scene) */
+const hero = $('.hero');
 const portraits = JSON.parse($('#portrait-data')?.textContent || '[]');
 if (hero && portraits.length) {
   let index = 0;
-  const idx = $('.hero__index', hero);
+  const label = $('.hero__label', hero);
   const credit = $('.hero__credit', hero);
+  const live = $('.hero__live', hero);
   const fallbackImg = $('.hero__fallback img', hero);
-  const meta = $('meta[name="theme-color"]');
-  const show = (i, fromScene = false) => {
+  const buttons = $$('.hero__scenes button', hero);
+  const show = (i, announce = true) => {
     index = (i + portraits.length) % portraits.length;
     const p = portraits[index];
-    hero.style.setProperty('--hero-bg', p.bg);
-    hero.style.setProperty('--hero-ink', p.ink);
-    if (idx) idx.textContent = String(index + 1);
+    if (label) label.textContent = p.label;
     if (credit) credit.textContent = p.credit;
-    if (meta) meta.setAttribute('content', p.bg);
-    if (fallbackImg) fallbackImg.src = `/img/figure/jana-${p.photo}-768.webp`;
-    if (!fromScene) document.dispatchEvent(new CustomEvent('portrait-show', { detail: index }));
+    buttons.forEach((b, k) => b.setAttribute('aria-pressed', String(k === index)));
+    if (live && announce) live.textContent = p.live;
+    if (fallbackImg) { fallbackImg.src = `/img/figure/jana-${p.photo}-768.webp`; fallbackImg.alt = p.alt; }
+    document.dispatchEvent(new CustomEvent('portrait-show', { detail: index }));
   };
-  $$('.hero__btn', hero).forEach((b) => b.addEventListener('click', () => show(index + Number(b.dataset.dir))));
+  buttons.forEach((b) => b.addEventListener('click', () => show(Number(b.dataset.index))));
   hero.addEventListener('keydown', (e) => {
-    if (e.target.closest('a, input')) return;
-    if (e.key === 'ArrowRight') show(index + 1);
-    if (e.key === 'ArrowLeft') show(index - 1);
+    if (!e.target.closest('.hero__scenes')) return;
+    if (e.key === 'ArrowRight') { show(index + 1); buttons[index].focus(); }
+    if (e.key === 'ArrowLeft') { show(index - 1); buttons[index].focus(); }
   });
-  // the scene reports taps on the portrait
   document.addEventListener('portrait-next', () => show(index + 1));
+  document.addEventListener('portrait-failed', (e) => show(e.detail, false));
 }
 
-/* filmography filter */
+/* filmography: type filter, year from the timeline, decades folded on small screens */
 const filters = $('.filters');
 if (filters) {
   filters.hidden = false;
   const items = $$('.credit');
   const decades = $$('.decade');
+  const years = $$('.tl-year[data-year]');
   const count = $('.films__count');
   const tpl = count?.dataset.countTemplate;
-  filters.addEventListener('click', (e) => {
-    const btn = e.target.closest('button[data-filter]');
-    if (!btn) return;
-    const f = btn.dataset.filter;
-    $$('button', filters).forEach((b) => b.setAttribute('aria-pressed', String(b === btn)));
+  const yearBox = $('.filters__year', filters);
+  const yearLabel = $('.filters__yearlabel', filters);
+  let type = 'all';
+  let year = null;
+  const apply = () => {
     let n = 0;
     items.forEach((li) => {
-      const show = f === 'all' || li.dataset.group === f;
+      const show = (type === 'all' || li.dataset.group === type) && (year === null || li.dataset.year === year);
       li.hidden = !show;
       if (show) n++;
     });
-    decades.forEach((d) => { d.hidden = !d.querySelector('.credit:not([hidden])'); });
+    decades.forEach((d) => {
+      const any = !!d.querySelector('.credit:not([hidden])');
+      d.hidden = !any;
+      if (year !== null && any) d.open = true;
+    });
+    years.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.year === year)));
+    if (yearBox) { yearBox.hidden = year === null; if (yearLabel) yearLabel.textContent = year ? `${yearLabel.dataset.label} ${year}` : ''; }
     if (count && tpl) count.textContent = tpl.replace('{n}', n);
+  };
+  filters.addEventListener('click', (e) => {
+    const btn = e.target.closest('button[data-filter]');
+    if (btn) {
+      type = btn.dataset.filter;
+      $$('button[data-filter]', filters).forEach((b) => b.setAttribute('aria-pressed', String(b === btn)));
+      apply();
+    }
+    if (e.target.closest('.filters__clear')) { year = null; apply(); }
   });
+  years.forEach((b) => {
+    b.setAttribute('aria-pressed', 'false');
+    b.addEventListener('click', () => {
+      year = year === b.dataset.year ? null : b.dataset.year;
+      apply();
+      if (year) filters.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
+    });
+  });
+  if (window.matchMedia('(max-width: 760px)').matches) decades.forEach((d, i) => { if (i > 0) d.open = false; });
 }
 
 /* lightbox */
@@ -111,7 +141,7 @@ if (dialog && data.length && typeof dialog.showModal === 'function') {
     img.alt = p.alt;
     cap.textContent = p.credit;
   };
-  $$('.gallery__link').forEach((a) => a.addEventListener('click', (e) => {
+  $$('.sheet__link').forEach((a) => a.addEventListener('click', (e) => {
     e.preventDefault();
     opener = a;
     show(Number(a.dataset.index));

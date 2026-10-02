@@ -1,70 +1,66 @@
-"""Cut-out and depth map for the 3D film set figure.
+"""Paper-theatre figure from a portrait photo.
 
-Removes the background (rembg, BiRefNet portrait model) and estimates a relative
-depth map (Depth Anything V2 small, ONNX). Writes <name>-1280.webp / <name>-768.webp
-(RGBA) and <name>-depth.png, used by src/scene.js.
+Removes the background (rembg, BiRefNet portrait model) and builds the outline of a
+cardboard cut-out: the person's mask grown by a white card border, traced and
+simplified to a polygon. Writes
+  <name>-1280.webp / <name>-768.webp   photo with alpha (person only)
+  <name>-card.json                     card outline, coordinates 0..1, y up
+used by src/scene.js.
 
-Setup: python3 -m venv .venv && .venv/bin/pip install "rembg[cpu]" onnxruntime pillow numpy scipy huggingface_hub
+Setup: python3 -m venv .venv && .venv/bin/pip install "rembg[cpu]" onnxruntime pillow numpy scipy scikit-image
+Usage: python scripts/figure.py <source photo> <output dir> <name> [--crop-bottom=PX]
 """
-import sys, numpy as np, onnxruntime as ort
-from PIL import Image, ImageFilter
-from rembg import remove, new_session
-from huggingface_hub import hf_hub_download
+import json
+import sys
+
+import numpy as np
+from PIL import Image
+from rembg import new_session, remove
 from scipy import ndimage
+from skimage import measure
 
-# usage: python scripts/figure.py <source photo> <output dir> [name] [--fade]
 args = [a for a in sys.argv[1:] if not a.startswith('--')]
-SRC, OUT = args[0], args[1]
-NAME = args[2] if len(args) > 2 else 'jana-02'
-FADE = '--fade' in sys.argv  # soft bottom edge; off when the portrait sits on the frame edge
-CROP = next((int(a.split('=')[1]) for a in sys.argv if a.startswith('--crop-bottom=')), 0)  # px to cut off below
+SRC, OUT, NAME = args[0], args[1], args[2]
+CROP = next((int(a.split('=')[1]) for a in sys.argv if a.startswith('--crop-bottom=')), 0)
+
 src = Image.open(SRC).convert('RGB')
-if CROP: src = src.crop((0, 0, src.width, src.height - CROP))
+if CROP:
+    src = src.crop((0, 0, src.width, src.height - CROP))
 W, H = src.size
-print('src', src.size)
 
-# 1) background removal (BiRefNet portrait model, MIT licence)
-sess = new_session('birefnet-portrait')
-cut = remove(src, session=sess, only_mask=True)       # L mask
-mask = np.asarray(cut, dtype=np.float32) / 255.0
-print('mask coverage', round(float((mask > 0.5).mean()), 3))
+mask = np.asarray(remove(src, session=new_session('birefnet-portrait'), only_mask=True), dtype=np.float32) / 255.0
+solid = mask > 0.5
+# drop small specks, keep the person
+lab, n = ndimage.label(solid)
+if n > 1:
+    sizes = ndimage.sum(solid, lab, range(1, n + 1))
+    solid = lab == (1 + int(np.argmax(sizes)))
+    mask = mask * ndimage.binary_dilation(solid, iterations=3)
 
-# 2) depth (Depth Anything V2 small, Apache-2.0, ONNX)
-p = hf_hub_download('onnx-community/depth-anything-v2-small', 'onnx/model.onnx')
-so = ort.InferenceSession(p, providers=['CPUExecutionProvider'])
-inp = so.get_inputs()[0].name
-th = 518; tw = int(round(W * th / H / 14)) * 14
-x = np.asarray(src.resize((tw, th), Image.BICUBIC), dtype=np.float32) / 255.0
-x = (x - [0.485, 0.456, 0.406]) / [0.229, 0.224, 0.225]
-x = x.transpose(2, 0, 1)[None].astype(np.float32)
-d = so.run(None, {inp: x})[0][0]
-d = np.asarray(Image.fromarray(d.astype(np.float32)).resize((W, H), Image.BICUBIC))
-print('depth range', float(d.min()), float(d.max()))
+# card: the silhouette grown by a border and rounded off, like scissors would cut it
+border = max(4, round(H * 0.011))
+card = ndimage.binary_dilation(solid, structure=np.ones((3, 3)), iterations=border)
+card = ndimage.gaussian_filter(card.astype(np.float32), sigma=border * 0.6) > 0.5
+card = ndimage.binary_fill_holes(card)
 
-# normalise inside the person, fill the background with the nearest edge value
-m = mask > 0.5
-lo, hi = np.percentile(d[m], 2), np.percentile(d[m], 99.5)
-dn = np.clip((d - lo) / (hi - lo), 0, 1)
-_, (iy, ix) = ndimage.distance_transform_edt(~m, return_indices=True)
-dn = dn[iy, ix]
-# gentle compression so the relief stays plausible from a moving camera
-dn = dn ** 0.85
-dn = ndimage.gaussian_filter(dn, sigma=W / 400)
+ys, xs = np.nonzero(card)
+x0, x1, y0, y1 = xs.min(), xs.max() + 1, ys.min(), ys.max() + 1
+rgba = np.dstack([np.asarray(src), (np.clip(mask, 0, 1) * 255).astype(np.uint8)])[y0:y1, x0:x1]
+card = card[y0:y1, x0:x1]
+h, w = card.shape
 
-# bottom fade: the photo ends at the thighs
-yy = np.linspace(0, 1, H)[:, None]
-fade = np.clip((1.0 - yy) / 0.07, 0, 1) if FADE else np.ones_like(yy)
-alpha = np.clip(mask * fade, 0, 1)
+# outline polygon in 0..1 with y up; traced on a padded copy so edges at the frame close
+pad = np.pad(card, 2)
+contour = max(measure.find_contours(pad.astype(np.float32), 0.5), key=len) - 2
+poly = measure.approximate_polygon(contour, tolerance=h * 0.0016)
+pts = [[round(float(c) / w, 5), round(1 - float(r) / h, 5)] for r, c in poly]
+if len(pts) > 1 and pts[0] == pts[-1]:
+    pts.pop()
 
-rgba = np.dstack([np.asarray(src), (alpha * 255).astype(np.uint8)])
 img = Image.fromarray(rgba, 'RGBA')
-bbox = img.getbbox()
-img = img.crop(bbox)
-dimg = Image.fromarray((dn * 255).astype(np.uint8), 'L').crop(bbox)
-print('bbox', bbox, img.size)
-for h in (1280, 768):
-    w = round(img.width * h / img.height)
-    img.resize((w, h), Image.LANCZOS).save(f'{OUT}/{NAME}-{h}.webp', 'WEBP', quality=86, method=6, exact=False)
-dh = 640; dw = round(dimg.width * dh / dimg.height)
-dimg.resize((dw, dh), Image.LANCZOS).save(f'{OUT}/{NAME}-depth.png', optimize=True)
-print('done')
+for th in (1280, 768):
+    tw = round(w * th / h)
+    img.resize((tw, th), Image.LANCZOS).save(f'{OUT}/{NAME}-{th}.webp', 'WEBP', quality=86, method=6, exact=False)
+with open(f'{OUT}/{NAME}-card.json', 'w') as f:
+    json.dump({'aspect': round(w / h, 5), 'outline': pts}, f, separators=(',', ':'))
+print(NAME, 'size', (w, h), 'outline points', len(pts))

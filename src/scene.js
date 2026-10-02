@@ -1,27 +1,27 @@
-// Hero: Jana Nagyová as a cut-out portrait with depth relief, standing inside her name.
-// The letters are extruded 3D type; they turn towards the pointer, can be dragged and
-// flicked, and spring back. Tapping the portrait switches to the next one; each portrait
-// brings its own poster colours.
+// Hero: a Czech paper theatre (papírové divadlo). Printed proscenium with her name,
+// wings and backdrop at real depths, and Jana Nagyová as a cardboard cut-out on stage.
+// Pointer or device tilt moves the camera a few degrees, so the layers shift against
+// each other. Changing the portrait is a scene change: the light dims, she is drawn
+// off to the side, wings and backdrop are swapped, the next figure slides in and swings.
 import {
-  WebGLRenderer, Scene, PerspectiveCamera, Group, Mesh, PlaneGeometry,
-  MeshStandardMaterial, MeshDepthMaterial, ShadowMaterial, AmbientLight, DirectionalLight,
-  TextureLoader, SRGBColorSpace, Color, Vector2, Raycaster, MathUtils,
-  VSMShadowMap, RGBADepthPacking, NoToneMapping,
+  WebGLRenderer, Scene, PerspectiveCamera, Group, Mesh, PlaneGeometry, BoxGeometry, SphereGeometry,
+  ExtrudeGeometry, Shape, Vector2, MathUtils, Raycaster,
+  MeshBasicMaterial, MeshStandardMaterial, MeshDepthMaterial,
+  AmbientLight, SpotLight, PointLight, TextureLoader, CanvasTexture, SRGBColorSpace,
+  PCFShadowMap, RGBADepthPacking, NoToneMapping, DoubleSide, RepeatWrapping,
 } from 'three';
-import { Font } from 'three/addons/loaders/FontLoader.js';
-import { TextGeometry } from 'three/addons/geometries/TextGeometry.js';
+import * as art from './stage-art.js';
 
 const canvas = document.querySelector('.hero__canvas');
-const foot = document.querySelector('.hero__foot');
 const dataEl = document.getElementById('portrait-data');
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 const html = document.documentElement;
 
-const FOV = 30;
-const DIST = 10;
-const FRAME_H = 2 * DIST * Math.tan(MathUtils.degToRad(FOV / 2));
-const LETTER_Z = -0.9; // behind her
-const FRONT_Z = 0.55; // letters that pass in front of her body
+const FOV = 32;
+const D = 9; // camera distance to the proscenium
+const BACK = -2.8; // backdrop depth
+const FIG_Z = -1.05;
+const WING_Z = [-0.55, -1.6];
 
 function webglAvailable() {
   try {
@@ -30,347 +30,459 @@ function webglAvailable() {
   } catch { return false; }
 }
 
-const easeInOut = (x) => (x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
+const clamp01 = (x) => Math.min(1, Math.max(0, x));
+const ease = (x) => (x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
+const easeOutBack = (x) => { const c1 = 1.2, c3 = c1 + 1; return 1 + c3 * Math.pow(x - 1, 3) + c1 * Math.pow(x - 1, 2); };
+const seg = (t, a, b) => ease(clamp01((t - a) / (b - a)));
+
+function tex(canvasEl, repeat = false) {
+  const t = new CanvasTexture(canvasEl);
+  t.colorSpace = SRGBColorSpace;
+  t.anisotropy = 4;
+  if (repeat) t.wrapS = t.wrapT = RepeatWrapping;
+  return t;
+}
 
 async function init() {
   const portraits = JSON.parse(dataEl.textContent);
-  const fontData = await (await fetch('/fonts/name-3d.json')).json();
-  const font = new Font(fontData);
+  const sub = canvas.dataset.sub || '';
+  try { await Promise.all([document.fonts.load('600 40px Literata'), document.fonts.load('italic 400 20px Literata')]); } catch { /* fallback font */ }
 
-  const renderer = new WebGLRenderer({ canvas, antialias: true, alpha: false, powerPreference: 'high-performance' });
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+  const renderer = new WebGLRenderer({ canvas, antialias: true, powerPreference: 'high-performance' });
+  const coarse = window.matchMedia('(pointer: coarse)').matches;
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, coarse ? 1.75 : 2));
   renderer.outputColorSpace = SRGBColorSpace;
   renderer.toneMapping = NoToneMapping;
   renderer.shadowMap.enabled = true;
-  renderer.shadowMap.type = VSMShadowMap;
+  renderer.shadowMap.type = PCFShadowMap;
+  renderer.setClearColor(0x2a1c16, 1);
 
   const scene = new Scene();
   const camera = new PerspectiveCamera(FOV, 1, 0.1, 60);
-  camera.position.set(0, 0, DIST);
+  camera.position.set(0, 0, D);
 
-  const bg = new Color(portraits[0].bg);
-  const inkColor = new Color(portraits[0].ink);
-  renderer.setClearColor(bg, 1);
+  // light: warm house light, a stage spot with crisp shadows, footlights
+  const ambient = new AmbientLight(0xfff0dc, 1.7);
+  scene.add(ambient);
+  const spot = new SpotLight(0xffecd0, 1.9, 0, 0.62, 0.55, 0);
+  spot.castShadow = true;
+  spot.shadow.mapSize.set(coarse ? 1024 : 2048, coarse ? 1024 : 2048);
+  spot.shadow.radius = 2.2;
+  spot.shadow.bias = -0.0006;
+  spot.shadow.normalBias = 0.01;
+  scene.add(spot, spot.target);
+  const foot = [new PointLight(0xffc27a, 1.1, 5, 1.2), new PointLight(0xffc27a, 1.1, 5, 1.2)];
+  foot.forEach((l) => scene.add(l));
+  const LIGHT = { ambient: ambient.intensity, spot: spot.intensity, foot: foot[0].intensity };
+  let lightLevel = 1;
+  const setLight = (k) => {
+    lightLevel = k;
+    ambient.intensity = LIGHT.ambient * (0.45 + 0.55 * k);
+    spot.intensity = LIGHT.spot * k;
+    foot.forEach((l) => { l.intensity = LIGHT.foot * (0.3 + 0.7 * k); });
+  };
 
-  scene.add(new AmbientLight(0xffffff, 1.05));
-  const sun = new DirectionalLight(0xffffff, 2.5);
-  sun.position.set(-3.2, 5, 9);
-  sun.castShadow = true;
-  sun.shadow.mapSize.set(2048, 2048);
-  sun.shadow.radius = 10;
-  sun.shadow.blurSamples = 16;
-  sun.shadow.bias = -0.0005;
-  scene.add(sun, sun.target);
-
-  // backdrop that only shows shadows, over the flat poster colour
-  // shadows take a dark shade of the poster colour instead of grey
-  const shadowMat = new ShadowMaterial({ opacity: 0.28, color: new Color(portraits[0].bg).multiplyScalar(0.32) });
-  const backdrop = new Mesh(new PlaneGeometry(60, 40), shadowMat);
-  backdrop.position.z = -2.1;
-  backdrop.receiveShadow = true;
-  scene.add(backdrop);
-
-  /* ---------- letters ---------- */
-  const letterMat = new MeshStandardMaterial({ color: inkColor, roughness: 0.62, metalness: 0 });
-  const LINES = ['JANA', 'NAGYOVÁ'];
-  const letters = [];
-  LINES.forEach((word, line) => {
-    let x = 0;
-    for (const ch of word) {
-      const geo = new TextGeometry(ch, {
-        font, size: 1, depth: 0.3, curveSegments: 6,
-        bevelEnabled: true, bevelThickness: 0.025, bevelSize: 0.012, bevelSegments: 2,
-      });
-      geo.computeBoundingBox();
-      const bb = geo.boundingBox;
-      const cx = (bb.min.x + bb.max.x) / 2, cy = (bb.min.y + bb.max.y) / 2, cz = (bb.min.z + bb.max.z) / 2;
-      geo.translate(-cx, -cy, -cz); // pivot in the middle of the glyph
-      const mesh = new Mesh(geo, letterMat);
-      mesh.castShadow = true;
-      const pivot = new Group();
-      pivot.add(mesh);
-      scene.add(pivot);
-      letters.push({
-        ch, line, pivot, mesh,
-        ox: x + cx, oy: cy, // glyph centre inside its line, unit size
-        rot: new Vector2(), vel: new Vector2(), spin: 0, spinVel: 0, push: 0, pushVel: 0,
-        base: { x: 0, y: 0, z: LETTER_Z, s: 1 }, ndc: new Vector2(),
-      });
-      x += fontData.glyphs[ch].ha / fontData.resolution;
-    }
+  /* ---------- fixed front of house ---------- */
+  const prosMat = new MeshBasicMaterial({ transparent: true, alphaTest: 0.5 });
+  const pros = new Mesh(new PlaneGeometry(1, 1), prosMat);
+  scene.add(pros);
+  const valanceMat = new MeshBasicMaterial({ map: tex(art.curtain(1600, 260, { valance: true })), transparent: true, alphaTest: 0.4 });
+  const valance = new Mesh(new PlaneGeometry(1, 1), valanceMat);
+  scene.add(valance);
+  const curtainTex = tex(art.curtain(800, 1400));
+  const curtains = [-1, 1].map((side) => {
+    const m = new Mesh(new PlaneGeometry(1, 1), new MeshBasicMaterial({ map: curtainTex }));
+    m.userData.side = side;
+    scene.add(m);
+    return m;
   });
-  const lineWidth = (line) => [...LINES[line]].reduce((w, ch) => w + fontData.glyphs[ch].ha / fontData.resolution, 0);
-  // cap height at unit size, measured from the J
-  const capH = (() => { const g = new TextGeometry('N', { font, size: 1, depth: 0.01 }); g.computeBoundingBox(); return g.boundingBox.max.y - g.boundingBox.min.y; })();
+  const rampMat = new MeshStandardMaterial({ map: tex(art.ramp(1600, 120)), roughness: 0.8 });
+  const rampMesh = new Mesh(new BoxGeometry(1, 1, 1), [rampMat, rampMat, new MeshStandardMaterial({ color: 0x2a1c16 }), rampMat, rampMat, rampMat]);
+  scene.add(rampMesh);
+  const bulbs = new Group();
+  const bulbMat = new MeshBasicMaterial({ color: 0xffe0a6 });
+  for (let i = 0; i < 9; i++) bulbs.add(new Mesh(new SphereGeometry(1, 10, 8), bulbMat));
+  scene.add(bulbs);
 
-  /* ---------- portrait ---------- */
-  const loader = new TextureLoader();
-  const texCache = new Map();
-  const small = Math.min(window.innerWidth, window.innerHeight) < 700;
-  function loadPortrait(i) {
-    if (texCache.has(i)) return texCache.get(i);
-    const p = portraits[i];
-    const promise = Promise.all([
-      new Promise((res, rej) => loader.load(`/img/figure/jana-${p.photo}-${small ? 768 : 1280}.webp`, res, undefined, rej)),
-      new Promise((res, rej) => loader.load(`/img/figure/jana-${p.photo}-depth.png`, res, undefined, rej)),
-    ]).then(([color, depth]) => {
-      color.colorSpace = SRGBColorSpace;
-      color.anisotropy = 8;
-      // small alpha lookup for hit testing
-      const c = document.createElement('canvas'); c.width = 48; c.height = 72;
-      const g = c.getContext('2d', { willReadFrequently: true });
-      g.drawImage(color.image, 0, 0, 48, 72);
-      return { color, depth, aspect: color.image.width / color.image.height, alpha: g.getImageData(0, 0, 48, 72).data };
-    });
-    texCache.set(i, promise);
-    return promise;
+  /* ---------- scenery (swapped per scene) ---------- */
+  const paint = new Map(); // scene kind -> textures
+  function scenery(kind) {
+    if (!paint.has(kind)) {
+      const t = {
+        backdrop: tex(art.backdrop(kind, 1600, 1000)),
+        wings: [tex(art.wing(kind, 500, 1100, 0)), tex(art.wing(kind, 500, 1100, 1))],
+        floor: tex(art.floor(kind, 1024, 512)),
+      };
+      paint.set(kind, t);
+    }
+    return paint.get(kind);
+  }
+  const backMat = new MeshStandardMaterial({ roughness: 0.92 });
+  const backdropMesh = new Mesh(new PlaneGeometry(1, 1), backMat);
+  backdropMesh.receiveShadow = true;
+  scene.add(backdropMesh);
+  const floorMat = new MeshStandardMaterial({ roughness: 0.9 });
+  const floorMesh = new Mesh(new PlaneGeometry(1, 1), floorMat);
+  floorMesh.rotation.x = -Math.PI / 2;
+  floorMesh.receiveShadow = true;
+  scene.add(floorMesh);
+  const wings = [];
+  for (const [k, z] of WING_Z.entries()) {
+    for (const side of [-1, 1]) {
+      const mat = new MeshStandardMaterial({ transparent: true, alphaTest: 0.5, roughness: 0.9, side: DoubleSide });
+      const depthMat = new MeshDepthMaterial({ depthPacking: RGBADepthPacking, alphaTest: 0.5 });
+      const m = new Mesh(new PlaneGeometry(1, 1), mat);
+      m.customDepthMaterial = depthMat;
+      m.castShadow = true;
+      m.receiveShadow = true;
+      m.userData = { k, z, side, depthMat, base: 0, slide: 0 };
+      scene.add(m);
+      wings.push(m);
+    }
+  }
+  function applyScenery(kind) {
+    const t = scenery(kind);
+    backMat.map = t.backdrop; backMat.needsUpdate = true;
+    floorMat.map = t.floor; floorMat.needsUpdate = true;
+    for (const w of wings) {
+      w.material.map = t.wings[w.userData.k]; w.material.needsUpdate = true;
+      w.userData.depthMat.map = t.wings[w.userData.k]; w.userData.depthMat.needsUpdate = true;
+    }
   }
 
-  const RELIEF = 0.24;
-  const figMat = new MeshStandardMaterial({
-    color: 0x000000, emissive: 0xffffff, emissiveIntensity: 1, roughness: 1, metalness: 0,
-    transparent: true, alphaTest: 0.02, displacementScale: RELIEF, displacementBias: -RELIEF * 0.5, toneMapped: false,
-  });
-  const figDepth = new MeshDepthMaterial({ depthPacking: RGBADepthPacking, alphaTest: 0.5, displacementScale: RELIEF, displacementBias: -RELIEF * 0.5 });
-  const figure = new Mesh(new PlaneGeometry(1, 1, 150, 230), figMat);
-  figure.customDepthMaterial = figDepth;
-  figure.castShadow = true;
-  const figPivot = new Group();
-  figPivot.add(figure);
-  scene.add(figPivot);
-  let current = null; // { color, depth, aspect, alpha }
-  function applyPortrait(t) {
-    current = t;
-    figMat.map = t.color; figMat.emissiveMap = t.color; figMat.displacementMap = t.depth; figMat.needsUpdate = true;
-    figDepth.map = t.color; figDepth.displacementMap = t.depth; figDepth.needsUpdate = true;
-    layout();
+  /* ---------- the figure: photo on a cardboard cut-out ---------- */
+  const loader = new TextureLoader();
+  const portraitCache = new Map();
+  function loadPortrait(i) {
+    if (portraitCache.has(i)) return portraitCache.get(i);
+    const p = portraits[i];
+    // same rule as the preload in the page head: sharp figure on high-density screens
+    const size = (window.devicePixelRatio || 1) >= 1.5 ? 1280 : 768;
+    const promise = Promise.all([
+      new Promise((res, rej) => loader.load(`/img/figure/jana-${p.photo}-${size}.webp`, res, undefined, rej)),
+      fetch(`/img/figure/jana-${p.photo}-card.json`).then((r) => r.json()),
+    ]).then(([photo, card]) => {
+      photo.colorSpace = SRGBColorSpace;
+      photo.anisotropy = 8;
+      return { photo, card };
+    }).catch((err) => { portraitCache.delete(i); throw err; });
+    portraitCache.set(i, promise);
+    return promise;
+  }
+  const cardFaceMat = new MeshStandardMaterial({ map: tex(art.cardFace(256, 256), true), roughness: 0.85 });
+  const cardEdgeMat = new MeshStandardMaterial({ map: tex(art.cardboard(64, 64), true), roughness: 1 });
+  const photoMat = new MeshStandardMaterial({ transparent: true, alphaTest: 0.04, roughness: 0.82 });
+  const figure = new Group(); // pivot at the bottom centre
+  const cardHolder = new Group();
+  figure.add(cardHolder);
+  const photoMesh = new Mesh(new PlaneGeometry(1, 1), photoMat);
+  figure.add(photoMesh);
+  scene.add(figure);
+  let cardMesh = null;
+  let current = null; // { photo, card }
+  const fig = { x: 0, lift: 0, liftV: 0, swing: 0, swingV: 0, hover: false, height: 1, bottom: 0 };
+  const CARD_DEPTH = 0.024;
+  function buildFigure() {
+    if (!current) return;
+    const H = fig.height, W = H * current.card.aspect;
+    const shape = new Shape(current.card.outline.map(([x, y]) => new Vector2((x - 0.5) * W, y * H)));
+    const geo = new ExtrudeGeometry(shape, { depth: CARD_DEPTH, bevelEnabled: false, curveSegments: 1 });
+    if (cardMesh) { cardHolder.remove(cardMesh); cardMesh.geometry.dispose(); }
+    cardMesh = new Mesh(geo, [cardFaceMat, cardEdgeMat]);
+    cardMesh.castShadow = true;
+    cardHolder.add(cardMesh);
+    photoMesh.scale.set(W, H, 1);
+    photoMesh.position.set(0, H / 2, CARD_DEPTH + 0.002);
+    photoMat.map = current.photo; photoMat.needsUpdate = true;
   }
 
   /* ---------- layout ---------- */
+  const L = {};
+  let prosKey = '';
   function layout() {
     const w = canvas.clientWidth || window.innerWidth;
     const h = canvas.clientHeight || window.innerHeight;
     renderer.setSize(w, h, false);
     camera.aspect = w / h;
     camera.updateProjectionMatrix();
-    const frameW = FRAME_H * camera.aspect;
-    const mobile = camera.aspect < 0.85;
-    const px = FRAME_H / h; // world units per pixel at z = 0
-    const headerH = 64 * px;
-    const margin = Math.max(16, Math.min(44, w * 0.034)) * px;
+    const frameH = 2 * D * Math.tan(MathUtils.degToRad(FOV / 2));
+    const frameW = frameH * camera.aspect;
+    const tall = camera.aspect < 0.9;
+    const pw = frameW * 1.08, ph = frameH * 1.08;
+    const o = tall ? { x0: 0.06, x1: 0.94, y0: 0.2, y1: 0.86, arch: 0.05 } : { x0: 0.19, x1: 0.81, y0: 0.16, y1: 0.82, arch: 0.09 };
 
-    // portrait: stands on the bottom edge of the frame
-    const aspect = current ? current.aspect : 0.65;
-    let fh, fx;
-    if (mobile) {
-      fh = Math.min(FRAME_H * 0.8, (frameW * 1.02) / aspect);
-      fx = 0;
-    } else {
-      fh = FRAME_H * 0.95;
-      fx = Math.min(frameW / 2 - (fh * aspect) / 2 - frameW * 0.06, frameW * 0.22);
+    // printed proscenium sheet at a resolution matching the screen
+    const sw = Math.min(2048, Math.round(w * renderer.getPixelRatio() * 1.08));
+    const sh = Math.round(sw * (ph / pw));
+    const key = `${tall}|${Math.round(sw / 160)}`;
+    if (key !== prosKey) {
+      prosKey = key;
+      const c = art.proscenium(sw, sh, { x0: o.x0 * sw, x1: o.x1 * sw, y0: o.y0 * sh, y1: o.y1 * sh, arch: o.arch * sh }, 'JANA NAGYOVÁ', sub);
+      if (prosMat.map) prosMat.map.dispose();
+      prosMat.map = tex(c); prosMat.needsUpdate = true;
     }
-    const fw = fh * aspect;
-    const fy = -FRAME_H / 2 + fh / 2 - 0.22; // a little below the edge, so parallax never shows the cut
-    figure.scale.set(fw, fh, 1);
-    figPivot.position.set(fx, fy, 0);
+    pros.scale.set(pw, ph, 1);
 
-    // name: two lines, as large as the frame allows
-    const gap = 0.08;
-    const maxW = frameW - margin * 2;
-    let size = maxW / Math.max(lineWidth(0), lineWidth(1));
-    const topY = FRAME_H / 2 - headerH - margin * 0.5;
-    if (!mobile) {
-      // keep clear of the caption block in the lower left
-      const footTop = -FRAME_H / 2 + ((foot ? foot.offsetHeight : 160) + 40) * px;
-      size = Math.min(size, (topY - footTop - 0.15) / (capH * 2 + gap));
-    }
-    size = Math.min(size, 2.4);
-    const lineH = capH * size;
-    const faceBottom = fy + fh / 2 - fh * 0.36;
-    for (const L of letters) {
-      const y = topY - lineH / 2 - L.line * (lineH + gap * size);
-      const x = -frameW / 2 + margin + L.ox * size;
-      // in front of her only where it cannot cover the face
-      const front = !mobile && L.line === 1 && Math.abs(x - fx) < fw * 0.42 && y + lineH / 2 < faceBottom;
-      const z = front ? FRONT_Z : LETTER_Z;
-      const persp = (DIST - z) / DIST; // keep apparent size and position
-      L.base = { x: x * persp, y: y * persp, z, s: size * persp };
-      L.pivot.position.set(L.base.x, L.base.y, z);
-      L.pivot.scale.setScalar(L.base.s);
-      L.ndc.set((x / frameW) * 2, (y / FRAME_H) * 2);
+    const X = (nx) => (nx - 0.5) * pw, Y = (ny) => (0.5 - ny) * ph;
+    const oxL = X(o.x0), oxR = X(o.x1), oyT = Y(o.y0) - (o.arch * ph) * 0.2, oyB = Y(o.y1);
+    const Wo = oxR - oxL, Ho = oyT - oyB;
+    Object.assign(L, { Wo, Ho, oyT, oyB, tall });
+
+    valance.scale.set(Wo * 1.04, Ho * (tall ? 0.09 : 0.13), 1);
+    valance.position.set(0, oyT - valance.scale.y * 0.32, -0.02);
+    for (const c of curtains) c.scale.set(Wo * 0.56, Ho * 1.02, 1);
+
+    const rampH = Ho * (tall ? 0.09 : 0.11);
+    rampMesh.scale.set(Wo * 1.02, rampH, 0.05);
+    rampMesh.position.set(0, oyB + rampH / 2, -0.04);
+    bulbs.children.forEach((b, i) => {
+      b.scale.setScalar(Math.min(Wo, Ho) * 0.009);
+      b.position.set(((i + 0.5) / bulbs.children.length - 0.5) * Wo * 0.9, oyB + rampH * 1.02, -0.09);
+    });
+    foot[0].position.set(-Wo * 0.25, oyB + rampH * 1.2, -0.25);
+    foot[1].position.set(Wo * 0.25, oyB + rampH * 1.2, -0.25);
+
+    const floorY = oyB + rampH * 0.62;
+    const sB = (D - BACK) / D;
+    const backW = Wo * sB * 1.2, backH = (oyT * sB - floorY) * 1.18;
+    backdropMesh.scale.set(backW, backH, 1);
+    backdropMesh.position.set(0, floorY + backH / 2, BACK);
+    L.backBase = backdropMesh.position.y; L.backRise = backH;
+    // cover-fit the 1.6:1 backdrop sheet, anchored at the bottom
+    const pa = backW / backH, ta = 1.6;
+    const bt = scenery(portraits[index].scene).backdrop;
+    fitCover(bt, pa, ta);
+    // floor runs from just behind the ramp to the backdrop, never in front of the proscenium
+    floorMesh.scale.set(backW * 1.05, -BACK - 0.08, 1);
+    floorMesh.position.set(0, floorY, (BACK - 0.08) / 2);
+
+    for (const m of wings) {
+      const { k, z, side } = m.userData;
+      const s = (D - z) / D;
+      const inset = Wo * (tall ? [0.05, 0.11][k] : [0.07, 0.15][k]);
+      const wa = Wo * (tall ? 0.3 : 0.26);
+      const xi = Wo / 2 - inset, xo = xi + wa;
+      const wh = oyT * s * 1.05 - floorY;
+      m.scale.set(wa * s * (side < 0 ? -1 : 1), wh, 1);
+      m.userData.base = side * ((xi + xo) / 2) * s;
+      m.userData.slide = side * wa * s * 1.1;
+      m.position.set(m.userData.base, floorY + wh / 2, z);
     }
 
-    const sc = sun.shadow.camera;
-    sc.left = -frameW / 2 - 2; sc.right = frameW / 2 + 2; sc.top = FRAME_H / 2 + 2; sc.bottom = -FRAME_H / 2 - 2;
-    sc.near = 0.5; sc.far = 30; sc.updateProjectionMatrix();
+    // figure: as tall as the opening allows, lower edge hidden by the ramp
+    const sF = (D - FIG_Z) / D;
+    const hide = (oyB + rampH) * ((D - FIG_Z) / (D + 0.04));
+    const bottom = hide - Ho * 0.05;
+    let top = (oyT - Ho * (tall ? 0.06 : 0.08)) * sF;
+    const aspect = current ? current.card.aspect : 0.66;
+    let H = top - bottom;
+    const maxW = Wo * (tall ? 0.86 : 0.62) * sF;
+    if (H * aspect > maxW) H = maxW / aspect;
+    fig.height = H; fig.bottom = bottom;
+    L.exit = Wo * 0.8 * sF;
+    figure.position.set(fig.x, bottom, FIG_Z);
+    buildFigure();
+
+    // spot from above the house, aimed at her face
+    spot.position.set(Wo * 0.18, oyT * 1.5 + 1.2, 3.4);
+    spot.target.position.set(0, bottom + H * 0.62, FIG_Z);
+    const sc = spot.shadow.camera; sc.near = 1; sc.far = 20; sc.updateProjectionMatrix();
+
+    setCurtains(curtainOpen);
     requestRender();
   }
+  function fitCover(t, pa, ta) {
+    // crop mostly from the painted ground at the bottom, which the stage floor covers anyway
+    if (pa < ta) { t.repeat.set(pa / ta, 1); t.offset.set((1 - pa / ta) / 2, 0); } else { t.repeat.set(1, ta / pa); t.offset.set(0, (1 - ta / pa) * 0.8); }
+  }
+
+  /* ---------- curtain ---------- */
+  let curtainOpen = 0; // 0 closed, 1 open
+  function setCurtains(k) {
+    curtainOpen = k;
+    const { Wo, Ho, oyB } = L;
+    for (const c of curtains) {
+      const side = c.userData.side;
+      const closedX = side * Wo * 0.26, openX = side * (Wo * 0.5 + Wo * 0.07);
+      c.position.set(MathUtils.lerp(closedX, openX, k), oyB + (Ho * 1.02) / 2, -0.035);
+      c.scale.x = Wo * 0.56 * MathUtils.lerp(1, 0.32, k);
+    }
+  }
+  const curtainAnim = { active: false, t: 0, from: 0, to: 1, dur: 1.7, delay: 0.25 };
 
   /* ---------- interaction ---------- */
-  const pointer = { x: 0, y: 0, sx: 0, sy: 0, inside: false, down: null, lastX: 0, lastY: 0, moved: 0 };
+  const pointer = { x: 0, y: 0, sx: 0, sy: 0, active: 0, down: null, startX: 0, startY: 0 };
+  const tilt = { x: 0, y: 0, on: false };
   const ray = new Raycaster();
   const ndc = new Vector2();
-  function toNdc(e) {
+  function onFigure(e) {
+    if (!cardMesh) return false;
     const r = canvas.getBoundingClientRect();
-    return [((e.clientX - r.left) / r.width) * 2 - 1, -((e.clientY - r.top) / r.height) * 2 + 1];
-  }
-  function pick(e) {
-    const [x, y] = toNdc(e);
-    ndc.set(x, y);
+    ndc.set(((e.clientX - r.left) / r.width) * 2 - 1, -((e.clientY - r.top) / r.height) * 2 + 1);
     ray.setFromCamera(ndc, camera);
-    const hits = ray.intersectObjects([figure, ...letters.map((l) => l.mesh)], false);
-    for (const h of hits) {
-      if (h.object === figure) {
-        if (!current || !h.uv) continue;
-        const ix = Math.min(47, Math.floor(h.uv.x * 48));
-        const iy = Math.min(71, Math.floor((1 - h.uv.y) * 72));
-        if (current.alpha[(iy * 48 + ix) * 4 + 3] > 90) return { figure: true };
-      } else {
-        return { letter: letters.find((l) => l.mesh === h.object) };
-      }
-    }
-    return null;
+    return ray.intersectObject(cardMesh, false).length > 0;
   }
-
   canvas.addEventListener('pointermove', (e) => {
-    const [x, y] = toNdc(e);
-    pointer.x = x; pointer.y = y; pointer.inside = true;
-    if (pointer.down) {
-      const dx = e.clientX - pointer.lastX, dy = e.clientY - pointer.lastY;
-      pointer.lastX = e.clientX; pointer.lastY = e.clientY;
-      pointer.moved += Math.abs(dx) + Math.abs(dy);
-      if (pointer.down.letter) {
-        const L = pointer.down.letter;
-        L.rot.y += dx * 0.012; L.rot.x += dy * 0.012;
-        L.vel.set(dy * 0.6, dx * 0.6);
-      }
-    } else if (e.pointerType === 'mouse') {
-      const hit = pick(e);
-      canvas.style.cursor = hit ? (hit.figure ? 'pointer' : 'grab') : 'default';
+    const r = canvas.getBoundingClientRect();
+    pointer.x = ((e.clientX - r.left) / r.width) * 2 - 1;
+    pointer.y = -(((e.clientY - r.top) / r.height) * 2 - 1);
+    pointer.active = performance.now();
+    if (e.pointerType === 'mouse') {
+      const over = onFigure(e);
+      if (over !== fig.hover) { fig.hover = over; canvas.style.cursor = over ? 'pointer' : 'default'; }
     }
     requestRender();
   });
-  canvas.addEventListener('pointerleave', () => { pointer.inside = false; requestRender(); });
+  canvas.addEventListener('pointerleave', () => { fig.hover = false; requestRender(); });
   canvas.addEventListener('pointerdown', (e) => {
-    const hit = pick(e);
-    pointer.down = hit || { none: true };
-    pointer.lastX = e.clientX; pointer.lastY = e.clientY; pointer.moved = 0;
-    if (hit && hit.letter) { canvas.setPointerCapture(e.pointerId); canvas.style.cursor = 'grabbing'; }
+    pointer.down = onFigure(e);
+    pointer.startX = e.clientX; pointer.startY = e.clientY;
   });
-  const release = () => {
-    const d = pointer.down;
+  canvas.addEventListener('pointerup', (e) => {
+    const was = pointer.down;
     pointer.down = null;
-    if (!d) return;
-    if (pointer.moved < 8) {
-      if (d.figure) document.dispatchEvent(new CustomEvent('portrait-next'));
-      else if (d.letter) { d.letter.spinVel += 16; d.letter.pushVel -= 3; }
+    if (was && Math.hypot(e.clientX - pointer.startX, e.clientY - pointer.startY) < 10) {
+      document.dispatchEvent(new CustomEvent('portrait-next'));
     }
-    canvas.style.cursor = 'default';
+  });
+  canvas.addEventListener('pointercancel', () => { pointer.down = null; });
+  window.addEventListener('deviceorientation', (e) => {
+    if (e.gamma == null || e.beta == null) return;
+    tilt.x = MathUtils.clamp(e.gamma / 25, -1, 1);
+    tilt.y = MathUtils.clamp((e.beta - 50) / 25, -1, 1);
+    tilt.on = true;
+    pointer.active = performance.now();
     requestRender();
-  };
-  canvas.addEventListener('pointerup', release);
-  canvas.addEventListener('pointercancel', release);
+  });
 
-  /* ---------- portrait switching ---------- */
+  /* ---------- scene changes ---------- */
   let index = 0;
-  const trans = { active: false, t: 0, swapped: false, tex: null, fromBg: new Color(), toBg: new Color(), fromInk: new Color(), toInk: new Color() };
-  document.addEventListener('portrait-show', async (e) => {
-    const to = e.detail;
-    if (to === index && !trans.active) return;
-    index = to;
-    const tex = await loadPortrait(to);
-    if (index !== to) return; // a newer request arrived meanwhile
-    if (reduceMotion.matches) {
-      bg.set(portraits[to].bg); renderer.setClearColor(bg); letterMat.color.set(portraits[to].ink);
-      shadowMat.color.copy(bg).multiplyScalar(0.32);
-      applyPortrait(tex);
+  let pending = null;
+  const change = { active: false, t: 0, to: 0, swapped: false, data: null, dur: 1.9 };
+  async function startChange(to) {
+    let data;
+    try { data = await loadPortrait(to); } catch (err) {
+      console.error(err);
+      document.dispatchEvent(new CustomEvent('portrait-failed', { detail: index }));
       return;
     }
-    Object.assign(trans, { active: true, t: 0, swapped: false, tex });
-    trans.fromBg.copy(bg); trans.toBg.set(portraits[to].bg);
-    trans.fromInk.copy(letterMat.color); trans.toInk.set(portraits[to].ink);
-    letters.forEach((L, i) => { L.spinVel += (i % 2 ? -1 : 1) * (6 + ((i * 37) % 7)); L.pushVel -= 2.5; });
+    scenery(portraits[to].scene);
+    if (reduceMotion.matches) {
+      index = to; current = data; applyScenery(portraits[to].scene); layout();
+      return;
+    }
+    Object.assign(change, { active: true, t: 0, to, swapped: false, data });
     start();
+  }
+  document.addEventListener('portrait-show', (e) => {
+    const to = e.detail;
+    if (change.active) { pending = to; return; }
+    if (to !== index) startChange(to);
   });
 
   /* ---------- loop ---------- */
-  let raf = 0, last = performance.now(), running = false, visible = true, time = 0;
+  let raf = 0, last = performance.now(), running = false, visible = true;
+  const startTime = performance.now();
   function frame(now) {
     raf = 0;
     const dt = Math.min((now - last) / 1000, 0.05);
     last = now;
-    const moving = !reduceMotion.matches;
-    if (moving) time += dt;
+    const motion = !reduceMotion.matches;
 
-    // pointer smoothing; without a mouse the camera drifts a little on its own
-    const k = 1 - Math.pow(0.002, dt);
-    const tx = pointer.inside ? pointer.x : Math.sin(time * 0.23) * 0.35;
-    const ty = pointer.inside ? pointer.y : Math.sin(time * 0.17) * 0.2;
-    pointer.sx += (tx - pointer.sx) * k;
-    pointer.sy += (ty - pointer.sy) * k;
-    if (moving) {
-      camera.position.set(pointer.sx * 0.45, pointer.sy * 0.28, DIST);
-      camera.lookAt(0, 0, 0);
+    // camera: pointer, device tilt or a slow drift in the first seconds
+    const idle = now - startTime < 7000 && now - pointer.active > 3000;
+    const t = (now - startTime) / 1000;
+    const tx = now - pointer.active < 3000 ? (tilt.on ? tilt.x : pointer.x) : idle ? Math.sin(t * 0.5) * 0.5 : 0;
+    const ty = now - pointer.active < 3000 ? (tilt.on ? tilt.y : pointer.y) : idle ? Math.sin(t * 0.37) * 0.3 : 0;
+    const k = motion ? 1 - Math.pow(0.004, dt) : 1;
+    pointer.sx += ((motion ? tx : 0) - pointer.sx) * k;
+    pointer.sy += ((motion ? ty : 0) - pointer.sy) * k;
+    camera.position.set(pointer.sx * 0.55, pointer.sy * 0.3, D);
+    camera.lookAt(pointer.sx * 0.08, pointer.sy * 0.05, -1.2);
+    const camMoving = Math.abs(tx - pointer.sx) + Math.abs(ty - pointer.sy) > 0.002;
+
+    // curtain on first load
+    if (curtainAnim.active) {
+      curtainAnim.t += dt;
+      const p = clamp01((curtainAnim.t - curtainAnim.delay) / curtainAnim.dur);
+      setCurtains(MathUtils.lerp(curtainAnim.from, curtainAnim.to, ease(p)));
+      if (p >= 1) curtainAnim.active = false;
     }
 
-    // letters: damped springs towards a pose that leans to the pointer
-    for (let i = 0; i < letters.length; i++) {
-      const L = letters[i];
-      const idle = moving ? Math.sin(time * 0.9 + i * 0.7) * 0.05 : 0;
-      const aimY = moving ? MathUtils.clamp((pointer.sx - L.ndc.x) * 0.45, -0.5, 0.5) : 0;
-      const aimX = moving ? MathUtils.clamp(-(pointer.sy - L.ndc.y) * 0.35, -0.4, 0.4) : 0;
-      if (!(pointer.down && pointer.down.letter === L)) {
-        L.vel.x += ((aimX + idle) - L.rot.x) * 70 * dt - L.vel.x * 11 * dt;
-        L.vel.y += ((aimY - idle * 0.6) - L.rot.y) * 70 * dt - L.vel.y * 11 * dt;
-        L.rot.x += L.vel.x * dt;
-        L.rot.y += L.vel.y * dt;
-      }
-      L.spinVel += -L.spin * 40 * dt - L.spinVel * 6 * dt;
-      L.spin += L.spinVel * dt;
-      L.pushVel += -L.push * 60 * dt - L.pushVel * 9 * dt;
-      L.push += L.pushVel * dt;
-      L.pivot.rotation.set(L.rot.x, L.rot.y + L.spin, idle * 0.3);
-      L.pivot.position.z = L.base.z + L.push;
-    }
-
-    // portrait change: turn away, swap, turn back; colours blend across
-    if (trans.active) {
-      trans.t = Math.min(1, trans.t + dt / 1.1);
-      const e = easeInOut(trans.t);
-      bg.copy(trans.fromBg).lerp(trans.toBg, e);
-      renderer.setClearColor(bg);
-      shadowMat.color.copy(bg).multiplyScalar(0.32);
-      letterMat.color.copy(trans.fromInk).lerp(trans.toInk, e);
-      if (trans.t < 0.5) {
-        figPivot.rotation.y = easeInOut(trans.t * 2) * (Math.PI / 2);
+    // scene change
+    if (change.active) {
+      change.t = Math.min(1, change.t + dt / change.dur);
+      const c = change.t;
+      setLight(1 - 0.6 * seg(c, 0, 0.22) + 0.6 * seg(c, 0.78, 1));
+      if (!change.swapped) {
+        fig.x = seg(c, 0, 0.3) * L.exit;
+        fig.swing = -0.07 * Math.sin(Math.PI * clamp01(c / 0.3));
+        const wOut = seg(c, 0.14, 0.42);
+        wings.forEach((m) => { m.position.x = m.userData.base + m.userData.slide * wOut; });
+        backdropMesh.position.y = L.backBase + L.backRise * 1.05 * seg(c, 0.16, 0.45);
+        if (c >= 0.45) {
+          change.swapped = true;
+          index = change.to; current = change.data;
+          applyScenery(portraits[index].scene);
+          fig.x = -L.exit;
+          layout();
+        }
       } else {
-        if (!trans.swapped) { applyPortrait(trans.tex); trans.swapped = true; }
-        figPivot.rotation.y = -(1 - easeInOut((trans.t - 0.5) * 2)) * (Math.PI / 2);
+        backdropMesh.position.y = L.backBase + L.backRise * 1.05 * (1 - seg(c, 0.45, 0.72));
+        const wIn = 1 - seg(c, 0.48, 0.74);
+        wings.forEach((m) => { m.position.x = m.userData.base + m.userData.slide * wIn; });
+        const f = clamp01((c - 0.6) / 0.32);
+        fig.x = -L.exit * (1 - easeOutBack(f));
+        if (c >= 0.92 && fig.swingV === 0 && Math.abs(fig.swing) < 1e-4) fig.swingV = 0.32;
       }
-      if (trans.t >= 1) { trans.active = false; figPivot.rotation.y = 0; }
+      if (change.t >= 1) {
+        change.active = false;
+        setLight(1);
+        if (pending !== null && pending !== index) { const p = pending; pending = null; startChange(p); } else pending = null;
+      }
     }
+
+    // swing on its wire, lift on hover
+    if (motion) {
+      fig.swingV += (-fig.swing * 26 - fig.swingV * 3.2) * dt;
+      if (!change.active || change.swapped) fig.swing += fig.swingV * dt;
+      const liftTarget = fig.hover ? 0.035 : 0;
+      fig.liftV += ((liftTarget - fig.lift) * 90 - fig.liftV * 14) * dt;
+      fig.lift += fig.liftV * dt;
+    }
+    const settling = Math.abs(fig.swing) + Math.abs(fig.swingV) + Math.abs(fig.liftV) > 1e-4;
+    if (!settling) { fig.swingV = 0; }
+    figure.position.set(fig.x, fig.bottom + fig.lift, FIG_Z);
+    figure.rotation.z = fig.swing;
 
     renderer.render(scene, camera);
-    if (running && (moving || trans.active)) raf = requestAnimationFrame(frame);
+    const keepGoing = change.active || curtainAnim.active || settling || camMoving || idle;
+    if (running && keepGoing) raf = requestAnimationFrame(frame);
   }
   function requestRender() {
     if (!raf && !document.hidden && visible) { last = performance.now(); raf = requestAnimationFrame(frame); }
   }
   function start() { running = true; requestRender(); }
   function stop() { running = false; if (raf) { cancelAnimationFrame(raf); raf = 0; } }
-
   document.addEventListener('visibilitychange', () => (document.hidden ? stop() : start()));
   if ('IntersectionObserver' in window) {
     new IntersectionObserver(([en]) => { visible = en.isIntersecting; if (visible) start(); else stop(); }).observe(canvas);
   }
   reduceMotion.addEventListener?.('change', start);
-  window.addEventListener('resize', layout);
+  let resizeT = 0;
+  window.addEventListener('resize', () => { clearTimeout(resizeT); resizeT = setTimeout(layout, 120); });
 
-  applyPortrait(await loadPortrait(0));
-  // preload the other portraits once the first one is on screen
-  setTimeout(() => portraits.forEach((_, i) => i && loadPortrait(i)), 1200);
+  /* ---------- go ---------- */
+  current = await loadPortrait(0);
+  applyScenery(portraits[0].scene);
+  layout();
+  setCurtains(0);
+  if (reduceMotion.matches) setCurtains(1);
+  else Object.assign(curtainAnim, { active: true, t: 0 });
   start();
   requestAnimationFrame(() => html.classList.add('has-3d'));
+  // paint the other scenes and fetch the other figures while the curtain opens
+  setTimeout(() => portraits.forEach((p, i) => { if (i) { loadPortrait(i).catch(() => {}); scenery(p.scene); } }), 2400);
 }
 
 if (!canvas || !dataEl || !webglAvailable()) {
