@@ -51,8 +51,9 @@ const L = {
     skip: 'Přeskočit na obsah', menu: 'Menu', close: 'Zavřít',
     nav: { about: 'Životopis', highlights: 'Role', filmography: 'Filmografie', news: 'Aktuálně', gallery: 'Galerie', contact: 'Kontakt' },
     scroll: 'Dál', other: 'de', otherLabel: 'Deutsch', otherHref: '/de/',
-    filterAll: 'Vše', filterFilm: 'Film', filterTv: 'Televize', filterStage: 'Divadlo a hudba',
-    types: { 'film': 'film', 'tv-serie': 'seriál', 'tv-film': 'TV film', 'theater': 'divadlo', 'synchron': 'dabing', 'musik': 'hudba', 'moderation': 'moderování', 'sonstiges': 'rozhlas' },
+    filterAll: 'Vše', filterFilm: 'Film', filterTv: 'Televize', filterStage: 'Divadlo, hudba, nahrávky',
+    types: { 'film': 'film', 'tv-serie': 'seriál', 'tv-film': 'TV film', 'auftritt': 'televizní pořad', 'theater': 'divadlo', 'synchron': 'dabing', 'musik': 'hudba', 'hoerspiel': 'audiodrama', 'moderation': 'moderování', 'sonstiges': 'ostatní' },
+    press: 'Z recenzí', translated: '', montage: 'Fotomontáž · foto © Monika Navrátilová 2025',
     director: 'režie', role: 'role', languages: 'Jazyky', skills: 'Dovednosti',
     galleryNote: 'Klepnutím fotografii zvětšíte.', photo: 'Foto',
     contactLead: 'Zastoupení', agent: 'Agentka', email: 'E-mail', phone: 'Telefon', web: 'Web agentury',
@@ -64,8 +65,9 @@ const L = {
     skip: 'Zum Inhalt springen', menu: 'Menü', close: 'Schließen',
     nav: { about: 'Biografie', highlights: 'Rollen', filmography: 'Filmografie', news: 'Aktuell', gallery: 'Galerie', contact: 'Kontakt' },
     scroll: 'Weiter', other: 'cs', otherLabel: 'Česky', otherHref: '/',
-    filterAll: 'Alle', filterFilm: 'Film', filterTv: 'Fernsehen', filterStage: 'Bühne und Musik',
-    types: { 'film': 'Kino', 'tv-serie': 'Serie', 'tv-film': 'Fernsehfilm', 'theater': 'Theater', 'synchron': 'Synchron', 'musik': 'Musik', 'moderation': 'Moderation', 'sonstiges': 'Hörspiel' },
+    filterAll: 'Alle', filterFilm: 'Film', filterTv: 'Fernsehen', filterStage: 'Bühne, Musik, Hörspiel',
+    types: { 'film': 'Kino', 'tv-serie': 'Serie', 'tv-film': 'Fernsehfilm', 'auftritt': 'TV-Auftritt', 'theater': 'Theater', 'synchron': 'Synchron', 'musik': 'Musik', 'hoerspiel': 'Hörspiel', 'moderation': 'Moderation', 'sonstiges': 'Sonstiges' },
+    press: 'Pressestimmen', translated: 'übersetzt', montage: 'Fotomontage · Foto © Monika Navrátilová 2025',
     director: 'Regie', role: 'Rolle', languages: 'Sprachen', skills: 'Fähigkeiten',
     galleryNote: 'Zum Vergrößern auf ein Foto tippen.', photo: 'Foto',
     contactLead: 'Vertretung', agent: 'Agentin', email: 'E-Mail', phone: 'Telefon', web: 'Website der Agentur',
@@ -75,7 +77,7 @@ const L = {
   },
 };
 
-const group = (type) => (type === 'film' ? 'film' : type.startsWith('tv') ? 'tv' : 'stage');
+const group = (type) => (type === 'film' ? 'film' : type.startsWith('tv') || type === 'auftritt' ? 'tv' : 'stage');
 
 function picture(p, lang, sizes, eager = false) {
   const a = esc(t(p.alt, lang));
@@ -120,7 +122,7 @@ function page(lang) {
   const path = lang === 'cs' ? '/' : '/de/';
   const all = [...c.filmography, ...(c.stage || [])].sort((a, b) => b.sort - a.sort);
   const photos = c.photos;
-  const sameAs = c.sources.filter((u) => /wikipedia|imdb|csfd|wikidata/.test(u));
+  const sameAs = c.sameAs || [];
   const ld = {
     '@context': 'https://schema.org', '@type': 'Person', name: c.meta.name, jobTitle: s.jobTitle,
     birthDate: c.meta.birthDate, birthPlace: c.meta.birthPlace, url: SITE + path,
@@ -181,6 +183,7 @@ function page(lang) {
         <p class="hero__tagline">${esc(t(c.hero.tagline, lang))}</p>
       </div>
       <a class="hero__scroll" href="#about">${esc(s.scroll)}<span aria-hidden="true"></span></a>
+      <p class="hero__credit">${esc(s.montage)}</p>
     </section>
 
     <section class="panel" id="about" aria-labelledby="about-title">
@@ -240,7 +243,14 @@ function page(lang) {
         <ul class="news">
           ${c.news.map((n) => `<li><time datetime="${esc(n.date)}">${esc(formatDate(n.date, lang))}</time><p>${esc(t(n.text, lang))}${n.url ? ` <a href="${esc(n.url)}" rel="noopener" target="_blank">${esc(s.source)}</a>` : ''}</p></li>`).join('\n          ')}
         </ul>
-        ${(c.quotes || []).map((q) => `<figure class="quote"><blockquote lang="${esc(q.lang)}"><p>${esc(q.lang === lang ? q.text_original : t(q.text, lang))}</p></blockquote><figcaption>${q.url ? `<a href="${esc(q.url)}" rel="noopener" target="_blank">${esc(q.source)}</a>` : esc(q.source)}</figcaption></figure>`).join('\n        ')}
+        ${(c.quotes || []).length ? `<h3 class="quotes__title">${esc(s.press)}</h3>` : ''}
+        ${(c.quotes || []).map((q) => {
+          // Czech readers get Czech and Slovak quotes in the original
+          const original = lang === 'cs' ? ['cs', 'sk'].includes(q.lang) : q.lang === lang;
+          const text = original ? q.text_original : t(q.text, lang);
+          const src = q.url ? `<a href="${esc(q.url)}" rel="noopener" target="_blank">${esc(q.source)}</a>` : esc(q.source);
+          return `<figure class="quote"><blockquote lang="${esc(original ? q.lang : lang)}"><p>${esc(text)}</p></blockquote><figcaption>${src}${!original && s.translated ? ` (${esc(s.translated)})` : ''}</figcaption></figure>`;
+        }).join('\n        ')}
       </div>
     </section>
 
