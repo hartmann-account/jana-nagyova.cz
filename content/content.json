@@ -1664,7 +1664,7 @@
     {
       "id": "01",
       "w": 1170,
-      "h": 1631,
+      "h": 1575,
       "credit": "Monika Navrátilová",
       "year": "2025",
       "alt": {
@@ -1675,7 +1675,7 @@
     {
       "id": "02",
       "w": 1170,
-      "h": 1624,
+      "h": 1568,
       "credit": "Monika Navrátilová",
       "year": "2025",
       "alt": {
@@ -1686,7 +1686,7 @@
     {
       "id": "03",
       "w": 1440,
-      "h": 1800,
+      "h": 1744,
       "credit": "Václav Šilha",
       "year": "2024",
       "alt": {
@@ -1725,5 +1725,50 @@
     "https://www.wikidata.org/wiki/Q448821",
     "https://www.imdb.com/name/nm0619543/",
     "https://www.csfd.cz/tvurce/1265-jana-nagyova/"
-  ]
+  ],
+  "portraits": [
+    {
+      "photo": "01",
+      "bg": "#dfe4d6",
+      "ink": "#1d4a3a",
+      "label": {
+        "de": "Porträt 2025",
+        "cs": "Portrét 2025"
+      },
+      "credit": "Monika Navrátilová"
+    },
+    {
+      "photo": "02",
+      "bg": "#efe8dc",
+      "ink": "#c43a22",
+      "label": {
+        "de": "Porträt 2025",
+        "cs": "Portrét 2025"
+      },
+      "credit": "Monika Navrátilová"
+    },
+    {
+      "photo": "03",
+      "bg": "#e9dcc1",
+      "ink": "#1d2546",
+      "label": {
+        "de": "Kostümporträt 2024",
+        "cs": "Kostýmní portrét 2024"
+      },
+      "credit": "Václav Šilha"
+    }
+  ],
+  "voice": {
+    "text_original": "Je to ani nie životná, ale legendárna postava. V životnej roli som práve teraz.",
+    "lang": "sk",
+    "text": {
+      "de": "Das ist nicht einmal eine Lebensrolle, sondern eine legendäre Figur. In der Rolle meines Lebens bin ich gerade jetzt.",
+      "cs": "Není to ani životní role, ale legendární postava. V životní roli jsem právě teď."
+    },
+    "context": {
+      "de": "Jana Nagyová über Arabela und Hilda Múdra, STVR, April 2025",
+      "cs": "Jana Nagyová o Arabele a Hildě Múdré, STVR, duben 2025"
+    },
+    "url": "https://www.stvr.sk/novinky/osobnosti/397975/jana-nagyova-arabela-bola-legendarna-postava-v-tej-zivotnej-som-vsak-teraz"
+  }
 }

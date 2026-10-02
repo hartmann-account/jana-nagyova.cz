@@ -12,10 +12,14 @@ from rembg import remove, new_session
 from huggingface_hub import hf_hub_download
 from scipy import ndimage
 
-# usage: python scripts/figure.py <source photo> <output dir> [name]
-SRC, OUT = sys.argv[1], sys.argv[2]
-NAME = sys.argv[3] if len(sys.argv) > 3 else 'jana-02'
+# usage: python scripts/figure.py <source photo> <output dir> [name] [--fade]
+args = [a for a in sys.argv[1:] if not a.startswith('--')]
+SRC, OUT = args[0], args[1]
+NAME = args[2] if len(args) > 2 else 'jana-02'
+FADE = '--fade' in sys.argv  # soft bottom edge; off when the portrait sits on the frame edge
+CROP = next((int(a.split('=')[1]) for a in sys.argv if a.startswith('--crop-bottom=')), 0)  # px to cut off below
 src = Image.open(SRC).convert('RGB')
+if CROP: src = src.crop((0, 0, src.width, src.height - CROP))
 W, H = src.size
 print('src', src.size)
 
@@ -49,7 +53,7 @@ dn = ndimage.gaussian_filter(dn, sigma=W / 400)
 
 # bottom fade: the photo ends at the thighs
 yy = np.linspace(0, 1, H)[:, None]
-fade = np.clip((1.0 - yy) / 0.07, 0, 1)
+fade = np.clip((1.0 - yy) / 0.07, 0, 1) if FADE else np.ones_like(yy)
 alpha = np.clip(mask * fade, 0, 1)
 
 rgba = np.dstack([np.asarray(src), (alpha * 255).astype(np.uint8)])

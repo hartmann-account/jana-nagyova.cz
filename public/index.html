@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Jana Nagyová | herečka</title>
   <meta name="description" content="Oficiální stránky herečky Jany Nagyové: životopis, filmové a divadelní role, aktuální projekty a kontakt na agenturu.">
-  <meta name="theme-color" content="#0f0c0d">
-  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#dfe4d6">
+  <meta name="color-scheme" content="light">
   <link rel="canonical" href="https://jana-nagyova.cz/">
   <link rel="alternate" hreflang="cs" href="https://jana-nagyova.cz/">
   <link rel="alternate" hreflang="de" href="https://jana-nagyova.cz/de/">
@@ -19,19 +19,15 @@
   <meta property="og:image" content="https://jana-nagyova.cz/img/jana-nagyova-01-1200.jpg">
   <meta property="og:locale" content="cs_CZ">
   <meta name="twitter:card" content="summary_large_image">
-  <link rel="preload" href="/fonts/cormorant-garamond-latin-500-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/fonts/big-shoulders-display-latin-900-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/img/figure/jana-01-768.webp" as="image" type="image/webp">
   <link rel="stylesheet" href="/css/site.css">
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Jana Nagyová","jobTitle":"Herečka","birthDate":"1959-01-09","birthPlace":"Komárno","url":"https://jana-nagyova.cz/","image":"https://jana-nagyova.cz/img/jana-nagyova-01-1200.jpg","sameAs":["https://cs.wikipedia.org/wiki/Jana_Nagyov%C3%A1_(here%C4%8Dka)","https://sk.wikipedia.org/wiki/Jana_Nagyov%C3%A1","https://de.wikipedia.org/wiki/Jana_Nagyov%C3%A1","https://en.wikipedia.org/wiki/Jana_Nagyov%C3%A1_(actress)","https://www.wikidata.org/wiki/Q448821","https://www.imdb.com/name/nm0619543/","https://www.csfd.cz/tvurce/1265-jana-nagyova/"]}</script>
-  <script type="module" src="/js/scene.js"></script>
   <script type="module" src="/js/ui.js"></script>
+  <script type="module" src="/js/scene.js"></script>
 </head>
 <body>
   <a class="skip" href="#main">Přeskočit na obsah</a>
-  <canvas id="stage" aria-hidden="true"></canvas>
-  <div class="stage-fallback" aria-hidden="true"><picture>
-        <source type="image/webp" srcset="/img/jana-nagyova-01-640.webp 640w, /img/jana-nagyova-01-1200.webp 1200w" sizes="(max-width: 800px) 100vw, 50vw">
-        <img src="/img/jana-nagyova-01-1200.jpg" srcset="/img/jana-nagyova-01-640.jpg 640w, /img/jana-nagyova-01-1200.jpg 1200w" sizes="(max-width: 800px) 100vw, 50vw" width="1170" height="1631" alt="Jana Nagyová v růžovém kostýmu, portrét vsedě" fetchpriority="high" decoding="async">
-      </picture></div>
 
   <header class="top">
     <a class="top__brand" href="/">Jana Nagyová</a>
@@ -39,1002 +35,1033 @@
       <button class="top__toggle" type="button" aria-expanded="false" aria-controls="nav-list">Menu</button>
       <ul id="nav-list"><li><a href="#about">Životopis</a></li><li><a href="#highlights">Role</a></li><li><a href="#filmography">Filmografie</a></li><li><a href="#news">Aktuálně</a></li><li><a href="#gallery">Galerie</a></li><li><a href="#contact">Kontakt</a></li></ul>
     </nav>
-    <div class="top__lang">
+    <p class="top__lang">
       <a href="/" aria-current="page">CS</a>
-      <span aria-hidden="true">|</span>
       <a href="/de/" lang="de" hreflang="de">DE</a>
-    </div>
+    </p>
   </header>
 
   <main id="main">
-    <section class="hero" id="top" aria-labelledby="hero-title">
-      <div class="hero__text">
-        <p class="eyebrow">Herečka</p>
-        <h1 id="hero-title">Jana<br>Nagyová</h1>
-        <p class="hero__tagline">Naposledy v kinech jako Hilda Múdra ve filmu Jakuba Červenky „Šampión“ (2026).</p>
+    <section class="hero" aria-labelledby="hero-title" style="--hero-bg:#dfe4d6;--hero-ink:#1d4a3a">
+      <canvas class="hero__canvas" aria-hidden="true"></canvas>
+      <div class="hero__fallback" aria-hidden="true">
+        <img src="/img/figure/jana-01-768.webp" width="494" height="768" alt="">
       </div>
-      <a class="hero__scroll" href="#about">Dál<span aria-hidden="true"></span></a>
-      <p class="hero__credit">Fotomontáž · foto © Monika Navrátilová 2025</p>
-    </section>
-
-    <section class="panel" id="about" aria-labelledby="about-title">
-      <div class="wrap wrap--split">
-        <div>
-          <h2 id="about-title">Životopis</h2>
-          <p>Jana Nagyová se narodila 9. ledna 1959 v Komárně a jako dítě se přestěhovala do Bratislavy. Tam chodila do dětské herecké školy LUDUS. Před kamerou poprvé stála na začátku sedmdesátých let, v roce 1972 například v televizním seriálu „Výmyselníci“ a ve filmu Jána Lacka „Ďaleko je do neba“. Na bratislavské konzervatoři studovala operní zpěv a hru na klavír. Herectví se tam tehdy studovat nedalo.</p>
-          <p>Širší publikum ji poznalo v roce 1976 díky třídílné televizní veselohře Martina Ťapáka „Sváko Ragan“, v níž hrála po boku Jozefa Kronera. V roce 1978 nastoupila do Poetického souboru bratislavské Nové scény. Do roku 1986 tam vystupovala v osmnácti inscenacích. Hrála mimo jiné Agnesu v Molièrově „Škole žen“ a Monu ve „Fatamorgáně“ Ivana Bukovčana. V osmdesátých letech odehrála téměř třicet představení měsíčně.</p>
-          <p>V roce 1979 hrála stopařku Evu Černou v kriminálním filmu Jindřicha Poláka „Smrt stopařek“. 25. prosince 1980 uvedla Československá televize první díl pohádkového seriálu Václava Vorlíčka „Arabela“, v němž hrála titulní roli. Seriál o třinácti dílech vznikl na Barrandově v koprodukci se západoněmeckou stanicí WDR. V západním Německu ho v roce 1981 vysílala ARD pod názvem „Die Märchenbraut“, východoněmecká televize v roce 1983 jako „Die schöne Arabella und der Zauberer“. Během natáčení rok dojížděla mezi Prahou a Bratislavou, kde dál hrála v divadle.</p>
-          <p>V osmdesátých letech natočila řadu televizních filmů a seriálů, například „Nebezpečné známosti“ Miloslava Luthera (1980), „Tajomný ostrov“ (1984) nebo rodinnou ságu Andreje Lettricha „Alžbetin dvor“ (1986). Na Barrandově hrála ve filmu Stanislava Strnada „Není sirotek jako sirotek“ (1986) a v československo-polském filmu „Pražské tajemství“ (1988). Koncem osmdesátých let se přestala herectví soustavně věnovat a odešla do Německa. V roce 1993 ještě přišel do kin film Eduarda Grečnera „Pozemský nepokoj“ na motivy D. H. Lawrence, v němž hrála Jill Banfordovou.</p>
-          <p>Téměř třicet let pak před kamerou nehrála. V roce 2013 namluvila pro německé vydavatelství Titania Medien titulní roli v dramatizaci „Lodoiska“ z hororové řady „Gruselkabinett“, která vychází na CD. Před kameru se vrátila v roce 2021 epizodní rolí v seriálu televize Markíza „Sestričky“. V září téhož roku začala natáčet pohádku Jana Budaře „Princ Mamánek“, v níž hraje královnu Ludmilu a Smrt. Následovaly film Dana Svátka „Dvě slova jako klíč“ (2023), druhá řada seriálu „Hořký svět“ na Primě (2024) a minisérie Terezy Kopáčové „Studna“ (2025). Ta v roce 2026 získala Českého lva za nejlepší minisérii nebo seriál.</p>
-          <p>V březnu 2026 vstoupil do slovenských kin film Jakuba Červenky „Šampión“, do českých 9. dubna. Vypráví o krasobruslaři Ondreji Nepelovi a mistrovství světa 1973 v Bratislavě. Jana Nagyová hraje jeho trenérku Hildu Múdru. Ve filmu nosí původní oblečení a šperky Hildy Múdry, které zapůjčila její rodina. Na roli se připravovala dva a půl roku a označuje ji za svou životní roli.</p>
-          <p>Mluví slovensky, německy a česky, v základech také anglicky, maďarsky a rusky. Zastupuje ji pražská agentura Reset Artists Management.</p>
+      <h1 id="hero-title" class="hero__name"><span>Jana</span> <span>Nagyová</span></h1>
+      <div class="hero__foot">
+        <p class="hero__line">Herečka. Naposledy v kinech jako Hilda Múdra ve filmu Jakuba Červenky „Šampión“ (2026).</p>
+        <div class="hero__controls">
+          <button type="button" class="hero__btn" data-dir="-1" aria-label="Předchozí portrét">←</button>
+          <p class="hero__count" aria-live="polite"><span class="hero__index">1</span>/3 <span class="hero__credit">Portrét 2025 · Foto © Monika Navrátilová</span></p>
+          <button type="button" class="hero__btn" data-dir="1" aria-label="Další portrét">→</button>
         </div>
-        <aside class="facts">
-          <dl>
-            <div><dt>Narozena</dt><dd>9. ledna 1959, Komárno</dd></div>
-            <div><dt>Vzdělání</dt><dd>Konzervatoř v Bratislavě (operní zpěv, klavír); dětská herecká škola LUDUS v Bratislavě</dd></div>
-            <div><dt>Divadlo</dt><dd>Poetický soubor Nové scény v Bratislavě, od roku 1978</dd></div>
-            <div><dt>Jazyky</dt><dd>slovenština (rodný jazyk), němčina, čeština; základy angličtiny, maďarštiny a ruštiny</dd></div>
-            <div><dt>Hlasový obor</dt><dd>mezzosoprán, soprán</dd></div>
-            <div><dt>Možnost ubytování při natáčení</dt><dd>Praha, Bratislava, Vídeň, Berlín, Mnichov</dd></div>
-            <div><dt>Pracovní povolení</dt><dd>EU, Švýcarsko</dd></div>
-            <div><dt>Agentura</dt><dd>Reset Artists Management, Praha</dd></div>
-            <div><dt>Dovednosti</dt><dd>zpěv: opera, folk, divadelní zpěv (mezzosoprán, soprán), klavír, sport: golf, minigolf, plavání, sjezdové lyžování, krasobruslení, cyklistika, motorsport (automobil), řidičské oprávnění skupin BE a CE</dd></div>
-          </dl>
-        </aside>
+        <p class="hero__hint">Písmena se dají chytit a roztočit. Klepnutím na portrét přepnete fotografii.</p>
       </div>
     </section>
 
-    <section class="panel" id="highlights" aria-labelledby="highlights-title">
-      <div class="wrap">
-        <h2 id="highlights-title">Role</h2>
-        <ol class="cards">
-          <li class="card">
-            <span class="card__year">2026</span>
+    <section class="bio" id="about" aria-labelledby="about-title">
+      <h2 id="about-title" class="sh">Životopis</h2>
+      <figure class="voice">
+        <blockquote lang="sk"><p>Je to ani nie životná, ale legendárna postava. V životnej roli som práve teraz.</p></blockquote>
+        <figcaption><a href="https://www.stvr.sk/novinky/osobnosti/397975/jana-nagyova-arabela-bola-legendarna-postava-v-tej-zivotnej-som-vsak-teraz" rel="noopener" target="_blank">Jana Nagyová o Arabele a Hildě Múdré, STVR, duben 2025</a></figcaption>
+      </figure>
+      <div class="bio__text">
+        <p>Jana Nagyová se narodila 9. ledna 1959 v Komárně a jako dítě se přestěhovala do Bratislavy. Tam chodila do dětské herecké školy LUDUS. Před kamerou poprvé stála na začátku sedmdesátých let, v roce 1972 například v televizním seriálu „Výmyselníci“ a ve filmu Jána Lacka „Ďaleko je do neba“. Na bratislavské konzervatoři studovala operní zpěv a hru na klavír. Herectví se tam tehdy studovat nedalo.</p>
+        <p>Širší publikum ji poznalo v roce 1976 díky třídílné televizní veselohře Martina Ťapáka „Sváko Ragan“, v níž hrála po boku Jozefa Kronera. V roce 1978 nastoupila do Poetického souboru bratislavské Nové scény. Do roku 1986 tam vystupovala v osmnácti inscenacích. Hrála mimo jiné Agnesu v Molièrově „Škole žen“ a Monu ve „Fatamorgáně“ Ivana Bukovčana. V osmdesátých letech odehrála téměř třicet představení měsíčně.</p>
+        <p>V roce 1979 hrála stopařku Evu Černou v kriminálním filmu Jindřicha Poláka „Smrt stopařek“. 25. prosince 1980 uvedla Československá televize první díl pohádkového seriálu Václava Vorlíčka „Arabela“, v němž hrála titulní roli. Seriál o třinácti dílech vznikl na Barrandově v koprodukci se západoněmeckou stanicí WDR. V západním Německu ho v roce 1981 vysílala ARD pod názvem „Die Märchenbraut“, východoněmecká televize v roce 1983 jako „Die schöne Arabella und der Zauberer“. Během natáčení rok dojížděla mezi Prahou a Bratislavou, kde dál hrála v divadle.</p>
+        <p>V osmdesátých letech natočila řadu televizních filmů a seriálů, například „Nebezpečné známosti“ Miloslava Luthera (1980), „Tajomný ostrov“ (1984) nebo rodinnou ságu Andreje Lettricha „Alžbetin dvor“ (1986). Na Barrandově hrála ve filmu Stanislava Strnada „Není sirotek jako sirotek“ (1986) a v československo-polském filmu „Pražské tajemství“ (1988). Koncem osmdesátých let se přestala herectví soustavně věnovat a odešla do Německa. V roce 1993 ještě přišel do kin film Eduarda Grečnera „Pozemský nepokoj“ na motivy D. H. Lawrence, v němž hrála Jill Banfordovou.</p>
+        <p>Téměř třicet let pak před kamerou nehrála. V roce 2013 namluvila pro německé vydavatelství Titania Medien titulní roli v dramatizaci „Lodoiska“ z hororové řady „Gruselkabinett“, která vychází na CD. Před kameru se vrátila v roce 2021 epizodní rolí v seriálu televize Markíza „Sestričky“. V září téhož roku začala natáčet pohádku Jana Budaře „Princ Mamánek“, v níž hraje královnu Ludmilu a Smrt. Následovaly film Dana Svátka „Dvě slova jako klíč“ (2023), druhá řada seriálu „Hořký svět“ na Primě (2024) a minisérie Terezy Kopáčové „Studna“ (2025). Ta v roce 2026 získala Českého lva za nejlepší minisérii nebo seriál.</p>
+        <p>V březnu 2026 vstoupil do slovenských kin film Jakuba Červenky „Šampión“, do českých 9. dubna. Vypráví o krasobruslaři Ondreji Nepelovi a mistrovství světa 1973 v Bratislavě. Jana Nagyová hraje jeho trenérku Hildu Múdru. Ve filmu nosí původní oblečení a šperky Hildy Múdry, které zapůjčila její rodina. Na roli se připravovala dva a půl roku a označuje ji za svou životní roli.</p>
+        <p>Mluví slovensky, německy a česky, v základech také anglicky, maďarsky a rusky. Zastupuje ji pražská agentura Reset Artists Management.</p>
+      </div>
+      <aside class="facts" aria-labelledby="facts-title">
+        <h3 id="facts-title">V kostce</h3>
+        <dl>
+          <div><dt>Narozena</dt><dd>9. ledna 1959, Komárno</dd></div>
+          <div><dt>Vzdělání</dt><dd>Konzervatoř v Bratislavě (operní zpěv, klavír); dětská herecká škola LUDUS v Bratislavě</dd></div>
+          <div><dt>Divadlo</dt><dd>Poetický soubor Nové scény v Bratislavě, od roku 1978</dd></div>
+          <div><dt>Jazyky</dt><dd>slovenština (rodný jazyk), němčina, čeština; základy angličtiny, maďarštiny a ruštiny</dd></div>
+          <div><dt>Hlasový obor</dt><dd>mezzosoprán, soprán</dd></div>
+          <div><dt>Možnost ubytování při natáčení</dt><dd>Praha, Bratislava, Vídeň, Berlín, Mnichov</dd></div>
+          <div><dt>Pracovní povolení</dt><dd>EU, Švýcarsko</dd></div>
+          <div><dt>Agentura</dt><dd>Reset Artists Management, Praha</dd></div>
+          <div><dt>Dovednosti</dt><dd>zpěv: opera, folk, divadelní zpěv (mezzosoprán, soprán); klavír; sport: golf, minigolf, plavání, sjezdové lyžování, krasobruslení, cyklistika, motorsport (automobil); řidičské oprávnění skupin BE a CE</dd></div>
+        </dl>
+      </aside>
+    </section>
+
+    <section class="roles" id="highlights" aria-labelledby="highlights-title">
+      <h2 id="highlights-title" class="sh">Role</h2>
+      <ol class="roles__list">
+        <li class="role">
+          <p class="role__year">2026</p>
+          <div class="role__body">
             <h3>Šampión</h3>
-            
-            <p class="card__role">Hilda Múdra</p>
+            <p class="role__as">Hilda Múdra</p>
             <p>Film Jakuba Červenky o krasobruslaři Ondreji Nepelovi a mistrovství světa 1973 v Bratislavě, do kin vstoupil v březnu 2026. Hraje Nepelovu trenérku a ve filmu nosí její původní oblečení a šperky.</p>
-          </li>
-          <li class="card">
-            <span class="card__year">2025</span>
+          </div>
+        </li>
+        <li class="role">
+          <p class="role__year">2025</p>
+          <div class="role__body">
             <h3>Studna</h3>
-            
-            <p class="card__role">Jánská, Mariina matka</p>
+            <p class="role__as">Jánská, Mariina matka</p>
             <p>Šestidílná minisérie Terezy Kopáčové vypráví skutečný příběh z Vonoklas roku 1968. Premiéru na Voyo měla v lednu 2025, v roce 2026 získala Českého lva za nejlepší minisérii nebo seriál.</p>
-          </li>
-          <li class="card">
-            <span class="card__year">2022</span>
+          </div>
+        </li>
+        <li class="role">
+          <p class="role__year">2022</p>
+          <div class="role__body">
             <h3>Princ Mamánek</h3>
-            
-            <p class="card__role">královna Ludmila a Smrt</p>
+            <p class="role__as">královna Ludmila a Smrt</p>
             <p>Pohádka je režijním debutem Jana Budaře. Ve dvojroli se po téměř třiceti letech vrátila na filmové plátno, do kin snímek přišel 27. října 2022.</p>
-          </li>
-          <li class="card">
-            <span class="card__year">1980</span>
+          </div>
+        </li>
+        <li class="role">
+          <p class="role__year">1980</p>
+          <div class="role__body">
             <h3>Arabela</h3>
-            
-            <p class="card__role">princezna Arabela</p>
+            <p class="role__as">princezna Arabela</p>
             <p>Hraje titulní roli v třináctidílném pohádkovém seriálu Václava Vorlíčka a Miloše Macourka, který Československá televize natočila se západoněmeckou stanicí WDR. První díl se vysílal 25. prosince 1980.</p>
-          </li>
-          <li class="card">
-            <span class="card__year">1979</span>
+          </div>
+        </li>
+        <li class="role">
+          <p class="role__year">1979</p>
+          <div class="role__body">
             <h3>Smrt stopařek</h3>
-            
-            <p class="card__role">Eva Černá</p>
+            <p class="role__as">Eva Černá</p>
             <p>Kriminální film Jindřicha Poláka podle skutečného případu vznikl na Barrandově. Hraje stopařku Evu Černou po boku Dagmar Patrasové.</p>
-          </li>
-          <li class="card">
-            <span class="card__year">1978–1986</span>
-            <h3>Poetický soubor Nové scény</h3>
-            <p class="card__orig">Poetický súbor Divadla Nová scéna</p>
-            <p class="card__role">členka souboru</p>
+          </div>
+        </li>
+        <li class="role">
+          <p class="role__year">1978–1986</p>
+          <div class="role__body">
+            <h3>Poetický soubor Nové scény <span class="role__orig">Poetický súbor Divadla Nová scéna</span></h3>
+            <p class="role__as">členka souboru</p>
             <p>V Bratislavě hrála v osmnácti inscenacích souboru, například Agnesu v Molièrově „Škole žen“ nebo Marku v inscenaci „Komasácia“ podle Martina Kukučína. V osmdesátých letech odehrála téměř třicet představení měsíčně.</p>
-          </li>
-        </ol>
-      </div>
+          </div>
+        </li>
+      </ol>
     </section>
 
-    <section class="panel" id="filmography" aria-labelledby="filmography-title">
-      <div class="wrap">
-        <div class="section-head">
-          <h2 id="filmography-title">Filmografie</h2>
-          <p class="section-head__count" data-count-template="{n} titulů">110 titulů</p>
-        </div>
-        <div class="filters" role="group" aria-label="Filmografie" hidden>
-          <button type="button" data-filter="all" aria-pressed="true">Vše</button>
-          <button type="button" data-filter="film" aria-pressed="false">Film</button>
-          <button type="button" data-filter="tv" aria-pressed="false">Televize</button>
-          <button type="button" data-filter="stage" aria-pressed="false">Divadlo, hudba, nahrávky</button>
-        </div>
-        <ul class="credits">
-        <li class="credit" data-group="film">
-          <span class="credit__year">2026</span>
-          <span class="credit__main">
+    <section class="films" id="filmography" aria-labelledby="filmography-title">
+      <div class="films__head">
+        <h2 id="filmography-title" class="sh">Filmografie</h2>
+        <p class="films__count" data-count-template="{n} titulů">110 titulů</p>
+      </div>
+      <figure class="timeline">
+          <svg viewBox="0 0 627 187" role="img" aria-label="Každý čtvereček je jeden titul, seřazeno podle roku." preserveAspectRatio="xMinYMax meet"><rect class="tl-film" x="616" y="156" width="9" height="9"/><rect class="tl-stage" x="616" y="145" width="9" height="9"/><rect class="tl-film" x="572" y="156" width="9" height="9"/><rect class="tl-tv" x="572" y="145" width="9" height="9"/><rect class="tl-tv" x="605" y="156" width="9" height="9"/><rect class="tl-tv" x="605" y="145" width="9" height="9"/><rect class="tl-tv" x="605" y="134" width="9" height="9"/><rect class="tl-tv" x="594" y="156" width="9" height="9"/><rect class="tl-film" x="583" y="156" width="9" height="9"/><rect class="tl-tv" x="583" y="145" width="9" height="9"/><rect class="tl-tv" x="583" y="134" width="9" height="9"/><rect class="tl-tv" x="561" y="156" width="9" height="9"/><rect class="tl-stage" x="473" y="156" width="9" height="9"/><rect class="tl-stage" x="473" y="145" width="9" height="9"/><rect class="tl-tv" x="462" y="156" width="9" height="9"/><rect class="tl-tv" x="462" y="145" width="9" height="9"/><rect class="tl-tv" x="363" y="156" width="9" height="9"/><rect class="tl-tv" x="319" y="156" width="9" height="9"/><rect class="tl-film" x="253" y="156" width="9" height="9"/><rect class="tl-stage" x="253" y="145" width="9" height="9"/><rect class="tl-film" x="198" y="156" width="9" height="9"/><rect class="tl-film" x="187" y="156" width="9" height="9"/><rect class="tl-stage" x="187" y="145" width="9" height="9"/><rect class="tl-film" x="176" y="156" width="9" height="9"/><rect class="tl-film" x="176" y="145" width="9" height="9"/><rect class="tl-film" x="176" y="134" width="9" height="9"/><rect class="tl-film" x="176" y="123" width="9" height="9"/><rect class="tl-tv" x="176" y="112" width="9" height="9"/><rect class="tl-tv" x="176" y="101" width="9" height="9"/><rect class="tl-tv" x="176" y="90" width="9" height="9"/><rect class="tl-tv" x="176" y="79" width="9" height="9"/><rect class="tl-stage" x="176" y="68" width="9" height="9"/><rect class="tl-film" x="165" y="156" width="9" height="9"/><rect class="tl-film" x="165" y="145" width="9" height="9"/><rect class="tl-stage" x="165" y="134" width="9" height="9"/><rect class="tl-stage" x="165" y="123" width="9" height="9"/><rect class="tl-stage" x="165" y="112" width="9" height="9"/><rect class="tl-stage" x="165" y="101" width="9" height="9"/><rect class="tl-film" x="154" y="156" width="9" height="9"/><rect class="tl-film" x="154" y="145" width="9" height="9"/><rect class="tl-tv" x="154" y="134" width="9" height="9"/><rect class="tl-tv" x="154" y="123" width="9" height="9"/><rect class="tl-tv" x="154" y="112" width="9" height="9"/><rect class="tl-stage" x="154" y="101" width="9" height="9"/><rect class="tl-stage" x="154" y="90" width="9" height="9"/><rect class="tl-stage" x="154" y="79" width="9" height="9"/><rect class="tl-film" x="143" y="156" width="9" height="9"/><rect class="tl-film" x="143" y="145" width="9" height="9"/><rect class="tl-film" x="143" y="134" width="9" height="9"/><rect class="tl-film" x="143" y="123" width="9" height="9"/><rect class="tl-film" x="143" y="112" width="9" height="9"/><rect class="tl-film" x="143" y="101" width="9" height="9"/><rect class="tl-film" x="143" y="90" width="9" height="9"/><rect class="tl-tv" x="143" y="79" width="9" height="9"/><rect class="tl-tv" x="143" y="68" width="9" height="9"/><rect class="tl-tv" x="143" y="57" width="9" height="9"/><rect class="tl-tv" x="143" y="46" width="9" height="9"/><rect class="tl-tv" x="143" y="35" width="9" height="9"/><rect class="tl-stage" x="143" y="24" width="9" height="9"/><rect class="tl-stage" x="143" y="13" width="9" height="9"/><rect class="tl-stage" x="143" y="2" width="9" height="9"/><rect class="tl-tv" x="110" y="156" width="9" height="9"/><rect class="tl-tv" x="110" y="145" width="9" height="9"/><rect class="tl-tv" x="110" y="134" width="9" height="9"/><rect class="tl-tv" x="110" y="123" width="9" height="9"/><rect class="tl-tv" x="110" y="112" width="9" height="9"/><rect class="tl-tv" x="110" y="101" width="9" height="9"/><rect class="tl-tv" x="110" y="90" width="9" height="9"/><rect class="tl-stage" x="110" y="79" width="9" height="9"/><rect class="tl-stage" x="110" y="68" width="9" height="9"/><rect class="tl-stage" x="110" y="57" width="9" height="9"/><rect class="tl-film" x="132" y="156" width="9" height="9"/><rect class="tl-film" x="132" y="145" width="9" height="9"/><rect class="tl-tv" x="132" y="134" width="9" height="9"/><rect class="tl-tv" x="132" y="123" width="9" height="9"/><rect class="tl-tv" x="132" y="112" width="9" height="9"/><rect class="tl-tv" x="132" y="101" width="9" height="9"/><rect class="tl-tv" x="132" y="90" width="9" height="9"/><rect class="tl-stage" x="132" y="79" width="9" height="9"/><rect class="tl-stage" x="132" y="68" width="9" height="9"/><rect class="tl-film" x="121" y="156" width="9" height="9"/><rect class="tl-tv" x="121" y="145" width="9" height="9"/><rect class="tl-tv" x="121" y="134" width="9" height="9"/><rect class="tl-stage" x="121" y="123" width="9" height="9"/><rect class="tl-film" x="99" y="156" width="9" height="9"/><rect class="tl-film" x="99" y="145" width="9" height="9"/><rect class="tl-tv" x="99" y="134" width="9" height="9"/><rect class="tl-tv" x="99" y="123" width="9" height="9"/><rect class="tl-stage" x="99" y="112" width="9" height="9"/><rect class="tl-stage" x="99" y="101" width="9" height="9"/><rect class="tl-stage" x="99" y="90" width="9" height="9"/><rect class="tl-film" x="88" y="156" width="9" height="9"/><rect class="tl-film" x="88" y="145" width="9" height="9"/><rect class="tl-film" x="88" y="134" width="9" height="9"/><rect class="tl-stage" x="88" y="123" width="9" height="9"/><rect class="tl-film" x="77" y="156" width="9" height="9"/><rect class="tl-film" x="77" y="145" width="9" height="9"/><rect class="tl-film" x="77" y="134" width="9" height="9"/><rect class="tl-film" x="77" y="123" width="9" height="9"/><rect class="tl-tv" x="77" y="112" width="9" height="9"/><rect class="tl-tv" x="77" y="101" width="9" height="9"/><rect class="tl-tv" x="77" y="90" width="9" height="9"/><rect class="tl-tv" x="77" y="79" width="9" height="9"/><rect class="tl-film" x="66" y="156" width="9" height="9"/><rect class="tl-film" x="66" y="145" width="9" height="9"/><rect class="tl-tv" x="66" y="134" width="9" height="9"/><rect class="tl-film" x="44" y="156" width="9" height="9"/><rect class="tl-film" x="22" y="156" width="9" height="9"/><rect class="tl-tv" x="22" y="145" width="9" height="9"/><rect class="tl-tv" x="11" y="156" width="9" height="9"/><line x1="0" x2="627" y1="167" y2="167"/><text x="0" y="181">1970</text><text x="110" y="181">1980</text><text x="220" y="181">1990</text><text x="330" y="181">2000</text><text x="440" y="181">2010</text><text x="550" y="181">2020</text></svg>
+          <figcaption>Každý čtvereček je jeden titul, seřazeno podle roku. <span class="tl-key tl-key--film"></span>film <span class="tl-key tl-key--tv"></span>televize <span class="tl-key tl-key--stage"></span>divadlo, hudba, nahrávky</figcaption>
+        </figure>
+      <div class="filters" role="group" aria-label="Filmografie" hidden>
+        <button type="button" data-filter="all" aria-pressed="true">Vše</button>
+        <button type="button" data-filter="film" aria-pressed="false">Film</button>
+        <button type="button" data-filter="tv" aria-pressed="false">Televize</button>
+        <button type="button" data-filter="stage" aria-pressed="false">Divadlo, hudba, nahrávky</button>
+      </div>
+      <div class="films__list">
+        <section class="decade" aria-labelledby="dec-2020">
+          <h3 id="dec-2020">20. léta</h3>
+          <ul class="credits">
+          <li class="credit" data-group="film">
+            <span class="credit__year">2026</span>
             <span class="credit__title">Šampión</span>
-            <span class="credit__meta">film · Hilda Múdra · režie Jakub Červenka</span>
-          </span>
-        </li>
-        <li class="credit" data-group="tv">
-          <span class="credit__year">2022, 2026</span>
-          <span class="credit__main">
+            <span class="credit__role">Hilda Múdra</span>
+            <span class="credit__dir">Jakub Červenka</span>
+            <span class="credit__type">film</span>
+          </li>
+          <li class="credit" data-group="tv">
+            <span class="credit__year">2022, 2026</span>
             <span class="credit__title">Face to Face</span>
-            <span class="credit__meta">televizní pořad</span>
-          </span>
-        </li>
-        <li class="credit" data-group="stage">
-          <span class="credit__year">2026</span>
-          <span class="credit__main">
+            <span class="credit__role"></span>
+            <span class="credit__dir"></span>
+            <span class="credit__type">televizní pořad</span>
+          </li>
+          <li class="credit" data-group="stage">
+            <span class="credit__year">2026</span>
             <span class="credit__title">Anděl tvůj</span>
-            <span class="credit__meta">hudba · Jana Vaculíková feat. Jana Nagyová</span>
-          </span>
-        </li>
-        <li class="credit" data-group="tv">
-          <span class="credit__year">2025</span>
-          <span class="credit__main">
+            <span class="credit__role">Jana Vaculíková feat. Jana Nagyová</span>
+            <span class="credit__dir"></span>
+            <span class="credit__type">hudba</span>
+          </li>
+          <li class="credit" data-group="tv">
+            <span class="credit__year">2025</span>
             <span class="credit__title">Studna</span>
-            <span class="credit__meta">seriál · Jánská · režie Tereza Kopáčová</span>
-          </span>
-        </li>
-        <li class="credit" data-group="tv">
-          <span class="credit__year">2025</span>
-          <span class="credit__main">
+            <span class="credit__role">Jánská</span>
+            <span class="credit__dir">Tereza Kopáčová</span>
+            <span class="credit__type">seriál</span>
+          </li>
+          <li class="credit" data-group="tv">
+            <span class="credit__year">2025</span>
             <span class="credit__title">Vánoční Tobogan: 45 let s Arabelou</span>
-            <span class="credit__meta">televizní pořad</span>
-          </span>
-        </li>
-        <li class="credit" data-group="tv">
-          <span class="credit__year">2025</span>
-          <span class="credit__main">
+            <span class="credit__role"></span>
+            <span class="credit__dir"></span>
+            <span class="credit__type">televizní pořad</span>
+          </li>
+          <li class="credit" data-group="tv">
+            <span class="credit__year">2025</span>
             <span class="credit__title">Záhady tela</span>
-            <span class="credit__meta">televizní pořad</span>
-          </span>
-        </li>
-        <li class="credit" data-group="tv">
-          <span class="credit__year">2024</span>
-          <span class="credit__main">
+            <span class="credit__role"></span>
+            <span class="credit__dir"></span>
+            <span class="credit__type">televizní pořad</span>
+          </li>
+          <li class="credit" data-group="tv">
+            <span class="credit__year">2024</span>
             <span class="credit__title">Hořký svět 2</span>
-            <span class="credit__meta">seriál · Jana · režie Martin Kopp</span>
-          </span>
-        </li>
-        <li class="credit" data-group="film">
-          <span class="credit__year">2023</span>
-          <span class="credit__main">
+            <span class="credit__role">Jana</span>
+            <span class="credit__dir">Martin Kopp</span>
+            <span class="credit__type">seriál</span>
+          </li>
+          <li class="credit" data-group="film">
+            <span class="credit__year">2023</span>
             <span class="credit__title">Dvě slova jako klíč</span>
-            <span class="credit__meta">film · Jolanta · režie Dan Svátek</span>
-          </span>
-        </li>
-        <li class="credit" data-group="tv">
-          <span class="credit__year">2023</span>
-          <span class="credit__main">
+            <span class="credit__role">Jolanta</span>
+            <span class="credit__dir">Dan Svátek</span>
+            <span class="credit__type">film</span>
+          </li>
+          <li class="credit" data-group="tv">
+            <span class="credit__year">2023</span>
             <span class="credit__title">Povídej</span>
-            <span class="credit__meta">televizní pořad</span>
-          </span>
-        </li>
-        <li class="credit" data-group="tv">
-          <span class="credit__year">2023</span>
-          <span class="credit__main">
+            <span class="credit__role"></span>
+            <span class="credit__dir"></span>
+            <span class="credit__type">televizní pořad</span>
+          </li>
+          <li class="credit" data-group="tv">
+            <span class="credit__year">2023</span>
             <span class="credit__title">Show Jana Krause</span>
-            <span class="credit__meta">televizní pořad</span>
-          </span>
-        </li>
-        <li class="credit" data-group="film">
-          <span class="credit__year">2022</span>
-          <span class="credit__main">
+            <span class="credit__role"></span>
+            <span class="credit__dir"></span>
+            <span class="credit__type">televizní pořad</span>
+          </li>
+          <li class="credit" data-group="film">
+            <span class="credit__year">2022</span>
             <span class="credit__title">Princ Mamánek</span>
-            <span class="credit__meta">film · královna Ludmila / paní Smrt · režie Jan Budař</span>
-          </span>
-        </li>
-        <li class="credit" data-group="tv">
-          <span class="credit__year">2021</span>
-          <span class="credit__main">
+            <span class="credit__role">královna Ludmila / paní Smrt</span>
+            <span class="credit__dir">Jan Budař</span>
+            <span class="credit__type">film</span>
+          </li>
+          <li class="credit" data-group="tv">
+            <span class="credit__year">2021</span>
             <span class="credit__title">Sestričky</span>
-            <span class="credit__meta">seriál · pacientka · režie Petr Nikolaev</span>
-          </span>
-        </li>
-        <li class="credit" data-group="stage">
-          <span class="credit__year">2013</span>
-          <span class="credit__main">
+            <span class="credit__role">pacientka</span>
+            <span class="credit__dir">Petr Nikolaev</span>
+            <span class="credit__type">seriál</span>
+          </li>
+          </ul>
+        </section>
+        <section class="decade" aria-labelledby="dec-2010">
+          <h3 id="dec-2010">10. léta</h3>
+          <ul class="credits">
+          <li class="credit" data-group="stage">
+            <span class="credit__year">2013</span>
             <span class="credit__title">Gruselkabinett 79: Lodoiska</span>
-            <span class="credit__meta">audiodrama · Lodoiska · režie Stephan Bosenius, Marc Gruppe</span>
-          </span>
-        </li>
-        <li class="credit" data-group="stage">
-          <span class="credit__year">2013</span>
-          <span class="credit__main">
+            <span class="credit__role">Lodoiska</span>
+            <span class="credit__dir">Stephan Bosenius, Marc Gruppe</span>
+            <span class="credit__type">audiodrama</span>
+          </li>
+          <li class="credit" data-group="stage">
+            <span class="credit__year">2013</span>
             <span class="credit__title">Gruselkabinett 80/81: Der Mönch</span>
-            <span class="credit__meta">audiodrama · Zigeunerin · režie Stephan Bosenius, Marc Gruppe</span>
-          </span>
-        </li>
-        <li class="credit" data-group="tv">
-          <span class="credit__year">2012</span>
-          <span class="credit__main">
+            <span class="credit__role">Zigeunerin</span>
+            <span class="credit__dir">Stephan Bosenius, Marc Gruppe</span>
+            <span class="credit__type">audiodrama</span>
+          </li>
+          <li class="credit" data-group="tv">
+            <span class="credit__year">2012</span>
             <span class="credit__title">13. komnata Jany Nagyové</span>
-            <span class="credit__meta">televizní pořad · režie Dagmar Smržová</span>
-          </span>
-        </li>
-        <li class="credit" data-group="tv">
-          <span class="credit__year">2012</span>
-          <span class="credit__main">
+            <span class="credit__role"></span>
+            <span class="credit__dir">Dagmar Smržová</span>
+            <span class="credit__type">televizní pořad</span>
+          </li>
+          <li class="credit" data-group="tv">
+            <span class="credit__year">2012</span>
             <span class="credit__title">7 pádů Honzy Dědka</span>
-            <span class="credit__meta">televizní pořad · režie Vojtěch Nouzák</span>
-          </span>
-        </li>
-        <li class="credit" data-group="tv">
-          <span class="credit__year">2003</span>
-          <span class="credit__main">
+            <span class="credit__role"></span>
+            <span class="credit__dir">Vojtěch Nouzák</span>
+            <span class="credit__type">televizní pořad</span>
+          </li>
+          </ul>
+        </section>
+        <section class="decade" aria-labelledby="dec-2000">
+          <h3 id="dec-2000">00. léta</h3>
+          <ul class="credits">
+          <li class="credit" data-group="tv">
+            <span class="credit__year">2003</span>
             <span class="credit__title">Pokračování příště</span>
-            <span class="credit__meta">televizní pořad · režie Tomáš Tintěra, Pavel Kačírek, Aleš Sobotka</span>
-          </span>
-        </li>
-        <li class="credit" data-group="tv">
-          <span class="credit__year">1999</span>
-          <span class="credit__main">
+            <span class="credit__role"></span>
+            <span class="credit__dir">Tomáš Tintěra, Pavel Kačírek, Aleš Sobotka</span>
+            <span class="credit__type">televizní pořad</span>
+          </li>
+          </ul>
+        </section>
+        <section class="decade" aria-labelledby="dec-1990">
+          <h3 id="dec-1990">90. léta</h3>
+          <ul class="credits">
+          <li class="credit" data-group="tv">
+            <span class="credit__year">1999</span>
             <span class="credit__title">Zvončeky šťastia pre planétu Zem</span>
-            <span class="credit__meta">televizní pořad</span>
-          </span>
-        </li>
-        <li class="credit" data-group="film">
-          <span class="credit__year">1993</span>
-          <span class="credit__main">
+            <span class="credit__role"></span>
+            <span class="credit__dir"></span>
+            <span class="credit__type">televizní pořad</span>
+          </li>
+          <li class="credit" data-group="film">
+            <span class="credit__year">1993</span>
             <span class="credit__title">Pozemský nepokoj</span>
-            <span class="credit__meta">film · Jill Banfordová · režie Eduard Grečner</span>
-          </span>
-        </li>
-        <li class="credit" data-group="stage">
-          <span class="credit__year">1993</span>
-          <span class="credit__main">
+            <span class="credit__role">Jill Banfordová</span>
+            <span class="credit__dir">Eduard Grečner</span>
+            <span class="credit__type">film</span>
+          </li>
+          <li class="credit" data-group="stage">
+            <span class="credit__year">1993</span>
             <span class="credit__title">Jana Nagyová zpívá dětem</span>
-            <span class="credit__meta">hudba</span>
-          </span>
-        </li>
-        <li class="credit" data-group="film">
-          <span class="credit__year">1988</span>
-          <span class="credit__main">
+            <span class="credit__role"></span>
+            <span class="credit__dir"></span>
+            <span class="credit__type">hudba</span>
+          </li>
+          </ul>
+        </section>
+        <section class="decade" aria-labelledby="dec-1980">
+          <h3 id="dec-1980">80. léta</h3>
+          <ul class="credits">
+          <li class="credit" data-group="film">
+            <span class="credit__year">1988</span>
             <span class="credit__title">Pražské tajemství</span>
-            <span class="credit__meta">film · Helena · režie Kazimierz Tarnas</span>
-          </span>
-        </li>
-        <li class="credit" data-group="film">
-          <span class="credit__year">1987</span>
-          <span class="credit__main">
+            <span class="credit__role">Helena</span>
+            <span class="credit__dir">Kazimierz Tarnas</span>
+            <span class="credit__type">film</span>
+          </li>
+          <li class="credit" data-group="film">
+            <span class="credit__year">1987</span>
             <span class="credit__title">Pravidla kruhu</span>
-            <span class="credit__meta">film · Blanka · režie Miroslav Balajka</span>
-          </span>
-        </li>
-        <li class="credit" data-group="stage">
-          <span class="credit__year">1987</span>
-          <span class="credit__main">
+            <span class="credit__role">Blanka</span>
+            <span class="credit__dir">Miroslav Balajka</span>
+            <span class="credit__type">film</span>
+          </li>
+          <li class="credit" data-group="stage">
+            <span class="credit__year">1987</span>
             <span class="credit__title">O dvanástej komnate</span>
-            <span class="credit__meta">audiodrama · mladšia dcéra („Zabitá sestra“)</span>
-          </span>
-        </li>
-        <li class="credit" data-group="film">
-          <span class="credit__year">1986</span>
-          <span class="credit__main">
+            <span class="credit__role">mladšia dcéra („Zabitá sestra“)</span>
+            <span class="credit__dir"></span>
+            <span class="credit__type">audiodrama</span>
+          </li>
+          <li class="credit" data-group="film">
+            <span class="credit__year">1986</span>
             <span class="credit__title">Do-re-mi</span>
-            <span class="credit__meta">film · režie Martin Hoffmeister</span>
-          </span>
-        </li>
-        <li class="credit" data-group="film">
-          <span class="credit__year">1986</span>
-          <span class="credit__main">
+            <span class="credit__role"></span>
+            <span class="credit__dir">Martin Hoffmeister</span>
+            <span class="credit__type">film</span>
+          </li>
+          <li class="credit" data-group="film">
+            <span class="credit__year">1986</span>
             <span class="credit__title">Milovaný Célimar</span>
-            <span class="credit__meta">film · režie Stano Dančiak</span>
-          </span>
-        </li>
-        <li class="credit" data-group="film">
-          <span class="credit__year">1986</span>
-          <span class="credit__main">
+            <span class="credit__role"></span>
+            <span class="credit__dir">Stano Dančiak</span>
+            <span class="credit__type">film</span>
+          </li>
+          <li class="credit" data-group="film">
+            <span class="credit__year">1986</span>
             <span class="credit__title">Není sirotek jako sirotek</span>
-            <span class="credit__meta">film · sekretářka Jitka Větrovcová · režie Stanislav Strnad</span>
-          </span>
-        </li>
-        <li class="credit" data-group="film">
-          <span class="credit__year">1986</span>
-          <span class="credit__main">
+            <span class="credit__role">sekretářka Jitka Větrovcová</span>
+            <span class="credit__dir">Stanislav Strnad</span>
+            <span class="credit__type">film</span>
+          </li>
+          <li class="credit" data-group="film">
+            <span class="credit__year">1986</span>
             <span class="credit__title">Pro forma</span>
-            <span class="credit__meta">film · Julinka · režie Peter Opálený</span>
-          </span>
-        </li>
-        <li class="credit" data-group="tv">
-          <span class="credit__year">1986</span>
-          <span class="credit__main">
+            <span class="credit__role">Julinka</span>
+            <span class="credit__dir">Peter Opálený</span>
+            <span class="credit__type">film</span>
+          </li>
+          <li class="credit" data-group="tv">
+            <span class="credit__year">1986</span>
             <span class="credit__title">Alžbetin dvor</span>
-            <span class="credit__meta">seriál · Berta · režie Andrej Lettrich</span>
-          </span>
-        </li>
-        <li class="credit" data-group="tv">
-          <span class="credit__year">1986</span>
-          <span class="credit__main">
+            <span class="credit__role">Berta</span>
+            <span class="credit__dir">Andrej Lettrich</span>
+            <span class="credit__type">seriál</span>
+          </li>
+          <li class="credit" data-group="tv">
+            <span class="credit__year">1986</span>
             <span class="credit__title">Okná dokorán</span>
-            <span class="credit__meta">seriál · režie Igor Ciel, František Chmiel</span>
-          </span>
-        </li>
-        <li class="credit" data-group="tv">
-          <span class="credit__year">1986</span>
-          <span class="credit__main">
+            <span class="credit__role"></span>
+            <span class="credit__dir">Igor Ciel, František Chmiel</span>
+            <span class="credit__type">seriál</span>
+          </li>
+          <li class="credit" data-group="tv">
+            <span class="credit__year">1986</span>
             <span class="credit__title">Polepetko</span>
-            <span class="credit__meta">TV film · princezná · režie Peter Jozef Oravec</span>
-          </span>
-        </li>
-        <li class="credit" data-group="tv">
-          <span class="credit__year">1986</span>
-          <span class="credit__main">
+            <span class="credit__role">princezná</span>
+            <span class="credit__dir">Peter Jozef Oravec</span>
+            <span class="credit__type">TV film</span>
+          </li>
+          <li class="credit" data-group="tv">
+            <span class="credit__year">1986</span>
             <span class="credit__title">Ďakujem Vám za láskavosť</span>
-            <span class="credit__meta">TV film · Darina · režie Marta Gogálová</span>
-          </span>
-        </li>
-        <li class="credit" data-group="stage">
-          <span class="credit__year">1986</span>
-          <span class="credit__main">
+            <span class="credit__role">Darina</span>
+            <span class="credit__dir">Marta Gogálová</span>
+            <span class="credit__type">TV film</span>
+          </li>
+          <li class="credit" data-group="stage">
+            <span class="credit__year">1986</span>
             <span class="credit__title">Komasácia</span>
-            <span class="credit__meta">divadlo · Marka · režie Ondrej Šulaj</span>
-          </span>
-        </li>
-        <li class="credit" data-group="film">
-          <span class="credit__year">1985</span>
-          <span class="credit__main">
+            <span class="credit__role">Marka</span>
+            <span class="credit__dir">Ondrej Šulaj</span>
+            <span class="credit__type">divadlo</span>
+          </li>
+          <li class="credit" data-group="film">
+            <span class="credit__year">1985</span>
             <span class="credit__title">O sláve a tráve</span>
-            <span class="credit__meta">film · Bea, fotografka · režie Peter Solan</span>
-          </span>
-        </li>
-        <li class="credit" data-group="film">
-          <span class="credit__year">1985</span>
-          <span class="credit__main">
+            <span class="credit__role">Bea, fotografka</span>
+            <span class="credit__dir">Peter Solan</span>
+            <span class="credit__type">film</span>
+          </li>
+          <li class="credit" data-group="film">
+            <span class="credit__year">1985</span>
             <span class="credit__title">Výlet do Paríža</span>
-            <span class="credit__meta">film · režie Ľubo Kocka</span>
-          </span>
-        </li>
-        <li class="credit" data-group="stage">
-          <span class="credit__year">1985</span>
-          <span class="credit__main">
-            <span class="credit__title">Na pomoc tátovi</span><span class="credit__orig">Nachhilfe für Vati</span>
-            <span class="credit__meta">dabing · režie Karola Hattop</span>
-          </span>
-        </li>
-        <li class="credit" data-group="stage">
-          <span class="credit__year">1985</span>
-          <span class="credit__main">
+            <span class="credit__role"></span>
+            <span class="credit__dir">Ľubo Kocka</span>
+            <span class="credit__type">film</span>
+          </li>
+          <li class="credit" data-group="stage">
+            <span class="credit__year">1985</span>
+            <span class="credit__title">Na pomoc tátovi<span class="credit__orig">Nachhilfe für Vati</span></span>
+            <span class="credit__role"></span>
+            <span class="credit__dir">Karola Hattop</span>
+            <span class="credit__type">dabing</span>
+          </li>
+          <li class="credit" data-group="stage">
+            <span class="credit__year">1985</span>
             <span class="credit__title">Hlava XXII.</span>
-            <span class="credit__meta">divadlo · Natelyho dievča, Luciana, Daneeková, Ošetrovateľka (alt.) · režie Stanislav Párnický</span>
-          </span>
-        </li>
-        <li class="credit" data-group="stage">
-          <span class="credit__year">1985</span>
-          <span class="credit__main">
+            <span class="credit__role">Natelyho dievča, Luciana, Daneeková, Ošetrovateľka (alt.)</span>
+            <span class="credit__dir">Stanislav Párnický</span>
+            <span class="credit__type">divadlo</span>
+          </li>
+          <li class="credit" data-group="stage">
+            <span class="credit__year">1985</span>
             <span class="credit__title">Kára plná bolesti</span>
-            <span class="credit__meta">divadlo · Tereza (alt.) · režie Juraj Svoboda</span>
-          </span>
-        </li>
-        <li class="credit" data-group="stage">
-          <span class="credit__year">1985</span>
-          <span class="credit__main">
+            <span class="credit__role">Tereza (alt.)</span>
+            <span class="credit__dir">Juraj Svoboda</span>
+            <span class="credit__type">divadlo</span>
+          </li>
+          <li class="credit" data-group="stage">
+            <span class="credit__year">1985</span>
             <span class="credit__title">Vidím slnko</span>
-            <span class="credit__meta">divadlo · Chatia · režie Marta Gogálová</span>
-          </span>
-        </li>
-        <li class="credit" data-group="film">
-          <span class="credit__year">1984</span>
-          <span class="credit__main">
+            <span class="credit__role">Chatia</span>
+            <span class="credit__dir">Marta Gogálová</span>
+            <span class="credit__type">divadlo</span>
+          </li>
+          <li class="credit" data-group="film">
+            <span class="credit__year">1984</span>
             <span class="credit__title">Neodchádzaj nocou letnou</span>
-            <span class="credit__meta">film · režie František Chmiel</span>
-          </span>
-        </li>
-        <li class="credit" data-group="film">
-          <span class="credit__year">1984</span>
-          <span class="credit__main">
+            <span class="credit__role"></span>
+            <span class="credit__dir">František Chmiel</span>
+            <span class="credit__type">film</span>
+          </li>
+          <li class="credit" data-group="film">
+            <span class="credit__year">1984</span>
             <span class="credit__title">Oko za oko</span>
-            <span class="credit__meta">film · Júlia · režie Pavol Haspra</span>
-          </span>
-        </li>
-        <li class="credit" data-group="tv">
-          <span class="credit__year">1984</span>
-          <span class="credit__main">
+            <span class="credit__role">Júlia</span>
+            <span class="credit__dir">Pavol Haspra</span>
+            <span class="credit__type">film</span>
+          </li>
+          <li class="credit" data-group="tv">
+            <span class="credit__year">1984</span>
             <span class="credit__title">Tajomný ostrov</span>
-            <span class="credit__meta">seriál · Denisa · režie Vladimír Blažek</span>
-          </span>
-        </li>
-        <li class="credit" data-group="tv">
-          <span class="credit__year">1984</span>
-          <span class="credit__main">
+            <span class="credit__role">Denisa</span>
+            <span class="credit__dir">Vladimír Blažek</span>
+            <span class="credit__type">seriál</span>
+          </li>
+          <li class="credit" data-group="tv">
+            <span class="credit__year">1984</span>
             <span class="credit__title">Vynálezy hodinára Aurela</span>
-            <span class="credit__meta">seriál · Klára · režie Jozef Chudík</span>
-          </span>
-        </li>
-        <li class="credit" data-group="tv">
-          <span class="credit__year">1984</span>
-          <span class="credit__main">
+            <span class="credit__role">Klára</span>
+            <span class="credit__dir">Jozef Chudík</span>
+            <span class="credit__type">seriál</span>
+          </li>
+          <li class="credit" data-group="tv">
+            <span class="credit__year">1984</span>
             <span class="credit__title">Múdra princezná</span>
-            <span class="credit__meta">TV film · Dorina · režie Ján Gogál</span>
-          </span>
-        </li>
-        <li class="credit" data-group="stage">
-          <span class="credit__year">1984</span>
-          <span class="credit__main">
+            <span class="credit__role">Dorina</span>
+            <span class="credit__dir">Ján Gogál</span>
+            <span class="credit__type">TV film</span>
+          </li>
+          <li class="credit" data-group="stage">
+            <span class="credit__year">1984</span>
             <span class="credit__title">Generálny zázrak</span>
-            <span class="credit__meta">divadlo · Ivanka Jermanová (alt.) · režie Ivan Chrz</span>
-          </span>
-        </li>
-        <li class="credit" data-group="stage">
-          <span class="credit__year">1984</span>
-          <span class="credit__main">
+            <span class="credit__role">Ivanka Jermanová (alt.)</span>
+            <span class="credit__dir">Ivan Chrz</span>
+            <span class="credit__type">divadlo</span>
+          </li>
+          <li class="credit" data-group="stage">
+            <span class="credit__year">1984</span>
             <span class="credit__title">Pastierka putujúca k septembru</span>
-            <span class="credit__meta">divadlo · Klárka Valkerová · režie Roman Polák</span>
-          </span>
-        </li>
-        <li class="credit" data-group="stage">
-          <span class="credit__year">1984</span>
-          <span class="credit__main">
+            <span class="credit__role">Klárka Valkerová</span>
+            <span class="credit__dir">Roman Polák</span>
+            <span class="credit__type">divadlo</span>
+          </li>
+          <li class="credit" data-group="stage">
+            <span class="credit__year">1984</span>
             <span class="credit__title">Vlha</span>
-            <span class="credit__meta">divadlo · Fila (alt.) · režie Juraj Svoboda</span>
-          </span>
-        </li>
-        <li class="credit" data-group="film">
-          <span class="credit__year">1983</span>
-          <span class="credit__main">
+            <span class="credit__role">Fila (alt.)</span>
+            <span class="credit__dir">Juraj Svoboda</span>
+            <span class="credit__type">divadlo</span>
+          </li>
+          <li class="credit" data-group="film">
+            <span class="credit__year">1983</span>
             <span class="credit__title">Abyže nám dobre bylo alebo Svetapánom v župane</span>
-            <span class="credit__meta">film · Betty · režie Juraj Svoboda</span>
-          </span>
-        </li>
-        <li class="credit" data-group="film">
-          <span class="credit__year">1983</span>
-          <span class="credit__main">
+            <span class="credit__role">Betty</span>
+            <span class="credit__dir">Juraj Svoboda</span>
+            <span class="credit__type">film</span>
+          </li>
+          <li class="credit" data-group="film">
+            <span class="credit__year">1983</span>
             <span class="credit__title">Kukučia nôta</span>
-            <span class="credit__meta">film · režie Jozef Chudík</span>
-          </span>
-        </li>
-        <li class="credit" data-group="film">
-          <span class="credit__year">1983</span>
-          <span class="credit__main">
+            <span class="credit__role"></span>
+            <span class="credit__dir">Jozef Chudík</span>
+            <span class="credit__type">film</span>
+          </li>
+          <li class="credit" data-group="film">
+            <span class="credit__year">1983</span>
             <span class="credit__title">Monika</span>
-            <span class="credit__meta">film · režie Karol Strážnický</span>
-          </span>
-        </li>
-        <li class="credit" data-group="film">
-          <span class="credit__year">1983</span>
-          <span class="credit__main">
+            <span class="credit__role"></span>
+            <span class="credit__dir">Karol Strážnický</span>
+            <span class="credit__type">film</span>
+          </li>
+          <li class="credit" data-group="film">
+            <span class="credit__year">1983</span>
             <span class="credit__title">Silvestrovské pranie</span>
-            <span class="credit__meta">film · režie Stanislav Párnický</span>
-          </span>
-        </li>
-        <li class="credit" data-group="film">
-          <span class="credit__year">1983</span>
-          <span class="credit__main">
+            <span class="credit__role"></span>
+            <span class="credit__dir">Stanislav Párnický</span>
+            <span class="credit__type">film</span>
+          </li>
+          <li class="credit" data-group="film">
+            <span class="credit__year">1983</span>
             <span class="credit__title">Výlet do mladosti</span>
-            <span class="credit__meta">film · Šárika · režie Pavol Haspra</span>
-          </span>
-        </li>
-        <li class="credit" data-group="film">
-          <span class="credit__year">1983</span>
-          <span class="credit__main">
+            <span class="credit__role">Šárika</span>
+            <span class="credit__dir">Pavol Haspra</span>
+            <span class="credit__type">film</span>
+          </li>
+          <li class="credit" data-group="film">
+            <span class="credit__year">1983</span>
             <span class="credit__title">Čo sa stalo v malom kine</span>
-            <span class="credit__meta">film · režie Cyril Králik</span>
-          </span>
-        </li>
-        <li class="credit" data-group="film">
-          <span class="credit__year">1983</span>
-          <span class="credit__main">
-            <span class="credit__title">Šance</span><span class="credit__orig">Šanca</span>
-            <span class="credit__meta">film · Karin · režie Juraj Svoboda</span>
-          </span>
-        </li>
-        <li class="credit" data-group="tv">
-          <span class="credit__year">1983</span>
-          <span class="credit__main">
+            <span class="credit__role"></span>
+            <span class="credit__dir">Cyril Králik</span>
+            <span class="credit__type">film</span>
+          </li>
+          <li class="credit" data-group="film">
+            <span class="credit__year">1983</span>
+            <span class="credit__title">Šance<span class="credit__orig">Šanca</span></span>
+            <span class="credit__role">Karin</span>
+            <span class="credit__dir">Juraj Svoboda</span>
+            <span class="credit__type">film</span>
+          </li>
+          <li class="credit" data-group="tv">
+            <span class="credit__year">1983</span>
             <span class="credit__title">Anička Jurkovičová</span>
-            <span class="credit__meta">seriál · Milka Jurkovičová · režie Ján Lacko</span>
-          </span>
-        </li>
-        <li class="credit" data-group="tv">
-          <span class="credit__year">1980, 1983</span>
-          <span class="credit__main">
-            <span class="credit__title">Bakaláři</span><span class="credit__orig">Bakalári</span>
-            <span class="credit__meta">seriál · režie Karol Strážnický</span>
-          </span>
-        </li>
-        <li class="credit" data-group="tv">
-          <span class="credit__year">1983</span>
-          <span class="credit__main">
-            <span class="credit__title">Lékař umírajícího času</span><span class="credit__orig">Lekár umierajúceho času</span>
-            <span class="credit__meta">seriál · Dorotka · režie Miloslav Luther</span>
-          </span>
-        </li>
-        <li class="credit" data-group="tv">
-          <span class="credit__year">1983</span>
-          <span class="credit__main">
+            <span class="credit__role">Milka Jurkovičová</span>
+            <span class="credit__dir">Ján Lacko</span>
+            <span class="credit__type">seriál</span>
+          </li>
+          <li class="credit" data-group="tv">
+            <span class="credit__year">1980, 1983</span>
+            <span class="credit__title">Bakaláři<span class="credit__orig">Bakalári</span></span>
+            <span class="credit__role"></span>
+            <span class="credit__dir">Karol Strážnický</span>
+            <span class="credit__type">seriál</span>
+          </li>
+          <li class="credit" data-group="tv">
+            <span class="credit__year">1983</span>
+            <span class="credit__title">Lékař umírajícího času<span class="credit__orig">Lekár umierajúceho času</span></span>
+            <span class="credit__role">Dorotka</span>
+            <span class="credit__dir">Miloslav Luther</span>
+            <span class="credit__type">seriál</span>
+          </li>
+          <li class="credit" data-group="tv">
+            <span class="credit__year">1983</span>
             <span class="credit__title">Smejeme sa storočiami</span>
-            <span class="credit__meta">seriál · režie Peter Opálený, Miloš Pietor, Juraj Svoboda</span>
-          </span>
-        </li>
-        <li class="credit" data-group="tv">
-          <span class="credit__year">1983</span>
-          <span class="credit__main">
+            <span class="credit__role"></span>
+            <span class="credit__dir">Peter Opálený, Miloš Pietor, Juraj Svoboda</span>
+            <span class="credit__type">seriál</span>
+          </li>
+          <li class="credit" data-group="tv">
+            <span class="credit__year">1983</span>
             <span class="credit__title">Rodinná anamnéza</span>
-            <span class="credit__meta">TV film · režie Pavol Haspra</span>
-          </span>
-        </li>
-        <li class="credit" data-group="tv">
-          <span class="credit__year">1983</span>
-          <span class="credit__main">
+            <span class="credit__role"></span>
+            <span class="credit__dir">Pavol Haspra</span>
+            <span class="credit__type">TV film</span>
+          </li>
+          <li class="credit" data-group="tv">
+            <span class="credit__year">1983</span>
             <span class="credit__title">Žakýlska Veronka</span>
-            <span class="credit__meta">TV film · Veronka · režie Zora Bachnárová</span>
-          </span>
-        </li>
-        <li class="credit" data-group="stage">
-          <span class="credit__year">1983</span>
-          <span class="credit__main">
+            <span class="credit__role">Veronka</span>
+            <span class="credit__dir">Zora Bachnárová</span>
+            <span class="credit__type">TV film</span>
+          </li>
+          <li class="credit" data-group="stage">
+            <span class="credit__year">1983</span>
             <span class="credit__title">Jánošík podľa Vivaldiho</span>
-            <span class="credit__meta">divadlo · Mária Terézia · režie Pavol Haspra</span>
-          </span>
-        </li>
-        <li class="credit" data-group="stage">
-          <span class="credit__year">1983</span>
-          <span class="credit__main">
+            <span class="credit__role">Mária Terézia</span>
+            <span class="credit__dir">Pavol Haspra</span>
+            <span class="credit__type">divadlo</span>
+          </li>
+          <li class="credit" data-group="stage">
+            <span class="credit__year">1983</span>
             <span class="credit__title">Malé tragédie</span>
-            <span class="credit__meta">divadlo · Laura (Kamenný hosť), Kňažná (Rusalka) · režie Marta Gogálová</span>
-          </span>
-        </li>
-        <li class="credit" data-group="stage">
-          <span class="credit__year">1983</span>
-          <span class="credit__main">
+            <span class="credit__role">Laura (Kamenný hosť), Kňažná (Rusalka)</span>
+            <span class="credit__dir">Marta Gogálová</span>
+            <span class="credit__type">divadlo</span>
+          </li>
+          <li class="credit" data-group="stage">
+            <span class="credit__year">1983</span>
             <span class="credit__title">Keby som bola princezná Arabela</span>
-            <span class="credit__meta">hudba · „Arabela“: Darinka Rolincová feat. Jana Nagyová</span>
-          </span>
-        </li>
-        <li class="credit" data-group="film">
-          <span class="credit__year">1982</span>
-          <span class="credit__main">
+            <span class="credit__role">„Arabela“: Darinka Rolincová feat. Jana Nagyová</span>
+            <span class="credit__dir"></span>
+            <span class="credit__type">hudba</span>
+          </li>
+          <li class="credit" data-group="film">
+            <span class="credit__year">1982</span>
             <span class="credit__title">Hrnčiarsky bál</span>
-            <span class="credit__meta">film · Anička Koláriková, chovanka · režie Miroslav Fischer</span>
-          </span>
-        </li>
-        <li class="credit" data-group="film">
-          <span class="credit__year">1982</span>
-          <span class="credit__main">
+            <span class="credit__role">Anička Koláriková, chovanka</span>
+            <span class="credit__dir">Miroslav Fischer</span>
+            <span class="credit__type">film</span>
+          </li>
+          <li class="credit" data-group="film">
+            <span class="credit__year">1982</span>
             <span class="credit__title">Zimný semester</span>
-            <span class="credit__meta">film · režie Vladimír Blažek</span>
-          </span>
-        </li>
-        <li class="credit" data-group="tv">
-          <span class="credit__year">1982</span>
-          <span class="credit__main">
+            <span class="credit__role"></span>
+            <span class="credit__dir">Vladimír Blažek</span>
+            <span class="credit__type">film</span>
+          </li>
+          <li class="credit" data-group="tv">
+            <span class="credit__year">1982</span>
             <span class="credit__title">Chlap prezývaný Brumteles</span>
-            <span class="credit__meta">TV film · režie František Chmiel</span>
-          </span>
-        </li>
-        <li class="credit" data-group="tv">
-          <span class="credit__year">1982</span>
-          <span class="credit__main">
+            <span class="credit__role"></span>
+            <span class="credit__dir">František Chmiel</span>
+            <span class="credit__type">TV film</span>
+          </li>
+          <li class="credit" data-group="tv">
+            <span class="credit__year">1982</span>
             <span class="credit__title">Johanka</span>
-            <span class="credit__meta">TV film · Johanka · režie Jozef Poljaček</span>
-          </span>
-        </li>
-        <li class="credit" data-group="tv">
-          <span class="credit__year">1982</span>
-          <span class="credit__main">
+            <span class="credit__role">Johanka</span>
+            <span class="credit__dir">Jozef Poljaček</span>
+            <span class="credit__type">TV film</span>
+          </li>
+          <li class="credit" data-group="tv">
+            <span class="credit__year">1982</span>
             <span class="credit__title">Rozmar</span>
-            <span class="credit__meta">TV film · režie Pavel Gejdoš</span>
-          </span>
-        </li>
-        <li class="credit" data-group="tv">
-          <span class="credit__year">1982</span>
-          <span class="credit__main">
+            <span class="credit__role"></span>
+            <span class="credit__dir">Pavel Gejdoš</span>
+            <span class="credit__type">TV film</span>
+          </li>
+          <li class="credit" data-group="tv">
+            <span class="credit__year">1982</span>
             <span class="credit__title">Slávne dievčatko</span>
-            <span class="credit__meta">TV film · režie Zora Bachnárová</span>
-          </span>
-        </li>
-        <li class="credit" data-group="tv">
-          <span class="credit__year">1982</span>
-          <span class="credit__main">
+            <span class="credit__role"></span>
+            <span class="credit__dir">Zora Bachnárová</span>
+            <span class="credit__type">TV film</span>
+          </li>
+          <li class="credit" data-group="tv">
+            <span class="credit__year">1982</span>
             <span class="credit__title">Zlatá panna a prekliaty brat</span>
-            <span class="credit__meta">TV film · zlatá panna · režie Zora Bachnárová</span>
-          </span>
-        </li>
-        <li class="credit" data-group="stage">
-          <span class="credit__year">1982</span>
-          <span class="credit__main">
+            <span class="credit__role">zlatá panna</span>
+            <span class="credit__dir">Zora Bachnárová</span>
+            <span class="credit__type">TV film</span>
+          </li>
+          <li class="credit" data-group="stage">
+            <span class="credit__year">1982</span>
             <span class="credit__title">Sonáta padajúceho lístia</span>
-            <span class="credit__meta">divadlo · Eliška (alt.) · režie Marta Gogálová</span>
-          </span>
-        </li>
-        <li class="credit" data-group="stage">
-          <span class="credit__year">1982</span>
-          <span class="credit__main">
+            <span class="credit__role">Eliška (alt.)</span>
+            <span class="credit__dir">Marta Gogálová</span>
+            <span class="credit__type">divadlo</span>
+          </li>
+          <li class="credit" data-group="stage">
+            <span class="credit__year">1982</span>
             <span class="credit__title">Arabela / Detská diskotéka</span>
-            <span class="credit__meta">hudba · Darina Rolincová, Jana Nagyová</span>
-          </span>
-        </li>
-        <li class="credit" data-group="film">
-          <span class="credit__year">1981</span>
-          <span class="credit__main">
+            <span class="credit__role">Darina Rolincová, Jana Nagyová</span>
+            <span class="credit__dir"></span>
+            <span class="credit__type">hudba</span>
+          </li>
+          <li class="credit" data-group="film">
+            <span class="credit__year">1981</span>
             <span class="credit__title">Mezi námi kluky</span>
-            <span class="credit__meta">film · Kamila · režie Radim Cvrček</span>
-          </span>
-        </li>
-        <li class="credit" data-group="tv">
-          <span class="credit__year">1981</span>
-          <span class="credit__main">
+            <span class="credit__role">Kamila</span>
+            <span class="credit__dir">Radim Cvrček</span>
+            <span class="credit__type">film</span>
+          </li>
+          <li class="credit" data-group="tv">
+            <span class="credit__year">1981</span>
             <span class="credit__title">Bičianka z doliny</span>
-            <span class="credit__meta">TV film · Kristínka Kujková · režie Jozef Zachar</span>
-          </span>
-        </li>
-        <li class="credit" data-group="tv">
-          <span class="credit__year">1981</span>
-          <span class="credit__main">
+            <span class="credit__role">Kristínka Kujková</span>
+            <span class="credit__dir">Jozef Zachar</span>
+            <span class="credit__type">TV film</span>
+          </li>
+          <li class="credit" data-group="tv">
+            <span class="credit__year">1981</span>
             <span class="credit__title">Dozrievanie</span>
-            <span class="credit__meta">TV film · režie František Chmiel</span>
-          </span>
-        </li>
-        <li class="credit" data-group="stage">
-          <span class="credit__year">1981</span>
-          <span class="credit__main">
-            <span class="credit__title">Škola žen</span><span class="credit__orig">Škola žien</span>
-            <span class="credit__meta">divadlo · Agnesa (alt.) · režie Stanislav Párnický</span>
-          </span>
-        </li>
-        <li class="credit" data-group="tv">
-          <span class="credit__year">1980</span>
-          <span class="credit__main">
+            <span class="credit__role"></span>
+            <span class="credit__dir">František Chmiel</span>
+            <span class="credit__type">TV film</span>
+          </li>
+          <li class="credit" data-group="stage">
+            <span class="credit__year">1981</span>
+            <span class="credit__title">Škola žen<span class="credit__orig">Škola žien</span></span>
+            <span class="credit__role">Agnesa (alt.)</span>
+            <span class="credit__dir">Stanislav Párnický</span>
+            <span class="credit__type">divadlo</span>
+          </li>
+          <li class="credit" data-group="tv">
+            <span class="credit__year">1980</span>
             <span class="credit__title">Arabela</span>
-            <span class="credit__meta">seriál · princezna Arabela · režie Václav Vorlíček</span>
-          </span>
-        </li>
-        <li class="credit" data-group="tv">
-          <span class="credit__year">1980/81</span>
-          <span class="credit__main">
+            <span class="credit__role">princezna Arabela</span>
+            <span class="credit__dir">Václav Vorlíček</span>
+            <span class="credit__type">seriál</span>
+          </li>
+          <li class="credit" data-group="tv">
+            <span class="credit__year">1980/81</span>
             <span class="credit__title">Na baňu klopajú</span>
-            <span class="credit__meta">seriál · režie Andrej Lettrich</span>
-          </span>
-        </li>
-        <li class="credit" data-group="tv">
-          <span class="credit__year">1980</span>
-          <span class="credit__main">
+            <span class="credit__role"></span>
+            <span class="credit__dir">Andrej Lettrich</span>
+            <span class="credit__type">seriál</span>
+          </li>
+          <li class="credit" data-group="tv">
+            <span class="credit__year">1980</span>
             <span class="credit__title">Nebezpečné známosti</span>
-            <span class="credit__meta">TV film · Cecília de Volanges · režie Miloslav Luther</span>
-          </span>
-        </li>
-        <li class="credit" data-group="tv">
-          <span class="credit__year">1980</span>
-          <span class="credit__main">
+            <span class="credit__role">Cecília de Volanges</span>
+            <span class="credit__dir">Miloslav Luther</span>
+            <span class="credit__type">TV film</span>
+          </li>
+          <li class="credit" data-group="tv">
+            <span class="credit__year">1980</span>
             <span class="credit__title">Neveľká komédia</span>
-            <span class="credit__meta">TV film · režie Ľubomír Fifik</span>
-          </span>
-        </li>
-        <li class="credit" data-group="tv">
-          <span class="credit__year">1980</span>
-          <span class="credit__main">
+            <span class="credit__role"></span>
+            <span class="credit__dir">Ľubomír Fifik</span>
+            <span class="credit__type">TV film</span>
+          </li>
+          <li class="credit" data-group="tv">
+            <span class="credit__year">1980</span>
             <span class="credit__title">Triptych o láske</span>
-            <span class="credit__meta">TV film · Annelia · režie Miloslav Luther</span>
-          </span>
-        </li>
-        <li class="credit" data-group="tv">
-          <span class="credit__year">1980</span>
-          <span class="credit__main">
+            <span class="credit__role">Annelia</span>
+            <span class="credit__dir">Miloslav Luther</span>
+            <span class="credit__type">TV film</span>
+          </li>
+          <li class="credit" data-group="tv">
+            <span class="credit__year">1980</span>
             <span class="credit__title">Vojak a bratove slzy</span>
-            <span class="credit__meta">TV film · druhá víla · režie Jozef Pálka</span>
-          </span>
-        </li>
-        <li class="credit" data-group="stage">
-          <span class="credit__year">1980</span>
-          <span class="credit__main">
+            <span class="credit__role">druhá víla</span>
+            <span class="credit__dir">Jozef Pálka</span>
+            <span class="credit__type">TV film</span>
+          </li>
+          <li class="credit" data-group="stage">
+            <span class="credit__year">1980</span>
             <span class="credit__title">Amfitryón</span>
-            <span class="credit__meta">divadlo · Alkména (alt.) · režie Peter J. Oravec</span>
-          </span>
-        </li>
-        <li class="credit" data-group="stage">
-          <span class="credit__year">1980</span>
-          <span class="credit__main">
+            <span class="credit__role">Alkména (alt.)</span>
+            <span class="credit__dir">Peter J. Oravec</span>
+            <span class="credit__type">divadlo</span>
+          </li>
+          <li class="credit" data-group="stage">
+            <span class="credit__year">1980</span>
             <span class="credit__title">Fatamorgána</span>
-            <span class="credit__meta">divadlo · Mona · režie Jozef Pálka</span>
-          </span>
-        </li>
-        <li class="credit" data-group="stage">
-          <span class="credit__year">1980</span>
-          <span class="credit__main">
+            <span class="credit__role">Mona</span>
+            <span class="credit__dir">Jozef Pálka</span>
+            <span class="credit__type">divadlo</span>
+          </li>
+          <li class="credit" data-group="stage">
+            <span class="credit__year">1980</span>
             <span class="credit__title">Šľachtické hniezdo</span>
-            <span class="credit__meta">divadlo · Lenočka · režie Marta Gogálová</span>
-          </span>
-        </li>
-        <li class="credit" data-group="film">
-          <span class="credit__year">1979</span>
-          <span class="credit__main">
+            <span class="credit__role">Lenočka</span>
+            <span class="credit__dir">Marta Gogálová</span>
+            <span class="credit__type">divadlo</span>
+          </li>
+          </ul>
+        </section>
+        <section class="decade" aria-labelledby="dec-1970">
+          <h3 id="dec-1970">70. léta</h3>
+          <ul class="credits">
+          <li class="credit" data-group="film">
+            <span class="credit__year">1979</span>
             <span class="credit__title">John Gabriel Borkman</span>
-            <span class="credit__meta">film · Frída · režie Peter Mikulík</span>
-          </span>
-        </li>
-        <li class="credit" data-group="film">
-          <span class="credit__year">1979</span>
-          <span class="credit__main">
+            <span class="credit__role">Frída</span>
+            <span class="credit__dir">Peter Mikulík</span>
+            <span class="credit__type">film</span>
+          </li>
+          <li class="credit" data-group="film">
+            <span class="credit__year">1979</span>
             <span class="credit__title">Smrt stopařek</span>
-            <span class="credit__meta">film · Eva Černá · režie Jindřich Polák</span>
-          </span>
-        </li>
-        <li class="credit" data-group="tv">
-          <span class="credit__year">1979</span>
-          <span class="credit__main">
+            <span class="credit__role">Eva Černá</span>
+            <span class="credit__dir">Jindřich Polák</span>
+            <span class="credit__type">film</span>
+          </li>
+          <li class="credit" data-group="tv">
+            <span class="credit__year">1979</span>
             <span class="credit__title">Drevená figúrka</span>
-            <span class="credit__meta">TV film · režie Jozef Pálka</span>
-          </span>
-        </li>
-        <li class="credit" data-group="tv">
-          <span class="credit__year">1979</span>
-          <span class="credit__main">
+            <span class="credit__role"></span>
+            <span class="credit__dir">Jozef Pálka</span>
+            <span class="credit__type">TV film</span>
+          </li>
+          <li class="credit" data-group="tv">
+            <span class="credit__year">1979</span>
             <span class="credit__title">Stretnutie v Tajove</span>
-            <span class="credit__meta">televizní pořad · režie Jozef Pálka</span>
-          </span>
-        </li>
-        <li class="credit" data-group="stage">
-          <span class="credit__year">1979</span>
-          <span class="credit__main">
+            <span class="credit__role"></span>
+            <span class="credit__dir">Jozef Pálka</span>
+            <span class="credit__type">televizní pořad</span>
+          </li>
+          <li class="credit" data-group="stage">
+            <span class="credit__year">1979</span>
             <span class="credit__title">Muž, ktorý nikdy neklamal</span>
-            <span class="credit__meta">divadlo · Dievča · režie Juraj Bindzár</span>
-          </span>
-        </li>
-        <li class="credit" data-group="stage">
-          <span class="credit__year">1979</span>
-          <span class="credit__main">
+            <span class="credit__role">Dievča</span>
+            <span class="credit__dir">Juraj Bindzár</span>
+            <span class="credit__type">divadlo</span>
+          </li>
+          <li class="credit" data-group="stage">
+            <span class="credit__year">1979</span>
             <span class="credit__title">Pomocník</span>
-            <span class="credit__meta">divadlo · Eva · režie Marta Gogálová</span>
-          </span>
-        </li>
-        <li class="credit" data-group="stage">
-          <span class="credit__year">1979</span>
-          <span class="credit__main">
+            <span class="credit__role">Eva</span>
+            <span class="credit__dir">Marta Gogálová</span>
+            <span class="credit__type">divadlo</span>
+          </li>
+          <li class="credit" data-group="stage">
+            <span class="credit__year">1979</span>
             <span class="credit__title">Z Karlína do Bratislavy parníkom Lanna 8 za 365 dní</span>
-            <span class="credit__meta">divadlo · Pisárka, Fritzi, Speváčka · režie Dušan Kaprálik</span>
-          </span>
-        </li>
-        <li class="credit" data-group="film">
-          <span class="credit__year">1978</span>
-          <span class="credit__main">
+            <span class="credit__role">Pisárka, Fritzi, Speváčka</span>
+            <span class="credit__dir">Dušan Kaprálik</span>
+            <span class="credit__type">divadlo</span>
+          </li>
+          <li class="credit" data-group="film">
+            <span class="credit__year">1978</span>
             <span class="credit__title">A ako Alžbeta</span>
-            <span class="credit__meta">film · režie František Chmiel</span>
-          </span>
-        </li>
-        <li class="credit" data-group="film">
-          <span class="credit__year">1978</span>
-          <span class="credit__main">
+            <span class="credit__role"></span>
+            <span class="credit__dir">František Chmiel</span>
+            <span class="credit__type">film</span>
+          </li>
+          <li class="credit" data-group="film">
+            <span class="credit__year">1978</span>
             <span class="credit__title">Listy Juliane</span>
-            <span class="credit__meta">film · Olympia · režie Ľuba Velecká</span>
-          </span>
-        </li>
-        <li class="credit" data-group="film">
-          <span class="credit__year">1978</span>
-          <span class="credit__main">
+            <span class="credit__role">Olympia</span>
+            <span class="credit__dir">Ľuba Velecká</span>
+            <span class="credit__type">film</span>
+          </li>
+          <li class="credit" data-group="film">
+            <span class="credit__year">1978</span>
             <span class="credit__title">Penelopa</span>
-            <span class="credit__meta">film · Verona · režie Štefan Uher</span>
-          </span>
-        </li>
-        <li class="credit" data-group="stage">
-          <span class="credit__year">1978</span>
-          <span class="credit__main">
+            <span class="credit__role">Verona</span>
+            <span class="credit__dir">Štefan Uher</span>
+            <span class="credit__type">film</span>
+          </li>
+          <li class="credit" data-group="stage">
+            <span class="credit__year">1978</span>
             <span class="credit__title">Všade vonia ženou</span>
-            <span class="credit__meta">divadlo · Konferencierka a speváčka (a. h.) · režie Dušan Kaprálik</span>
-          </span>
-        </li>
-        <li class="credit" data-group="film">
-          <span class="credit__year">1977</span>
-          <span class="credit__main">
+            <span class="credit__role">Konferencierka a speváčka (a. h.)</span>
+            <span class="credit__dir">Dušan Kaprálik</span>
+            <span class="credit__type">divadlo</span>
+          </li>
+          <li class="credit" data-group="film">
+            <span class="credit__year">1977</span>
             <span class="credit__title">Kavka</span>
-            <span class="credit__meta">film · režie Zora Bachnárová</span>
-          </span>
-        </li>
-        <li class="credit" data-group="film">
-          <span class="credit__year">1977</span>
-          <span class="credit__main">
+            <span class="credit__role"></span>
+            <span class="credit__dir">Zora Bachnárová</span>
+            <span class="credit__type">film</span>
+          </li>
+          <li class="credit" data-group="film">
+            <span class="credit__year">1977</span>
             <span class="credit__title">Krásna Pramíla</span>
-            <span class="credit__meta">film · děvče · režie Július Pántik</span>
-          </span>
-        </li>
-        <li class="credit" data-group="film">
-          <span class="credit__year">1977</span>
-          <span class="credit__main">
+            <span class="credit__role">děvče</span>
+            <span class="credit__dir">Július Pántik</span>
+            <span class="credit__type">film</span>
+          </li>
+          <li class="credit" data-group="film">
+            <span class="credit__year">1977</span>
             <span class="credit__title">Leto na Rovniach</span>
-            <span class="credit__meta">film · režie Zora Bachnárová</span>
-          </span>
-        </li>
-        <li class="credit" data-group="film">
-          <span class="credit__year">1977</span>
-          <span class="credit__main">
+            <span class="credit__role"></span>
+            <span class="credit__dir">Zora Bachnárová</span>
+            <span class="credit__type">film</span>
+          </li>
+          <li class="credit" data-group="film">
+            <span class="credit__year">1977</span>
             <span class="credit__title">Šediny doktora Ondáka</span>
-            <span class="credit__meta">film · režie Otakar Krivánek</span>
-          </span>
-        </li>
-        <li class="credit" data-group="tv">
-          <span class="credit__year">1977</span>
-          <span class="credit__main">
-            <span class="credit__title">Jedenácté přikázání</span><span class="credit__orig">Jedenáste prikázanie</span>
-            <span class="credit__meta">seriál · Katka Adamicová · režie Ivan Teren</span>
-          </span>
-        </li>
-        <li class="credit" data-group="tv">
-          <span class="credit__year">1977</span>
-          <span class="credit__main">
+            <span class="credit__role"></span>
+            <span class="credit__dir">Otakar Krivánek</span>
+            <span class="credit__type">film</span>
+          </li>
+          <li class="credit" data-group="tv">
+            <span class="credit__year">1977</span>
+            <span class="credit__title">Jedenácté přikázání<span class="credit__orig">Jedenáste prikázanie</span></span>
+            <span class="credit__role">Katka Adamicová</span>
+            <span class="credit__dir">Ivan Teren</span>
+            <span class="credit__type">seriál</span>
+          </li>
+          <li class="credit" data-group="tv">
+            <span class="credit__year">1977</span>
             <span class="credit__title">Štipku soli</span>
-            <span class="credit__meta">seriál · Hana Oravcová · režie Otakar Krivánek</span>
-          </span>
-        </li>
-        <li class="credit" data-group="tv">
-          <span class="credit__year">1977</span>
-          <span class="credit__main">
+            <span class="credit__role">Hana Oravcová</span>
+            <span class="credit__dir">Otakar Krivánek</span>
+            <span class="credit__type">seriál</span>
+          </li>
+          <li class="credit" data-group="tv">
+            <span class="credit__year">1977</span>
             <span class="credit__title">Koncert bez ruží</span>
-            <span class="credit__meta">TV film · režie Ľuba Vančíková</span>
-          </span>
-        </li>
-        <li class="credit" data-group="tv">
-          <span class="credit__year">1977</span>
-          <span class="credit__main">
+            <span class="credit__role"></span>
+            <span class="credit__dir">Ľuba Vančíková</span>
+            <span class="credit__type">TV film</span>
+          </li>
+          <li class="credit" data-group="tv">
+            <span class="credit__year">1977</span>
             <span class="credit__title">Vianočné oblátky</span>
-            <span class="credit__meta">TV film · režie Martin Ťapák</span>
-          </span>
-        </li>
-        <li class="credit" data-group="film">
-          <span class="credit__year">1976</span>
-          <span class="credit__main">
+            <span class="credit__role"></span>
+            <span class="credit__dir">Martin Ťapák</span>
+            <span class="credit__type">TV film</span>
+          </li>
+          <li class="credit" data-group="film">
+            <span class="credit__year">1976</span>
             <span class="credit__title">Rozdelení</span>
-            <span class="credit__meta">film · staršia Boženka · režie Ján Lacko</span>
-          </span>
-        </li>
-        <li class="credit" data-group="film">
-          <span class="credit__year">1976</span>
-          <span class="credit__main">
+            <span class="credit__role">staršia Boženka</span>
+            <span class="credit__dir">Ján Lacko</span>
+            <span class="credit__type">film</span>
+          </li>
+          <li class="credit" data-group="film">
+            <span class="credit__year">1976</span>
             <span class="credit__title">Tereza</span>
-            <span class="credit__meta">film · Tilka · režie Andrej Lettrich</span>
-          </span>
-        </li>
-        <li class="credit" data-group="tv">
-          <span class="credit__year">1976</span>
-          <span class="credit__main">
+            <span class="credit__role">Tilka</span>
+            <span class="credit__dir">Andrej Lettrich</span>
+            <span class="credit__type">film</span>
+          </li>
+          <li class="credit" data-group="tv">
+            <span class="credit__year">1976</span>
             <span class="credit__title">Sváko Ragan</span>
-            <span class="credit__meta">TV film · Juda · režie Martin Ťapák</span>
-          </span>
-        </li>
-        <li class="credit" data-group="film">
-          <span class="credit__year">1974</span>
-          <span class="credit__main">
+            <span class="credit__role">Juda</span>
+            <span class="credit__dir">Martin Ťapák</span>
+            <span class="credit__type">TV film</span>
+          </li>
+          <li class="credit" data-group="film">
+            <span class="credit__year">1974</span>
             <span class="credit__title">Valentín a Valentína</span>
-            <span class="credit__meta">film · študentka · režie Peter Mikulík</span>
-          </span>
-        </li>
-        <li class="credit" data-group="film">
-          <span class="credit__year">1972</span>
-          <span class="credit__main">
+            <span class="credit__role">študentka</span>
+            <span class="credit__dir">Peter Mikulík</span>
+            <span class="credit__type">film</span>
+          </li>
+          <li class="credit" data-group="film">
+            <span class="credit__year">1972</span>
             <span class="credit__title">Ďaleko je do neba</span>
-            <span class="credit__meta">film · režie Ján Lacko</span>
-          </span>
-        </li>
-        <li class="credit" data-group="tv">
-          <span class="credit__year">1972</span>
-          <span class="credit__main">
+            <span class="credit__role"></span>
+            <span class="credit__dir">Ján Lacko</span>
+            <span class="credit__type">film</span>
+          </li>
+          <li class="credit" data-group="tv">
+            <span class="credit__year">1972</span>
             <span class="credit__title">Výmyselníci</span>
-            <span class="credit__meta">seriál · režie Ivan Petrovický</span>
-          </span>
-        </li>
-        <li class="credit" data-group="tv">
-          <span class="credit__year">1971</span>
-          <span class="credit__main">
+            <span class="credit__role"></span>
+            <span class="credit__dir">Ivan Petrovický</span>
+            <span class="credit__type">seriál</span>
+          </li>
+          <li class="credit" data-group="tv">
+            <span class="credit__year">1971</span>
             <span class="credit__title">Vtipnejší vyhráva</span>
-            <span class="credit__meta">televizní pořad · režie František Brestovanský, Karol Strážnický, Juraj Haľama</span>
-          </span>
-        </li>
-        </ul>
+            <span class="credit__role"></span>
+            <span class="credit__dir">František Brestovanský, Karol Strážnický, Juraj Haľama</span>
+            <span class="credit__type">televizní pořad</span>
+          </li>
+          </ul>
+        </section>
       </div>
     </section>
 
-    <section class="panel" id="news" aria-labelledby="news-title">
-      <div class="wrap">
-        <h2 id="news-title">Aktuálně</h2>
-        <ul class="news">
-          <li><time datetime="2026-09">září 2026</time><p>Minisérii „Studna“ od 6. září 2026 vysílá také TV Nova. <a href="https://www.mediaguru.cz/serial-bozi-plan-odstartuje-1-zari-studna-pujde-od-6-zari" rel="noopener" target="_blank">Zdroj</a></p></li>
-          <li><time datetime="2026-05">květen 2026</time><p>25. května 2026 vyšel singl „Anděl tvůj“, který Jana Nagyová nazpívala s Janou Vaculíkovou. <a href="https://www.deezer.com/en/album/990416071" rel="noopener" target="_blank">Zdroj</a></p></li>
-          <li><time datetime="2026-04">duben 2026</time><p>„Šampión“ vstoupil do českých kin 9. dubna 2026, na Slovensku se promítal už od 26. března. <a href="https://www.continentalfilm.cz/nabidka-filmu/film/sampion" rel="noopener" target="_blank">Zdroj</a></p></li>
-          <li><time datetime="2026-03">březen 2026</time><p>Seriál „Studna“ získal Českého lva 2026 za nejlepší minisérii nebo seriál. <a href="https://www.mediaguru.cz/cesky-lev-cenu-za-nejlepsi-serial-ziskala-studna" rel="noopener" target="_blank">Zdroj</a></p></li>
-          <li><time datetime="2026-03">březen 2026</time><p>„Šampión“ zahájil 11. března 2026 33. ročník festivalu Febiofest Bratislava. <a href="https://www.teraz.sk/kultura/zacina-sa-33-febiofest-bratislava-pr/947376-clanok.html" rel="noopener" target="_blank">Zdroj</a></p></li>
-          <li><time datetime="2026-02">únor 2026</time><p>Předpremiéra filmu „Šampión“ proběhla 18. února 2026 ve Slovenském olympijském domě (Casa Slovacca) během zimních olympijských her v Miláně. <a href="https://www.stvr.sk/novinky/filmy-a-serialy/433966/film-sampion-zazil-velkolepu-predpremieru-na-zoh-2026-v-milane" rel="noopener" target="_blank">Zdroj</a></p></li>
-        </ul>
-        <h3 class="quotes__title">Z recenzí</h3>
-        <figure class="quote"><blockquote lang="cs"><p>Jana Nagyová v této roli výborně pracuje s jemnými gesty, mimikou a hlasovou modulací, aby vyjádřila svou autoritu a zároveň nabídla podporu Nepelovi – zejména v okamžicích, kdy se mladý sportovec ocitá na hraně svých psychických sil.</p></blockquote><figcaption><a href="https://magazin.aktualne.cz/kultura/film/jeden-den-v-zivote-krasobruslarske-legendy-novy-film-o-nepelovi-ma-sve-limity/r~aaa29f56450932b5505669b957a0d9b5/" rel="noopener" target="_blank">Aktuálně.cz, 2026</a></figcaption></figure>
-        <figure class="quote"><blockquote lang="cs"><p>Adam Kubala i Jana Nagyová jsou v ústředních rolích Nepely a jeho trenérky Hildy Múdre přesvědčiví, čistě řemeslně je snímek solidní.</p></blockquote><figcaption><a href="https://www.seznamzpravy.cz/clanek/kultura-sampion-nepela-film-recenze-303527" rel="noopener" target="_blank">Seznam Zprávy, 2026</a></figcaption></figure>
-        <figure class="quote"><blockquote lang="sk"><p>Jana Nagyová je dobrá, netlačí príliš na pílu, no má silné výrazy tváre, vhodnú mimiku i gestá a patričnú charizmu.</p></blockquote><figcaption><a href="https://www.kinema.sk/filmova-recenzia/40525/sampion.htm" rel="noopener" target="_blank">Kinema.sk, 2026</a></figcaption></figure>
+    <section class="news" id="news" aria-labelledby="news-title">
+      <h2 id="news-title" class="sh">Aktuálně</h2>
+      <ul class="news__list">
+        <li><time datetime="2026-09">září 2026</time><p>Minisérii „Studna“ od 6. září 2026 vysílá také TV Nova. <a href="https://www.mediaguru.cz/serial-bozi-plan-odstartuje-1-zari-studna-pujde-od-6-zari" rel="noopener" target="_blank">Zdroj</a></p></li>
+        <li><time datetime="2026-05">květen 2026</time><p>25. května 2026 vyšel singl „Anděl tvůj“, který Jana Nagyová nazpívala s Janou Vaculíkovou. <a href="https://www.deezer.com/en/album/990416071" rel="noopener" target="_blank">Zdroj</a></p></li>
+        <li><time datetime="2026-04">duben 2026</time><p>„Šampión“ vstoupil do českých kin 9. dubna 2026, na Slovensku se promítal už od 26. března. <a href="https://www.continentalfilm.cz/nabidka-filmu/film/sampion" rel="noopener" target="_blank">Zdroj</a></p></li>
+        <li><time datetime="2026-03">březen 2026</time><p>Seriál „Studna“ získal Českého lva 2026 za nejlepší minisérii nebo seriál. <a href="https://www.mediaguru.cz/cesky-lev-cenu-za-nejlepsi-serial-ziskala-studna" rel="noopener" target="_blank">Zdroj</a></p></li>
+        <li><time datetime="2026-03">březen 2026</time><p>„Šampión“ zahájil 11. března 2026 33. ročník festivalu Febiofest Bratislava. <a href="https://www.teraz.sk/kultura/zacina-sa-33-febiofest-bratislava-pr/947376-clanok.html" rel="noopener" target="_blank">Zdroj</a></p></li>
+        <li><time datetime="2026-02">únor 2026</time><p>Předpremiéra filmu „Šampión“ proběhla 18. února 2026 ve Slovenském olympijském domě (Casa Slovacca) během zimních olympijských her v Miláně. <a href="https://www.stvr.sk/novinky/filmy-a-serialy/433966/film-sampion-zazil-velkolepu-predpremieru-na-zoh-2026-v-milane" rel="noopener" target="_blank">Zdroj</a></p></li>
+      </ul>
+      <h3 class="press__title">Z recenzí</h3>
+      <div class="press">
+        <figure class="press__item"><blockquote lang="cs"><p>Jana Nagyová v této roli výborně pracuje s jemnými gesty, mimikou a hlasovou modulací, aby vyjádřila svou autoritu a zároveň nabídla podporu Nepelovi – zejména v okamžicích, kdy se mladý sportovec ocitá na hraně svých psychických sil.</p></blockquote><figcaption><a href="https://magazin.aktualne.cz/kultura/film/jeden-den-v-zivote-krasobruslarske-legendy-novy-film-o-nepelovi-ma-sve-limity/r~aaa29f56450932b5505669b957a0d9b5/" rel="noopener" target="_blank">Aktuálně.cz, 2026</a></figcaption></figure>
+        <figure class="press__item"><blockquote lang="cs"><p>Adam Kubala i Jana Nagyová jsou v ústředních rolích Nepely a jeho trenérky Hildy Múdre přesvědčiví, čistě řemeslně je snímek solidní.</p></blockquote><figcaption><a href="https://www.seznamzpravy.cz/clanek/kultura-sampion-nepela-film-recenze-303527" rel="noopener" target="_blank">Seznam Zprávy, 2026</a></figcaption></figure>
+        <figure class="press__item"><blockquote lang="sk"><p>Jana Nagyová je dobrá, netlačí príliš na pílu, no má silné výrazy tváre, vhodnú mimiku i gestá a patričnú charizmu.</p></blockquote><figcaption><a href="https://www.kinema.sk/filmova-recenzia/40525/sampion.htm" rel="noopener" target="_blank">Kinema.sk, 2026</a></figcaption></figure>
       </div>
     </section>
 
-    <section class="panel" id="gallery" aria-labelledby="gallery-title">
-      <div class="wrap">
-        <div class="section-head">
-          <h2 id="gallery-title">Galerie</h2>
-          <p class="section-head__count">Klepnutím fotografii zvětšíte.</p>
-        </div>
-        <ul class="gallery">
-          <li><figure>
-            <a href="/img/jana-nagyova-01-1200.jpg" data-index="0" class="gallery__link">
-              <picture>
-        <source type="image/webp" srcset="/img/jana-nagyova-01-640.webp 640w, /img/jana-nagyova-01-1200.webp 1200w" sizes="(max-width: 640px) 50vw, (max-width: 1100px) 33vw, 22vw">
-        <img src="/img/jana-nagyova-01-1200.jpg" srcset="/img/jana-nagyova-01-640.jpg 640w, /img/jana-nagyova-01-1200.jpg 1200w" sizes="(max-width: 640px) 50vw, (max-width: 1100px) 33vw, 22vw" width="1170" height="1631" alt="Jana Nagyová v růžovém kostýmu, portrét vsedě" loading="lazy" decoding="async">
+    <section class="gallery" id="gallery" aria-labelledby="gallery-title">
+      <h2 id="gallery-title" class="sh">Galerie</h2>
+      <ul class="gallery__grid">
+        <li class="g-a"><figure>
+          <a href="/img/jana-nagyova-01-1200.jpg" data-index="0" class="gallery__link">
+            <picture>
+        <source type="image/webp" srcset="/img/jana-nagyova-01-640.webp 640w, /img/jana-nagyova-01-1200.webp 1200w" sizes="(max-width: 700px) 92vw, 40vw">
+        <img src="/img/jana-nagyova-01-1200.jpg" srcset="/img/jana-nagyova-01-640.jpg 640w, /img/jana-nagyova-01-1200.jpg 1200w" sizes="(max-width: 700px) 92vw, 40vw" width="1170" height="1575" alt="Jana Nagyová v růžovém kostýmu, portrét vsedě" loading="lazy" decoding="async">
       </picture>
-            </a>
-            <figcaption>Foto © Monika Navrátilová 2025</figcaption>
-          </figure></li>
-          <li><figure>
-            <a href="/img/jana-nagyova-02-1200.jpg" data-index="1" class="gallery__link">
-              <picture>
-        <source type="image/webp" srcset="/img/jana-nagyova-02-640.webp 640w, /img/jana-nagyova-02-1200.webp 1200w" sizes="(max-width: 640px) 50vw, (max-width: 1100px) 33vw, 22vw">
-        <img src="/img/jana-nagyova-02-1200.jpg" srcset="/img/jana-nagyova-02-640.jpg 640w, /img/jana-nagyova-02-1200.jpg 1200w" sizes="(max-width: 640px) 50vw, (max-width: 1100px) 33vw, 22vw" width="1170" height="1624" alt="Jana Nagyová v tmavém saku u rámu zrcadla" loading="lazy" decoding="async">
+          </a>
+          <figcaption>Foto © Monika Navrátilová 2025</figcaption>
+        </figure></li>
+        <li class="g-b"><figure>
+          <a href="/img/jana-nagyova-02-1200.jpg" data-index="1" class="gallery__link">
+            <picture>
+        <source type="image/webp" srcset="/img/jana-nagyova-02-640.webp 640w, /img/jana-nagyova-02-1200.webp 1200w" sizes="(max-width: 700px) 92vw, 40vw">
+        <img src="/img/jana-nagyova-02-1200.jpg" srcset="/img/jana-nagyova-02-640.jpg 640w, /img/jana-nagyova-02-1200.jpg 1200w" sizes="(max-width: 700px) 92vw, 40vw" width="1170" height="1568" alt="Jana Nagyová v tmavém saku u rámu zrcadla" loading="lazy" decoding="async">
       </picture>
-            </a>
-            <figcaption>Foto © Monika Navrátilová 2025</figcaption>
-          </figure></li>
-          <li><figure>
-            <a href="/img/jana-nagyova-03-1200.jpg" data-index="2" class="gallery__link">
-              <picture>
-        <source type="image/webp" srcset="/img/jana-nagyova-03-640.webp 640w, /img/jana-nagyova-03-1200.webp 1200w" sizes="(max-width: 640px) 50vw, (max-width: 1100px) 33vw, 22vw">
-        <img src="/img/jana-nagyova-03-1200.jpg" srcset="/img/jana-nagyova-03-640.jpg 640w, /img/jana-nagyova-03-1200.jpg 1200w" sizes="(max-width: 640px) 50vw, (max-width: 1100px) 33vw, 22vw" width="1440" height="1800" alt="Jana Nagyová v historickém kostýmu s okruží" loading="lazy" decoding="async">
+          </a>
+          <figcaption>Foto © Monika Navrátilová 2025</figcaption>
+        </figure></li>
+        <li class="g-c"><figure>
+          <a href="/img/jana-nagyova-03-1200.jpg" data-index="2" class="gallery__link">
+            <picture>
+        <source type="image/webp" srcset="/img/jana-nagyova-03-640.webp 640w, /img/jana-nagyova-03-1200.webp 1200w" sizes="(max-width: 700px) 92vw, 40vw">
+        <img src="/img/jana-nagyova-03-1200.jpg" srcset="/img/jana-nagyova-03-640.jpg 640w, /img/jana-nagyova-03-1200.jpg 1200w" sizes="(max-width: 700px) 92vw, 40vw" width="1440" height="1744" alt="Jana Nagyová v historickém kostýmu s okruží" loading="lazy" decoding="async">
       </picture>
-            </a>
-            <figcaption>Foto © Václav Šilha 2024</figcaption>
-          </figure></li>
-          <li><figure>
-            <a href="/img/jana-nagyova-04-1200.jpg" data-index="3" class="gallery__link">
-              <picture>
-        <source type="image/webp" srcset="/img/jana-nagyova-04-640.webp 640w, /img/jana-nagyova-04-1200.webp 1200w" sizes="(max-width: 640px) 50vw, (max-width: 1100px) 33vw, 22vw">
-        <img src="/img/jana-nagyova-04-1200.jpg" srcset="/img/jana-nagyova-04-640.jpg 640w, /img/jana-nagyova-04-1200.jpg 1200w" sizes="(max-width: 640px) 50vw, (max-width: 1100px) 33vw, 22vw" width="1170" height="1592" alt="Jana Nagyová u okna v tmavé bundě" loading="lazy" decoding="async">
+          </a>
+          <figcaption>Foto © Václav Šilha 2024</figcaption>
+        </figure></li>
+        <li class="g-d"><figure>
+          <a href="/img/jana-nagyova-04-1200.jpg" data-index="3" class="gallery__link">
+            <picture>
+        <source type="image/webp" srcset="/img/jana-nagyova-04-640.webp 640w, /img/jana-nagyova-04-1200.webp 1200w" sizes="(max-width: 700px) 92vw, 40vw">
+        <img src="/img/jana-nagyova-04-1200.jpg" srcset="/img/jana-nagyova-04-640.jpg 640w, /img/jana-nagyova-04-1200.jpg 1200w" sizes="(max-width: 700px) 92vw, 40vw" width="1170" height="1592" alt="Jana Nagyová u okna v tmavé bundě" loading="lazy" decoding="async">
       </picture>
-            </a>
-            <figcaption>Foto © Patrik Uhlíř 2025</figcaption>
-          </figure></li>
-          <li><figure>
-            <a href="/img/jana-nagyova-05-1200.jpg" data-index="4" class="gallery__link">
-              <picture>
-        <source type="image/webp" srcset="/img/jana-nagyova-05-640.webp 640w, /img/jana-nagyova-05-1200.webp 1200w" sizes="(max-width: 640px) 50vw, (max-width: 1100px) 33vw, 22vw">
-        <img src="/img/jana-nagyova-05-1200.jpg" srcset="/img/jana-nagyova-05-640.jpg 640w, /img/jana-nagyova-05-1200.jpg 1200w" sizes="(max-width: 640px) 50vw, (max-width: 1100px) 33vw, 22vw" width="1170" height="1432" alt="Jana Nagyová se světlými vlasy v tmavém pleteném svetru" loading="lazy" decoding="async">
+          </a>
+          <figcaption>Foto © Patrik Uhlíř 2025</figcaption>
+        </figure></li>
+        <li class="g-e"><figure>
+          <a href="/img/jana-nagyova-05-1200.jpg" data-index="4" class="gallery__link">
+            <picture>
+        <source type="image/webp" srcset="/img/jana-nagyova-05-640.webp 640w, /img/jana-nagyova-05-1200.webp 1200w" sizes="(max-width: 700px) 92vw, 40vw">
+        <img src="/img/jana-nagyova-05-1200.jpg" srcset="/img/jana-nagyova-05-640.jpg 640w, /img/jana-nagyova-05-1200.jpg 1200w" sizes="(max-width: 700px) 92vw, 40vw" width="1170" height="1432" alt="Jana Nagyová se světlými vlasy v tmavém pleteném svetru" loading="lazy" decoding="async">
       </picture>
-            </a>
-            <figcaption>Foto © Anna Kovačič 2023</figcaption>
-          </figure></li>
-        </ul>
-      </div>
+          </a>
+          <figcaption>Foto © Anna Kovačič 2023</figcaption>
+        </figure></li>
+      </ul>
     </section>
 
-    <section class="panel" id="contact" aria-labelledby="contact-title">
-      <div class="wrap wrap--split">
-        <div>
-          <h2 id="contact-title">Kontakt</h2>
-          <p class="lead">Nabídky na film, televizi a divadlo prosím směřujte na agenturu.</p>
-        </div>
-        <address class="contact">
-          <p class="contact__label">Zastoupení</p>
-          <p class="contact__agency">Reset Artists Management</p>
-          <p>Františka Křížka 1, 170 00 Praha</p>
-          <dl>
-            <div><dt>Agentka</dt><dd>Petra Vaněk Svarinská</dd></div>
-            <div><dt>E-mail</dt><dd><a href="mailto:petra@resetartists.com">petra@resetartists.com</a></dd></div>
-            <div><dt>Telefon</dt><dd><a href="tel:+420603213148">+420 603 213 148</a></dd></div>
-            <div><dt>Web agentury</dt><dd><a href="https://www.resetartists.com/jana-nagyova/" rel="noopener" target="_blank">www.resetartists.com/jana-nagyova</a></dd></div>
-          </dl>
-          <p class="contact__social"><a href="https://www.instagram.com/jana.nagyova59/" rel="noopener me" target="_blank">Instagram</a></p>
-        </address>
-      </div>
+    <section class="contact" id="contact" aria-labelledby="contact-title">
+      <h2 id="contact-title" class="sh">Kontakt</h2>
+      <p class="contact__note">Nabídky na film, televizi a divadlo prosím směřujte na agenturu.</p>
+      <p class="contact__mail"><a href="mailto:petra@resetartists.com">petra@resetartists.com</a></p>
+      <address class="contact__card">
+        <p><span>Zastoupení</span>Reset Artists Management, Františka Křížka 1, 170 00 Praha</p>
+        <p><span>Agentka</span>Petra Vaněk Svarinská</p>
+        <p><span>Telefon</span><a href="tel:+420603213148">+420 603 213 148</a></p>
+        <p><span>Agentura</span><a href="https://www.resetartists.com/jana-nagyova/" rel="noopener" target="_blank">resetartists.com/jana-nagyova</a></p>
+        <p><span>Instagram</span><a href="https://www.instagram.com/jana.nagyova59/" rel="noopener me" target="_blank">instagram.com/jana.nagyova59</a></p>
+      </address>
     </section>
   </main>
 
   <footer class="foot">
-    <div class="wrap foot__inner">
-      <p>© 2026 Jana Nagyová</p>
-      <p class="foot__credits">Fotografie: Monika Navrátilová, Václav Šilha, Patrik Uhlíř, Anna Kovačič</p>
-      <p><a href="/de/" lang="de" hreflang="de">Deutsch</a></p>
-    </div>
+    <p>© 2026 Jana Nagyová</p>
+    <p>Fotografie: Monika Navrátilová, Václav Šilha, Patrik Uhlíř, Anna Kovačič</p>
+    <p><a href="/de/" lang="de" hreflang="de">Deutsch</a></p>
   </footer>
 
   <dialog class="lightbox" aria-label="Galerie">
-    <button class="lightbox__close" type="button" aria-label="Zavřít">×</button>
-    <button class="lightbox__nav lightbox__nav--prev" type="button" aria-label="Předchozí">‹</button>
+    <button class="lightbox__close" type="button" aria-label="Zavřít">✕</button>
+    <button class="lightbox__nav lightbox__nav--prev" type="button" aria-label="Předchozí portrét">←</button>
     <figure>
       <img alt="" width="1200" height="1600">
       <figcaption></figcaption>
     </figure>
-    <button class="lightbox__nav lightbox__nav--next" type="button" aria-label="Další">›</button>
+    <button class="lightbox__nav lightbox__nav--next" type="button" aria-label="Další portrét">→</button>
   </dialog>
-  <script type="application/json" id="photo-data">[{"id":"01","w":1170,"h":1631,"alt":"Jana Nagyová v růžovém kostýmu, portrét vsedě","credit":"Foto © Monika Navrátilová 2025"},{"id":"02","w":1170,"h":1624,"alt":"Jana Nagyová v tmavém saku u rámu zrcadla","credit":"Foto © Monika Navrátilová 2025"},{"id":"03","w":1440,"h":1800,"alt":"Jana Nagyová v historickém kostýmu s okruží","credit":"Foto © Václav Šilha 2024"},{"id":"04","w":1170,"h":1592,"alt":"Jana Nagyová u okna v tmavé bundě","credit":"Foto © Patrik Uhlíř 2025"},{"id":"05","w":1170,"h":1432,"alt":"Jana Nagyová se světlými vlasy v tmavém pleteném svetru","credit":"Foto © Anna Kovačič 2023"}]</script>
+  <script type="application/json" id="photo-data">[{"id":"01","w":1170,"h":1575,"alt":"Jana Nagyová v růžovém kostýmu, portrét vsedě","credit":"Foto © Monika Navrátilová 2025"},{"id":"02","w":1170,"h":1568,"alt":"Jana Nagyová v tmavém saku u rámu zrcadla","credit":"Foto © Monika Navrátilová 2025"},{"id":"03","w":1440,"h":1744,"alt":"Jana Nagyová v historickém kostýmu s okruží","credit":"Foto © Václav Šilha 2024"},{"id":"04","w":1170,"h":1592,"alt":"Jana Nagyová u okna v tmavé bundě","credit":"Foto © Patrik Uhlíř 2025"},{"id":"05","w":1170,"h":1432,"alt":"Jana Nagyová se světlými vlasy v tmavém pleteném svetru","credit":"Foto © Anna Kovačič 2023"}]</script>
+  <script type="application/json" id="portrait-data">[{"photo":"01","bg":"#dfe4d6","ink":"#1d4a3a","label":"Portrét 2025","credit":"Portrét 2025 · Foto © Monika Navrátilová"},{"photo":"02","bg":"#efe8dc","ink":"#c43a22","label":"Portrét 2025","credit":"Portrét 2025 · Foto © Monika Navrátilová"},{"photo":"03","bg":"#e9dcc1","ink":"#1d2546","label":"Kostýmní portrét 2024","credit":"Kostýmní portrét 2024 · Foto © Václav Šilha"}]</script>
 </body>
 </html>
