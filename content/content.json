@@ -1,0 +1,143 @@
+{
+  "meta": {
+    "name": "Jana Nagyová",
+    "title": { "de": "Jana Nagyová – Schauspielerin", "cs": "Jana Nagyová – herečka" },
+    "description": {
+      "de": "Offizielle Website der Schauspielerin Jana Nagyová: Biografie, Rollen, Filmografie, Fotos und Kontakt über die Agentur.",
+      "cs": "Oficiální stránky herečky Jany Nagyové: životopis, role, filmografie, fotografie a kontakt přes agenturu."
+    },
+    "birthDate": "1959-01-09",
+    "birthPlace": "Komárno"
+  },
+  "hero": {
+    "eyebrow": { "de": "Schauspielerin", "cs": "Herečka" },
+    "tagline": { "de": "Film · Fernsehen · Bühne", "cs": "Film · Televize · Divadlo" }
+  },
+  "about": {
+    "de": [
+      "Jana Nagyová wurde am 9. Januar 1959 in Komárno geboren und wuchs in Bratislava auf. Mit dreizehn stand sie zum ersten Mal vor der Kamera. Am Konservatorium Bratislava studierte sie Gesang und Klavier, das Spielen lernte sie am Set und auf der Bühne. 1978 wurde sie Mitglied des Poetischen Ensembles der Nová scéna in Bratislava und blieb dort rund zehn Jahre.",
+      "1980 spielte sie die Titelrolle in Václav Vorlíčeks Märchenserie „Arabela“, die das Tschechoslowakische Fernsehen zusammen mit dem WDR produzierte. Die ARD zeigte die Serie 1981 als „Die Märchenbraut“, das DDR-Fernsehen 1983 als „Die schöne Arabella und der Zauberer“. In den Achtzigerjahren folgten Dutzende Film- und Fernsehrollen, unter anderem in Štefan Uhers „Penelopa“, in Peter Solans „O sláve a tráve“ und in „Pražské tajemství“.",
+      "Ende der Achtzigerjahre zog sie nach Deutschland. 1993 spielte sie noch die Hauptrolle in Eduard Grečners „Pozemský nepokoj“ nach D. H. Lawrences Erzählung „Der Fuchs“. Danach drehte sie fast drei Jahrzehnte lang nicht.",
+      "Seit 2021 steht sie wieder vor der Kamera: in Jan Budařs Märchenfilm „Princ Mamánek“ (2022), in Dan Sváteks „Dvě slova jako klíč“ (2023) und in den Serien „Studna“ und „Hořký svět“. 2026 kam Jakub Červenkas „Šampión“ in die Kinos. Darin spielt sie die Eiskunstlauftrainerin Hilda Múdra."
+    ],
+    "cs": [
+      "Jana Nagyová se narodila 9. ledna 1959 v Komárně a vyrůstala v Bratislavě. Před kamerou poprvé stála ve třinácti letech. Na bratislavské konzervatoři vystudovala zpěv a klavír, hrát se naučila při natáčení a na jevišti. V roce 1978 nastoupila do Poetického souboru bratislavské Nové scény, kde zůstala zhruba deset let.",
+      "V roce 1980 hrála titulní roli v pohádkovém seriálu Václava Vorlíčka Arabela, který Československá televize natočila se západoněmeckou stanicí WDR. V Německu jej v roce 1981 uvedla ARD pod názvem Die Märchenbraut, televize NDR o dva roky později jako Die schöne Arabella und der Zauberer. Během osmdesátých let natočila desítky filmů a televizních inscenací, mimo jiné Penelopu Štefana Uhera, film Petera Solana O sláve a tráve nebo Pražské tajemství.",
+      "Na konci osmdesátých let se přestěhovala do Německa. V roce 1993 ještě přijala hlavní roli ve filmu Eduarda Grečnera Pozemský nepokoj podle povídky D. H. Lawrence Liška. Pak téměř třicet let nenatáčela.",
+      "Od roku 2021 znovu hraje: v pohádce Jana Budaře Princ Mamánek (2022), ve filmu Dana Svátka Dvě slova jako klíč (2023) a v seriálech Studna a Hořký svět. V roce 2026 vstoupil do kin Šampión Jakuba Červenky, v němž ztvárnila krasobruslařskou trenérku Hildu Múdrou."
+    ]
+  },
+  "facts": [
+    { "label": { "de": "Geboren", "cs": "Narozena" }, "value": { "de": "9. Januar 1959, Komárno", "cs": "9. ledna 1959, Komárno" } },
+    { "label": { "de": "Ausbildung", "cs": "Vzdělání" }, "value": { "de": "Konservatorium Bratislava, Gesang und Klavier", "cs": "Konzervatoř v Bratislavě, zpěv a klavír" } },
+    { "label": { "de": "Theater", "cs": "Divadlo" }, "value": { "de": "Poetisches Ensemble der Nová scéna, Bratislava, ab 1978", "cs": "Poetický soubor Nové scény, Bratislava, od roku 1978" } },
+    { "label": { "de": "Sprachen", "cs": "Jazyky" }, "value": { "de": "Slowakisch (Muttersprache), Tschechisch, Deutsch, Englisch, Ungarisch, Russisch", "cs": "slovenština (rodný jazyk), čeština, němčina, angličtina, maďarština, ruština" } },
+    { "label": { "de": "Stimme", "cs": "Hlas" }, "value": { "de": "Mezzosopran und Sopran, Klavier", "cs": "mezzosoprán a soprán, klavír" } },
+    { "label": { "de": "Drehorte", "cs": "Natáčení" }, "value": { "de": "Prag, Bratislava, Wien, Berlin, München", "cs": "Praha, Bratislava, Vídeň, Berlín, Mnichov" } }
+  ],
+  "highlights": [
+    { "year": "2026", "original_title": "Šampión", "title": { "de": "Šampión", "cs": "Šampión" }, "role": { "de": "Hilda Múdra", "cs": "Hilda Múdra" }, "director": "Jakub Červenka",
+      "text": { "de": "Biografischer Film über den Eiskunstläufer Ondrej Nepela und die Weltmeisterschaft 1973 in Bratislava. Kinostart in der Slowakei am 26. März 2026, in Tschechien am 9. April 2026.", "cs": "Životopisný film o krasobruslaři Ondreji Nepelovi a mistrovství světa 1973 v Bratislavě. Do slovenských kin přišel 26. března 2026, do českých 9. dubna 2026." } },
+    { "year": "2022", "original_title": "Princ Mamánek", "title": { "de": "Princ Mamánek", "cs": "Princ Mamánek" }, "role": { "de": "Königin Ludmila", "cs": "královna Ludmila" }, "director": "Jan Budař",
+      "text": { "de": "Märchenfilm von Jan Budař und ihre erste Kinorolle nach fast dreißig Jahren.", "cs": "Pohádka Jana Budaře a její první role v kině po téměř třiceti letech." } },
+    { "year": "1993", "original_title": "Pozemský nepokoj", "title": { "de": "Pozemský nepokoj", "cs": "Pozemský nepokoj" }, "role": { "de": "Jill Banford", "cs": "Jill Banfordová" }, "director": "Eduard Grečner",
+      "text": { "de": "Hauptrolle in der Verfilmung von D. H. Lawrences Erzählung „Der Fuchs“.", "cs": "Hlavní role v adaptaci povídky D. H. Lawrence Liška." } },
+    { "year": "1980", "original_title": "Arabela", "title": { "de": "Die Märchenbraut", "cs": "Arabela" }, "role": { "de": "Prinzessin Arabela", "cs": "princezna Arabela" }, "director": "Václav Vorlíček",
+      "text": { "de": "Märchenserie in 13 Folgen nach Drehbüchern von Miloš Macourek, gedreht in den Barrandov-Studios, koproduziert mit dem WDR.", "cs": "Pohádkový seriál o třinácti dílech podle scénáře Miloše Macourka, natočený na Barrandově ve spolupráci s WDR." } },
+    { "year": "1979", "original_title": "Smrt stopařek", "title": { "de": "Per Anhalter in den Tod", "cs": "Smrt stopařek" }, "role": { "de": "Eva Černá", "cs": "Eva Černá" }, "director": "Jindřich Polák",
+      "text": { "de": "Kriminalfilm aus den Barrandov-Studios und ihre erste Arbeit mit einem tschechischen Filmteam.", "cs": "Kriminální film z Barrandova, její první spolupráce s českým filmovým štábem." } }
+  ],
+  "filmography": [
+    { "year": "2026", "sort": 2026, "title_original": "Šampión", "title_de": "", "type": "film", "role": { "de": "Hilda Múdra", "cs": "Hilda Múdra" }, "director": "Jakub Červenka" },
+    { "year": "2024", "sort": 2024, "title_original": "Hořký svět", "title_de": "", "type": "tv-serie", "role": { "de": "Jana", "cs": "Jana" }, "director": "Martin Kopp" },
+    { "year": "2024", "sort": 2024, "title_original": "Studna", "title_de": "", "type": "tv-serie", "role": { "de": "Jánská, Maries Mutter", "cs": "Jánská, matka Marie" }, "director": "Tereza Kopáčová" },
+    { "year": "2023", "sort": 2023, "title_original": "Dvě slova jako klíč", "title_de": "", "type": "film", "role": { "de": "Jolanta", "cs": "Jolanta" }, "director": "Dan Svátek" },
+    { "year": "2022", "sort": 2022, "title_original": "Princ Mamánek", "title_de": "", "type": "film", "role": { "de": "Königin Ludmila", "cs": "královna Ludmila" }, "director": "Jan Budař" },
+    { "year": "2021", "sort": 2021, "title_original": "Sestričky", "title_de": "", "type": "tv-serie", "role": { "de": "Patientin", "cs": "pacientka" }, "director": "Petr Nikolaev" },
+    { "year": "1993", "sort": 1993, "title_original": "Pozemský nepokoj", "title_de": "", "type": "film", "role": { "de": "Jill Banford", "cs": "Jill Banfordová" }, "director": "Eduard Grečner" },
+    { "year": "1988", "sort": 1988, "title_original": "Pražské tajemství", "title_de": "Prager Geheimnis", "type": "film", "role": { "de": "Helena", "cs": "Helena" }, "director": "Kazimierz Tarnas" },
+    { "year": "1987", "sort": 1987, "title_original": "Pravidla kruhu", "title_de": "Der Sieger gibt auf", "type": "film", "role": { "de": "Blanka", "cs": "Blanka" }, "director": "Miroslav Balajka" },
+    { "year": "1986", "sort": 1986, "title_original": "Není sirotek jako sirotek", "title_de": "Wachtmeister in Nöten", "type": "film", "role": { "de": "Sekretärin Jitka Větrovcová", "cs": "sekretářka Jitka Větrovcová" }, "director": "Stanislav Strnad" },
+    { "year": "1986", "sort": 1986, "title_original": "Alžbetin dvor", "title_de": "Verfluchtes Erbe", "type": "tv-serie", "role": { "de": "Berta", "cs": "Berta" }, "director": "Andrej Lettrich" },
+    { "year": "1986", "sort": 1986, "title_original": "Ďakujem Vám za láskavosť", "title_de": "", "type": "tv-film", "role": { "de": "Darina", "cs": "Darina" }, "director": "Marta Gogálová" },
+    { "year": "1986", "sort": 1986, "title_original": "Polepetko", "title_de": "", "type": "tv-film", "role": "", "director": "Peter Jozef Oravec" },
+    { "year": "1986", "sort": 1986, "title_original": "Okná dokorán", "title_de": "", "type": "tv-serie", "role": "", "director": "Igor Ciel, František Chmiel" },
+    { "year": "1984", "sort": 1984, "title_original": "O sláve a tráve", "title_de": "Schattenseite des Ruhmes", "type": "film", "role": { "de": "Fotografin Bea", "cs": "fotografka Bea" }, "director": "Peter Solan" },
+    { "year": "1984", "sort": 1984, "title_original": "Tajomný ostrov", "title_de": "Die geheimnisvolle Expedition", "type": "tv-serie", "role": { "de": "Denisa", "cs": "Denisa" }, "director": "Vladimír Blažek" },
+    { "year": "1984", "sort": 1984, "title_original": "Múdra princezná", "title_de": "", "type": "tv-film", "role": { "de": "Dorina", "cs": "Dorina" }, "director": "Ján Gogál" },
+    { "year": "1984", "sort": 1984, "title_original": "Vynálezy hodinára Aurela", "title_de": "", "type": "tv-serie", "role": { "de": "Klára", "cs": "Klára" }, "director": "Jozef Chudík" },
+    { "year": "1983", "sort": 1983, "title_original": "Anička Jurkovičová", "title_de": "", "type": "tv-serie", "role": { "de": "Milka Jurkovičová", "cs": "Milka Jurkovičová" }, "director": "Ján Lacko" },
+    { "year": "1983", "sort": 1983, "title_original": "Lekár umierajúceho času", "title_de": "", "type": "tv-serie", "role": { "de": "Dorotka", "cs": "Dorotka" }, "director": "Miloslav Luther" },
+    { "year": "1983", "sort": 1983, "title_original": "Žakýlska Veronka", "title_de": "", "type": "tv-film", "role": { "de": "Veronka", "cs": "Veronka" }, "director": "Zora Bachnárová" },
+    { "year": "1982", "sort": 1982, "title_original": "Výlet do mladosti", "title_de": "", "type": "film", "role": { "de": "Šárika", "cs": "Šárika" }, "director": "Pavol Haspra" },
+    { "year": "1982", "sort": 1982, "title_original": "Johanka", "title_de": "", "type": "tv-film", "role": { "de": "Johanka", "cs": "Johanka" }, "director": "Jozef Poljaček" },
+    { "year": "1982", "sort": 1982, "title_original": "Zlatá panna a prekliaty brat", "title_de": "", "type": "tv-film", "role": { "de": "Goldene Jungfrau", "cs": "zlatá panna" }, "director": "Zora Bachnárová" },
+    { "year": "1982", "sort": 1982, "title_original": "Slávne dievčatko", "title_de": "", "type": "tv-film", "role": "", "director": "Zora Bachnárová" },
+    { "year": "1982", "sort": 1982, "title_original": "Rozmar", "title_de": "", "type": "tv-film", "role": "", "director": "Pavel Gejdoš" },
+    { "year": "1982", "sort": 1982, "title_original": "Chlap prezývaný Brumteles", "title_de": "", "type": "tv-film", "role": "", "director": "František Chmiel" },
+    { "year": "1982", "sort": 1982, "title_original": "Rodinná anamnéza", "title_de": "", "type": "tv-film", "role": "", "director": "Pavol Haspra" },
+    { "year": "1981", "sort": 1981, "title_original": "Mezi námi kluky", "title_de": "", "type": "film", "role": { "de": "Kamila", "cs": "Kamila" }, "director": "Radim Cvrček" },
+    { "year": "1981", "sort": 1981, "title_original": "Bičianka z doliny", "title_de": "", "type": "tv-film", "role": { "de": "Kristínka Kujková", "cs": "Kristínka Kujková" }, "director": "Jozef Zachar" },
+    { "year": "1980", "sort": 1980, "title_original": "Arabela", "title_de": "Die Märchenbraut", "type": "tv-serie", "role": { "de": "Prinzessin Arabela", "cs": "princezna Arabela" }, "director": "Václav Vorlíček" },
+    { "year": "1980", "sort": 1980, "title_original": "Triptych o láske", "title_de": "", "type": "tv-film", "role": { "de": "Annelia", "cs": "Annelia" }, "director": "Miloslav Luther" },
+    { "year": "1980", "sort": 1980, "title_original": "Nebezpečné známosti", "title_de": "", "type": "tv-film", "role": { "de": "Cécile de Volanges", "cs": "Cecília de Volanges" }, "director": "Miloslav Luther" },
+    { "year": "1980", "sort": 1980, "title_original": "Na baňu klopajú", "title_de": "Die Bruderschaft von Bistrica", "type": "tv-serie", "role": "", "director": "Andrej Lettrich" },
+    { "year": "1980", "sort": 1980, "title_original": "Vojak a bratove slzy", "title_de": "", "type": "tv-film", "role": { "de": "Zweite Fee", "cs": "druhá víla" }, "director": "Jozef Pálka" },
+    { "year": "1980", "sort": 1980, "title_original": "Neveľká komédia", "title_de": "", "type": "tv-film", "role": "", "director": "Ľubomír Fifik" },
+    { "year": "1980", "sort": 1980, "title_original": "Dozrievanie", "title_de": "", "type": "tv-film", "role": "", "director": "František Chmiel" },
+    { "year": "1979", "sort": 1979, "title_original": "Smrt stopařek", "title_de": "Per Anhalter in den Tod", "type": "film", "role": { "de": "Eva Černá", "cs": "Eva Černá" }, "director": "Jindřich Polák" },
+    { "year": "1979", "sort": 1979, "title_original": "Drevená figúrka", "title_de": "", "type": "tv-film", "role": "", "director": "Jozef Pálka" },
+    { "year": "1978", "sort": 1978, "title_original": "Penelopa", "title_de": "Penelope", "type": "film", "role": { "de": "Verona", "cs": "Verona" }, "director": "Štefan Uher" },
+    { "year": "1977", "sort": 1977, "title_original": "Jedenáste prikázanie", "title_de": "", "type": "tv-serie", "role": { "de": "Katka Adamicová", "cs": "Katka Adamicová" }, "director": "Ivan Teren" },
+    { "year": "1977", "sort": 1977, "title_original": "Leto na Rovniach", "title_de": "", "type": "film", "role": "", "director": "Zora Bachnárová" },
+    { "year": "1977", "sort": 1977, "title_original": "Vianočné oblátky", "title_de": "", "type": "tv-film", "role": "", "director": "Martin Ťapák" },
+    { "year": "1977", "sort": 1977, "title_original": "Koncert bez ruží", "title_de": "", "type": "tv-film", "role": "", "director": "Ľuba Vančíková" },
+    { "year": "1976", "sort": 1976, "title_original": "Štipku soli", "title_de": "Weibliche Reize – männliche Sorgen", "type": "tv-serie", "role": { "de": "Hana Oravcová", "cs": "Hana Oravcová" }, "director": "Otakar Krivánek" },
+    { "year": "1976", "sort": 1976, "title_original": "Sváko Ragan", "title_de": "", "type": "tv-film", "role": { "de": "Juda", "cs": "Juda" }, "director": "Martin Ťapák" }
+  ],
+  "stage": [
+    { "year": "2013", "sort": 2013, "title_original": "Gruselkabinett 79: Lodoiska", "title_de": "", "type": "sonstiges", "role": { "de": "Lodoiska (Hörspiel, Titania Medien)", "cs": "Lodoiska (rozhlasová hra, Titania Medien)" }, "director": "Stephan Bosenius, Marc Gruppe" },
+    { "year": "1993", "sort": 1993, "title_original": "Zpívá dětem", "title_de": "", "type": "musik", "role": { "de": "Gesang (CD)", "cs": "zpěv (CD)" }, "director": "" },
+    { "year": "1982", "sort": 1982, "title_original": "Arabela / Detská diskotéka", "title_de": "", "type": "musik", "role": { "de": "Gesang (Single, Opus)", "cs": "zpěv (singl, Opus)" }, "director": "" },
+    { "year": "1981", "sort": 1981, "title_original": "Škola žien", "title_de": "", "type": "theater", "role": { "de": "Agnesa · Nová scéna", "cs": "Agnesa · Nová scéna" }, "director": "Stanislav Párnický" },
+    { "year": "1980", "sort": 1980, "title_original": "Fatamorgána", "title_de": "", "type": "theater", "role": { "de": "Mona · Nová scéna", "cs": "Mona · Nová scéna" }, "director": "Jozef Pálka" },
+    { "year": "1980", "sort": 1980, "title_original": "Šľachtické hniezdo", "title_de": "", "type": "theater", "role": { "de": "Lenočka · Nová scéna", "cs": "Lenočka · Nová scéna" }, "director": "Marta Gogálová" },
+    { "year": "1978", "sort": 1978, "title_original": "Všade vonia ženou", "title_de": "", "type": "theater", "role": { "de": "Conférencière und Sängerin · Nová scéna", "cs": "konferenciérka a zpěvačka · Nová scéna" }, "director": "Dušan Kaprálik" }
+  ],
+  "news": [
+    { "date": "2026-04", "text": { "de": "„Šampión“ läuft seit dem 9. April 2026 in den tschechischen Kinos, in der Slowakei seit dem 26. März.", "cs": "Šampión je od 9. dubna 2026 v českých kinech, na Slovensku od 26. března." }, "url": "" },
+    { "date": "2025", "text": { "de": "Zweite Staffel der Serie „Hořký svět“ im Free-TV bei Prima.", "cs": "Druhá řada seriálu Hořký svět na stanici Prima." }, "url": "" },
+    { "date": "2025-01", "text": { "de": "Die Miniserie „Studna“ startet bei Voyo.", "cs": "Minisérie Studna startuje na Voyo." }, "url": "" }
+  ],
+  "quotes": [],
+  "skills": {
+    "languages": { "de": ["Slowakisch", "Tschechisch", "Deutsch", "Englisch", "Ungarisch", "Russisch"], "cs": ["slovenština", "čeština", "němčina", "angličtina", "maďarština", "ruština"] },
+    "other": { "de": ["Gesang (Oper, Folk, Bühne)", "Klavier", "Eiskunstlauf", "Ski alpin", "Schwimmen", "Golf"], "cs": ["zpěv (opera, folk, jevištní)", "klavír", "krasobruslení", "sjezdové lyžování", "plavání", "golf"] }
+  },
+  "contact": {
+    "agency": "Reset Artists Management",
+    "agent": "Petra Vaněk Svarinska",
+    "email": "petra@resetartists.com",
+    "phone": "+420 603 213 148",
+    "url": "https://resetartists.com/",
+    "address": "Františka Křížka 1, 170 00 Praha",
+    "note": { "de": "Anfragen für Film, Fernsehen und Theater bitte über die Agentur.", "cs": "Nabídky pro film, televizi a divadlo prosím směřujte na agenturu." }
+  },
+  "social": [],
+  "sources": [
+    "https://cs.wikipedia.org/wiki/Jana_Nagyov%C3%A1",
+    "https://sk.wikipedia.org/wiki/Jana_Nagyov%C3%A1",
+    "https://de.wikipedia.org/wiki/Jana_Nagyov%C3%A1",
+    "https://en.wikipedia.org/wiki/Jana_Nagyov%C3%A1_(actress)",
+    "https://www.imdb.com/name/nm0619543/",
+    "https://www.csfd.cz/tvurce/1265",
+    "https://www.filmmakers.eu/en/actors/jana-nagyova"
+  ],
+  "photos": [
+    { "id": "01", "w": 1170, "h": 1631, "credit": "Monika Navrátilová", "year": "2025", "alt": { "de": "Jana Nagyová im rosafarbenen Anzug, sitzend, Porträt", "cs": "Jana Nagyová v růžovém kostýmu, portrét vsedě" } },
+    { "id": "02", "w": 1170, "h": 1624, "credit": "Monika Navrátilová", "year": "2025", "alt": { "de": "Jana Nagyová im dunklen Blazer vor einem Spiegelrahmen", "cs": "Jana Nagyová v tmavém saku u rámu zrcadla" } },
+    { "id": "03", "w": 1440, "h": 1800, "credit": "Václav Šilha", "year": "2024", "alt": { "de": "Jana Nagyová im historischen Kostüm mit Halskrause", "cs": "Jana Nagyová v historickém kostýmu s okruží" } },
+    { "id": "04", "w": 1170, "h": 1592, "credit": "Patrik Uhlíř", "year": "2025", "alt": { "de": "Jana Nagyová am Fenster in dunkler Jacke", "cs": "Jana Nagyová u okna v tmavé bundě" } },
+    { "id": "05", "w": 1170, "h": 1432, "credit": "Anna Kovačič", "year": "2023", "alt": { "de": "Jana Nagyová mit blondem Haar im dunklen Strickpullover", "cs": "Jana Nagyová se světlými vlasy v tmavém pleteném svetru" } }
+  ]
+}
