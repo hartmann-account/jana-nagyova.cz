@@ -10,6 +10,8 @@ mkdirSync(outDir, { recursive: true });
 const browser = await chromium.launch({
   executablePath: process.env.CHROMIUM_PATH || '/opt/pw-browsers/chromium',
   args: ['--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist'],
+  // remote URLs in sandboxed environments go through HTTPS_PROXY
+  ...(process.env.HTTPS_PROXY && !/localhost|127\.0\.0\.1/.test(base) ? { proxy: { server: process.env.HTTPS_PROXY } } : {}),
 });
 const views = [
   { name: 'desktop', viewport: { width: 1440, height: 900 } },
@@ -18,7 +20,7 @@ const views = [
 const problems = [];
 for (const v of views) {
   for (const [lang, path] of [['cs', '/'], ['de', '/de/']]) {
-    const ctx = await browser.newContext(v);
+    const ctx = await browser.newContext({ ...v, ignoreHTTPSErrors: !!process.env.HTTPS_PROXY });
     const page = await ctx.newPage();
     page.on('console', (m) => { if (m.type() === 'error' || m.type() === 'warning') problems.push(`${v.name}/${lang} console.${m.type()}: ${m.text()}`); });
     page.on('pageerror', (e) => problems.push(`${v.name}/${lang} pageerror: ${e.message}`));
