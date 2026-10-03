@@ -25,10 +25,12 @@ const out = (rel, data) => {
 const NB = '\u00a0';
 function glue(s, lang) {
   s = String(s ?? '');
-  if (lang === 'cs' || lang === 'sk') s = s.replace(/(^|[\s(„–])([kvszouaiKVSZOUAI]) /g, `$1$2${NB}`);
+  // lookbehind, so two short words in a row ("a v") are both bound
+  if (lang === 'cs' || lang === 'sk') s = s.replace(/(?<=^|[\s(„–\u00a0])([kvszouaiKVSZOUAI]) /g, `$1${NB}`);
   return s
     .replace(/(^|\D)(\d{1,2}\.) (?=\p{L})/gu, `$1$2${NB}`)
-    .replace(/(^|\P{L})(\p{Lu}\.) (?=\p{Lu}\.)/gu, `$1$2${NB}`);
+    .replace(/(^|\P{L})(\p{Lu}\.) (?=\p{Lu}\.)/gu, `$1$2${NB}`)
+    .replace(/(^|\P{L})(\p{Lu}\.) (?=\p{Lu}\p{Ll})/gu, `$1$2${NB}`);
 }
 const tx = (s, lang) => esc(glue(s, lang));
 
@@ -43,11 +45,11 @@ const L = {
     director: 'režie', facts: 'Údaje', skills: 'Dovednosti', press: 'Z recenzí', translatedShort: 'přeloženo',
     photo: 'Foto', credits: 'Fotografie', photoPrev: 'Předchozí fotografie', photoNext: 'Další fotografie', source: 'Zdroj',
     agency: 'Zastoupení', agent: 'Agentka', email: 'E-mail', phone: 'Telefon', web: 'Agentura',
-    count: (n) => `${n} titulů`,
+    count: (n) => `${n} ${n === 1 ? 'titul' : n < 5 && n > 1 ? 'tituly' : 'titulů'}`,
     decade: (d) => (d < 2000 ? `${String(d).slice(2)}. léta` : `${d}–${Math.min(d + 9, YEAR)}`),
     timeline: 'Každý čtvereček představuje jeden titul, sloupce odpovídají rokům. Klepnutím na rok zobrazíte jeho tituly.',
     yearTitles: (y, n) => `${y}: ${n} ${n === 1 ? 'titul' : n < 5 ? 'tituly' : 'titulů'}`,
-    year: 'Rok', clear: 'zobrazit vše',
+    year: 'Rok', clear: 'zobrazit vše', yearsLabel: 'Roky, šipkami vlevo a vpravo',
     legend: { film: 'film', tv: 'televize', stage: 'divadlo, hudba, nahrávky' },
     scenes: 'Scény papírového divadla', sceneOf: (i, n, name) => `Scéna ${i} z ${n}: ${name}`,
     sub: 'herečka',
@@ -66,7 +68,7 @@ const L = {
     decade: (d) => `${d}er`,
     timeline: 'Jedes Kästchen steht für einen Titel, jede Spalte für ein Jahr. Ein Klick auf ein Jahr zeigt seine Titel.',
     yearTitles: (y, n) => `${y}: ${n} Titel`,
-    year: 'Jahr', clear: 'alle zeigen',
+    year: 'Jahr', clear: 'alle zeigen', yearsLabel: 'Jahre, mit den Pfeiltasten wählbar',
     legend: { film: 'Film', tv: 'Fernsehen', stage: 'Bühne, Musik, Sprechrollen' },
     scenes: 'Szenen des Papiertheaters', sceneOf: (i, n, name) => `Szene ${i} von ${n}: ${name}`,
     sub: 'Schauspielerin',
@@ -92,7 +94,7 @@ function titleFor(item, lang) {
 
 function creditRow(item, lang, s) {
   const title = titleFor(item, lang);
-  const orig = title !== item.title_original ? ` <span class="credit__orig">${esc(item.title_original)}</span>` : '';
+  const orig = title !== item.title_original ? ` <span class="credit__orig">${tx(item.title_original, 'cs')}</span>` : '';
   const role = t(item.role, lang);
   const meta = [
     role ? `<span>${tx(role, lang)}</span>` : '',
@@ -101,7 +103,7 @@ function creditRow(item, lang, s) {
   ].filter(Boolean).join('<span class="sep" aria-hidden="true"> · </span>');
   return `<li class="credit" data-group="${group(item.type)}" data-year="${firstYear(item.year)}">
               <span class="credit__year">${esc(item.year)}</span>
-              <span class="credit__title">${esc(title)}${orig}</span>
+              <span class="credit__title">${tx(title, lang === 'de' && item.title_de ? 'de' : 'cs')}${orig}</span>
               <span class="credit__meta">${meta}</span>
             </li>`;
 }
@@ -120,14 +122,15 @@ function timeline(all, lang, s) {
   let cols = '';
   for (let y = from; y <= to; y++) {
     const g = (byYear.get(y) || []).sort((a, b) => order[a] - order[b]);
+    const split = ['film', 'tv', 'stage'].map((k) => [k, g.filter((x) => x === k).length]).filter(([, n]) => n).map(([k, n]) => `${n} ${s.legend[k]}`).join(', ');
     const pos = `--col:${y - from + 1};--mcol:${(y % 10) + 1};--mrow:${Math.floor(y / 10) - Math.floor(from / 10) + 1}`;
     const label = y % 10 === 0 || y === from ? `<span class="tl-label">${y}</span>` : '';
     cols += g.length
-      ? `<button type="button" class="tl-year" data-year="${y}" style="${pos}" aria-label="${esc(s.yearTitles(y, g.length))}">${g.map((x) => `<span class="tl-sq tl-${x}"></span>`).join('')}${label}</button>`
+      ? `<button type="button" class="tl-year" data-year="${y}" style="${pos}" aria-label="${esc(`${s.yearTitles(y, g.length)} (${split})`)}">${g.map((x) => `<span class="tl-sq tl-${x}"></span>`).join('')}${label}</button>`
       : `<span class="tl-year tl-empty" style="${pos}" aria-hidden="true">${label}</span>`;
   }
   return `<figure class="timeline">
-        <div class="timeline__grid" style="--years:${to - from + 1};--stack:${Math.max(...[...byYear.values()].map((v) => v.length))}">${cols}</div>
+        <div class="timeline__grid" role="group" aria-label="${esc(s.yearsLabel)}" style="--years:${to - from + 1};--stack:${Math.max(...[...byYear.values()].map((v) => v.length))}">${cols}</div>
         <figcaption>${esc(s.timeline)}<span class="tl-legend"><span class="tl-key"><span class="tl-sq tl-film"></span>${esc(s.legend.film)}</span><span class="tl-key"><span class="tl-sq tl-tv"></span>${esc(s.legend.tv)}</span><span class="tl-key"><span class="tl-sq tl-stage"></span>${esc(s.legend.stage)}</span></span></figcaption>
       </figure>`;
 }
@@ -149,8 +152,10 @@ function page(lang) {
   const photos = c.photos;
   const photoById = Object.fromEntries(photos.map((p) => [p.id, p]));
   const portraits = c.portraits.map((p) => ({
-    photo: p.photo, scene: p.scene, name: t(p.name, lang), label: t(p.label, lang), credit: t(p.photoLabel, lang),
+    photo: p.photo, scene: p.scene, name: t(p.name, lang), label: t(p.label, lang),
+    credit: `${glue(t(photoById[p.photo].caption, lang), lang)} · ${s.photo} ${photoById[p.photo].credit}`,
     alt: t(photoById[p.photo].alt, lang),
+    card: JSON.parse(readFileSync(join(pub, `img/figure/jana-${p.photo}-card.json`), 'utf8')),
   }));
   const first = portraits[0];
   const ld = {
@@ -166,7 +171,7 @@ function page(lang) {
     if (!decades.has(d)) decades.set(d, []);
     decades.get(d).push(i);
   }
-  const decadeHtml = [...decades].map(([d, items]) => `<details class="decade" open>
+  const decadeHtml = [...decades].map(([d, items], di) => `<details class="decade"${di === 0 ? ' open' : ''}>
           <summary><span class="decade__name">${esc(s.decade(d))}</span> <span class="decade__n">${esc(s.count(items.length))}</span></summary>
           <ul class="credits">
             ${items.map((i) => creditRow(i, lang, s)).join('\n            ')}
@@ -208,6 +213,8 @@ function page(lang) {
   <meta property="og:locale" content="${lang === 'cs' ? 'cs_CZ' : 'de_DE'}">
   <meta property="og:locale:alternate" content="${lang === 'cs' ? 'de_DE' : 'cs_CZ'}">
   <link rel="preload" href="/fonts/literata-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/fonts/literata-latin-600-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <meta name="twitter:card" content="summary_large_image">
   <link rel="preload" href="/img/figure/jana-${first.photo}-768.webp" as="image" type="image/webp" media="(max-resolution: 1.49dppx)" crossorigin>
   <link rel="preload" href="/img/figure/jana-${first.photo}-1280.webp" as="image" type="image/webp" media="(min-resolution: 1.5dppx)" crossorigin>
   <link rel="stylesheet" href="/css/site.css">
@@ -220,23 +227,23 @@ function page(lang) {
 
   <header class="top">
     <a class="top__brand" href="${path}">Jana Nagyová</a>
-    <p class="top__lang" aria-label="${esc(s.langLabel)}">
-      <a href="/" ${lang === 'cs' ? 'aria-current="page"' : 'lang="cs" hreflang="cs"'}><span aria-hidden="true">CS</span><span class="vh">Česky</span></a>
-      <a href="/de/" ${lang === 'de' ? 'aria-current="page"' : 'lang="de" hreflang="de"'}><span aria-hidden="true">DE</span><span class="vh">Deutsch</span></a>
-    </p>
     <nav class="top__nav" aria-label="${esc(s.navLabel)}">
       <button class="top__toggle" type="button" aria-expanded="false" aria-controls="nav-list" data-open="${esc(s.menu)}" data-close="${esc(s.menuClose)}">${esc(s.menu)}</button>
       <ul id="nav-list">${navItems}</ul>
     </nav>
+    <p class="top__lang" aria-label="${esc(s.langLabel)}">
+      <a href="/" ${lang === 'cs' ? 'aria-current="page"' : 'lang="cs" hreflang="cs"'}><span aria-hidden="true">CS</span><span class="vh">Česky</span></a>
+      <a href="/de/" ${lang === 'de' ? 'aria-current="page"' : 'lang="de" hreflang="de"'}><span aria-hidden="true">DE</span><span class="vh">Deutsch</span></a>
+    </p>
   </header>
 
   <main id="main">
     <section class="hero" aria-labelledby="hero-title">
-      <h1 id="hero-title" class="hero__name">Jana Nagyová</h1>
+      <h1 id="hero-title" class="hero__name">Jana Nagyová<span class="hero__job">, ${esc(s.sub)}</span></h1>
       <div class="hero__stage">
         <canvas class="hero__canvas" aria-hidden="true" data-sub="${esc(s.sub)}"></canvas>
         <div class="hero__fallback">
-          <img src="/img/figure/jana-${first.photo}-768.webp" alt="${esc(first.alt)}">
+          <img src="/img/figure/jana-${first.photo}-768.webp" srcset="/img/figure/jana-${first.photo}-768.webp 1x, /img/figure/jana-${first.photo}-1280.webp 2x" crossorigin="anonymous" alt="${esc(first.alt)}">
         </div>
       </div>
       <div class="hero__bar">
@@ -275,7 +282,7 @@ function page(lang) {
         ${c.highlights.map((h, i) => {
           const title = t(h.title, lang);
           return `<li class="cast__row${i === 0 ? ' cast__row--now' : ''}">
-          <p class="cast__line"><span class="cast__role">${tx(t(h.role, lang), lang)}</span><span class="cast__dots" aria-hidden="true"></span><span class="cast__work"><cite>${esc(title)}</cite>${title !== h.original_title ? ` <span class="cast__orig">(${esc(h.original_title)})</span>` : ''}, ${esc(h.year)}</span></p>
+          <p class="cast__line"><span class="cast__role">${tx(t(h.role, lang), lang)}</span><span class="cast__dots" aria-hidden="true"></span><span class="cast__work"><cite>${tx(title, lang === 'de' && title !== h.original_title ? 'de' : 'cs')}</cite>, ${esc(h.year)}${title !== h.original_title ? ` <span class="cast__orig">${tx(h.original_title, 'cs')}</span>` : ''}</span></p>
           <p class="cast__note">${tx(t(h.text, lang), lang)}</p>
           ${i === 0 && blurbs ? `<ul class="cast__press" aria-label="${esc(s.press)}">${blurbs}</ul>` : ''}
         </li>`;
@@ -284,7 +291,8 @@ function page(lang) {
     </section>
 
     <section class="block films" id="filmography" aria-labelledby="filmography-title">
-      <h2 id="filmography-title">${esc(s.nav.filmography)} <span class="films__count" aria-live="polite" data-count-template="${esc(s.count('{n}'))}">${esc(s.count(all.length))}</span></h2>
+      <h2 id="filmography-title">${esc(s.nav.filmography)}</h2>
+      <p class="films__count" aria-live="polite" data-one="${esc(s.count(1).replace('1', '{n}'))}" data-few="${esc(s.count(2).replace('2', '{n}'))}" data-many="${esc(s.count(5).replace('5', '{n}'))}">${esc(s.count(all.length))}</p>
       <div class="block__body">
         ${timeline(all, lang, s)}
         <div class="filters" role="group" aria-label="${esc(s.nav.filmography)}" hidden>

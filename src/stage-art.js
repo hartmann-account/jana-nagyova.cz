@@ -67,7 +67,7 @@ const FONT = '"Literata", Georgia, serif';
 
 /* ------------------------------------------------------------------ proscenium */
 // opening: { x0, y0, x1, y1, arch } in canvas px, y down
-export function proscenium(w, h, o, name, sub) {
+export function proscenium(w, h, o, name, sub, minTop = 0) {
   const [c, g] = sheet(w, h);
   const P = { cream: '#efe4cc', red: '#6e1d1b', red2: '#8f2a22', ochre: '#c38f37', ink: '#2a1c16' };
   paper(g, w, h, P.red, 11, 0.6);
@@ -104,19 +104,21 @@ export function proscenium(w, h, o, name, sub) {
   g.restore();
   ink(g, (k) => k.stroke(path), P.ink, Math.max(1.5, u * 0.2));
 
-  // bottom band with a running pattern
+  // bottom band: ochre rule, then the stage colour, so it runs into the bar below the canvas
   const by = o.y1 + u * 1.2;
-  g.fillStyle = P.cream; g.fillRect(0, by, w, h - by);
-  g.fillStyle = P.ochre; g.fillRect(0, by, w, u * 0.7);
-  for (let x = u * 2; x < w; x += u * 3.2) {
-    g.beginPath(); g.moveTo(x, by + u * 2.2); g.lineTo(x + u * 0.9, by + u * 3.1); g.lineTo(x, by + u * 4); g.lineTo(x - u * 0.9, by + u * 3.1); g.closePath();
-    g.fillStyle = P.red2; g.fill();
-  }
-  ink(g, (k) => { k.beginPath(); k.moveTo(0, by); k.lineTo(w, by); k.stroke(); }, P.ink, Math.max(1.5, u * 0.2));
+  g.fillStyle = '#2a1c16'; g.fillRect(0, by, w, h - by);
+  g.fillStyle = P.ochre; g.fillRect(0, by, w, u * 0.5);
+  ink(g, (k) => { k.beginPath(); k.moveTo(0, by + u * 1.1); k.lineTo(w, by + u * 1.1); k.stroke(); }, P.ochre, Math.max(1, u * 0.12), [0, 0]);
 
-  // cartouche with her name over the arch
-  const cw = Math.min(w * 0.62, Math.max(ow * 0.62, u * 40)), ch = Math.max(u * 6.4, h * 0.065);
-  const cx = w / 2, cy = Math.max(o.y0 - ch * 0.15, ch * 0.9);
+  grain(g, w, h, 12);
+  // punch out the opening, then glue the cartouche on top so it may overlap the arch
+  g.globalCompositeOperation = 'destination-out';
+  g.fillStyle = '#000';
+  g.fill(path);
+  g.globalCompositeOperation = 'source-over';
+
+  const cw = Math.min(w * 0.62, Math.max(ow * 0.56, u * 38)), ch = Math.max(u * 6.4, h * 0.07);
+  const cx = w / 2, cy = Math.max(o.y0 - ch * 0.62 - u * 0.6, minTop + ch / 2);
   const cart = new Path2D();
   cart.moveTo(cx - cw / 2 + ch * 0.5, cy - ch / 2);
   cart.lineTo(cx + cw / 2 - ch * 0.5, cy - ch / 2);
@@ -128,27 +130,19 @@ export function proscenium(w, h, o, name, sub) {
   g.fillStyle = P.cream; g.fill(cart);
   g.lineWidth = u * 0.5; g.strokeStyle = P.ochre; g.stroke(cart);
   ink(g, (k) => k.stroke(cart), P.ink, Math.max(1.5, u * 0.16));
-  // small stars on either side
-  for (const s of [-1, 1]) star(g, cx + s * (cw / 2 + ch * 0.75), cy, ch * 0.22, P.ochre, P.ink);
-  // name: red under-print slightly off, ink on top
-  const fs = Math.min(ch * 0.56, (cw * 0.84) / (name.length * 0.68));
+  // name: red under-print slightly off, ink on top; the profession below in italics
+  const fs = Math.min(ch * 0.5, (cw * 0.84) / (name.length * 0.68));
+  const ny = cy + (sub ? -ch * 0.1 : 0);
   g.textAlign = 'center'; g.textBaseline = 'middle';
   g.font = `600 ${fs}px ${FONT}`;
   if ('letterSpacing' in g) g.letterSpacing = `${fs * 0.06}px`;
-  g.fillStyle = 'rgba(143,42,34,0.75)'; g.fillText(name, cx + fs * 0.03, cy + (sub ? -ch * 0.08 : 0) + fs * 0.03);
-  g.fillStyle = P.ink; g.fillText(name, cx, cy + (sub ? -ch * 0.08 : 0));
+  g.fillStyle = 'rgba(143,42,34,0.75)'; g.fillText(name, cx + fs * 0.03, ny + fs * 0.03);
+  g.fillStyle = P.ink; g.fillText(name, cx, ny);
   if (sub) {
-    g.font = `italic 400 ${fs * 0.42}px ${FONT}`;
+    g.font = `italic 400 ${fs * 0.44}px ${FONT}`;
     if ('letterSpacing' in g) g.letterSpacing = '0px';
     g.fillStyle = P.red; g.fillText(sub, cx, cy + ch * 0.3);
   }
-
-  grain(g, w, h, 12);
-  // punch out the opening last
-  g.globalCompositeOperation = 'destination-out';
-  g.fillStyle = '#000';
-  g.fill(path);
-  g.globalCompositeOperation = 'source-over';
   return c;
 }
 
@@ -224,32 +218,40 @@ const SCENES = {
         g.strokeStyle = S.ink; g.lineWidth = 2; g.beginPath(); g.moveTo(x, y - h * 0.06); g.lineTo(x, y); g.stroke();
         g.fillStyle = '#f3e3b5'; g.beginPath(); g.moveTo(x - w * 0.012, y); g.lineTo(x + w * 0.012, y); g.lineTo(x + w * 0.02, y + h * 0.025); g.lineTo(x - w * 0.02, y + h * 0.025); g.fill();
       }
-      // stands with the crowd
-      const rows = 7;
+      // stands with the crowd: heads and shoulders, one ink at low strength
+      const rows = 6;
       for (let rI = 0; rI < rows; rI++) {
-        const y0 = h * 0.5 + rI * h * 0.04, y1 = y0 + h * 0.04;
+        const y0 = h * 0.5 + rI * h * 0.047, y1 = y0 + h * 0.047;
         g.fillStyle = rI % 2 ? '#d5dde0' : '#c8d3d8'; g.fillRect(0, y0, w, y1 - y0);
         const r = rng(50 + rI);
-        for (let x = r() * 8; x < w; x += 7 + r() * 9) {
-          g.fillStyle = r() > 0.82 ? S.b : r() > 0.5 ? S.ink : '#5a6876';
-          g.beginPath(); g.arc(x, y0 + h * 0.015 + r() * 3, 2.4 + r() * 2.2, 0, Math.PI * 2); g.fill();
+        g.save(); g.globalAlpha = 0.38; g.fillStyle = S.ink;
+        for (let x = r() * 14; x < w; x += 14 + r() * 9) {
+          const hy = y0 + h * 0.016 + r() * 2, hr = h * 0.008;
+          g.beginPath(); g.arc(x, hy, hr, 0, Math.PI * 2); g.fill();
+          g.beginPath(); g.ellipse(x, hy + hr * 2.3, hr * 1.7, hr * 1.2, 0, Math.PI, 0); g.fill();
         }
+        g.restore();
       }
-      // flags along the upper tier
-      for (let i = 0; i < 13; i++) {
-        const x = w * 0.04 + i * (w * 0.92 / 12), y = h * 0.47, fw = w * 0.034, fh = h * 0.035;
-        g.fillStyle = '#f4f1ea'; g.fillRect(x, y, fw, fh / 2);
-        g.fillStyle = S.b; g.fillRect(x, y + fh / 2, fw, fh / 2);
-        g.fillStyle = '#1f4a8a'; g.beginPath(); g.moveTo(x, y); g.lineTo(x + fw * 0.45, y + fh / 2); g.lineTo(x, y + fh); g.fill();
-        ink(g, (k) => k.strokeRect(x, y, fw, fh), S.ink, 1.4);
+      // a few flags, not quite in line
+      const fr = rng(57);
+      for (let i = 0; i < 5; i++) {
+        const fw = w * 0.034, fh = h * 0.035, x = w * (0.08 + i * 0.205) + (fr() - 0.5) * w * 0.03, y = h * 0.465;
+        g.save(); g.translate(x, y); g.rotate((fr() - 0.5) * 0.14);
+        g.fillStyle = '#f4f1ea'; g.fillRect(0, 0, fw, fh / 2);
+        g.fillStyle = S.b; g.fillRect(0, fh / 2, fw, fh / 2);
+        g.fillStyle = '#1f4a8a'; g.beginPath(); g.moveTo(0, 0); g.lineTo(fw * 0.45, fh / 2); g.lineTo(0, fh); g.fill();
+        ink(g, (k) => k.strokeRect(0, 0, fw, fh), S.ink, 1.4);
+        g.restore();
       }
-      // banner
-      const bw = w * 0.26, bh = h * 0.07, bx = w / 2 - bw / 2, by = h * 0.32;
-      g.fillStyle = '#f4f1ea'; g.fillRect(bx, by, bw, bh);
-      g.fillStyle = S.b; g.fillRect(bx, by + bh * 0.84, bw, bh * 0.16);
-      g.fillStyle = S.ink; g.font = `600 ${bh * 0.5}px ${FONT}`; g.textAlign = 'center'; g.textBaseline = 'middle';
-      g.fillText('MS 1973 · BRATISLAVA', w / 2, by + bh * 0.44);
-      ink(g, (k) => k.strokeRect(bx, by, bw, bh), S.ink, 2);
+      // two banners either side, so the figure never covers them
+      for (const [bx0, text] of [[0.2, 'MS 1973'], [0.8, 'BRATISLAVA']]) {
+        const bw = w * 0.17, bh = h * 0.065, bx = w * bx0 - bw / 2, by = h * 0.33;
+        g.fillStyle = '#f4f1ea'; g.fillRect(bx, by, bw, bh);
+        g.fillStyle = S.b; g.fillRect(bx, by + bh * 0.84, bw, bh * 0.16);
+        g.fillStyle = S.ink; g.font = `600 ${bh * 0.5}px ${FONT}`; g.textAlign = 'center'; g.textBaseline = 'middle';
+        g.fillText(text, w * bx0, by + bh * 0.44);
+        ink(g, (k) => k.strokeRect(bx, by, bw, bh), S.ink, 2);
+      }
       // rink boards
       g.fillStyle = '#f4f1ea'; g.fillRect(0, h * 0.78, w, h * 0.08);
       g.fillStyle = S.b; g.fillRect(0, h * 0.835, w, h * 0.012);
@@ -296,14 +298,14 @@ const SCENES = {
       g.fillStyle = '#efdca0'; g.beginPath(); g.arc(w * 0.78, h * 0.16, h * 0.075, 0, Math.PI * 2); g.fill();
       ink(g, (k) => { k.beginPath(); k.arc(w * 0.78, h * 0.16, h * 0.075, 0, Math.PI * 2); k.stroke(); }, S.ink, 2);
       const r = rng(83);
-      for (let i = 0; i < 46; i++) star(g, r() * w, r() * h * 0.4, 3 + r() * 6, '#efdca0', S.ink);
+      for (let i = 0; i < 7; i++) { g.fillStyle = '#efdca0'; g.beginPath(); g.arc(r() * w, r() * h * 0.35, 2 + r() * 2.5, 0, Math.PI * 2); g.fill(); }
       // distant hills
       g.fillStyle = '#2f4a5c';
       g.beginPath(); g.moveTo(0, h * 0.6);
       for (let x = 0; x <= w; x += w / 12) g.quadraticCurveTo(x + w / 24, h * (0.5 + 0.06 * Math.sin(x / w * 7)), x + w / 12, h * 0.58);
       g.lineTo(w, h); g.lineTo(0, h); g.fill();
       // castle on the hill
-      castle(g, w * 0.36, h * 0.53, h * 0.3, S);
+      g.save(); g.globalAlpha = 0.85; castle(g, w * 0.3, h * 0.55, h * 0.22, S); g.restore();
       // tree line
       for (let row = 0; row < 3; row++) {
         const base = h * (0.68 + row * 0.08), size = h * (0.16 + row * 0.05);
@@ -376,13 +378,15 @@ const SCENES = {
         g.fillStyle = S.a; g.beginPath(); g.moveTo(x0, 0); g.lineTo(x1, 0); g.lineTo(x1, h * 0.04); g.quadraticCurveTo((x0 + x1) / 2, h * 0.17, x0, h * 0.04); g.fill();
         ink(g, (k) => { k.beginPath(); k.moveTo(x1, h * 0.04); k.quadraticCurveTo((x0 + x1) / 2, h * 0.17, x0, h * 0.04); k.stroke(); k.beginPath(); k.moveTo(x1, h * 0.02); k.quadraticCurveTo((x0 + x1) / 2, h * 0.11, x0, h * 0.02); k.stroke(); }, S.ink, w * 0.002);
       }
-      // chandelier
-      const cx = w / 2, cy = h * 0.2;
-      ink(g, (k) => { k.beginPath(); k.moveTo(cx, 0); k.lineTo(cx, cy); k.stroke(); k.beginPath(); k.ellipse(cx, cy + h * 0.03, w * 0.07, h * 0.025, 0, 0, Math.PI); k.stroke(); }, S.ink, w * 0.0025);
-      for (let i = -3; i <= 3; i++) {
-        const x = cx + i * w * 0.02, y = cy + h * 0.028 - Math.abs(i) * h * 0.004;
-        g.fillStyle = '#f2ead6'; g.fillRect(x - 3, y - h * 0.03, 6, h * 0.03);
-        g.fillStyle = S.b; g.beginPath(); g.ellipse(x, y - h * 0.038, 4, 8, 0, 0, Math.PI * 2); g.fill();
+      // two wall sconces beside the arches
+      for (const sx of [w * 0.18, w * 0.82]) {
+        const sy = h * 0.4;
+        ink(g, (k) => { k.beginPath(); k.moveTo(sx, sy); k.quadraticCurveTo(sx + w * 0.012, sy + h * 0.03, sx, sy + h * 0.05); k.stroke(); }, S.ink, w * 0.0025);
+        for (const d of [-1, 1]) {
+          const x = sx + d * w * 0.012;
+          g.fillStyle = '#f2ead6'; g.fillRect(x - 3, sy - h * 0.03, 6, h * 0.03);
+          g.fillStyle = S.b; g.beginPath(); g.ellipse(x, sy - h * 0.038, 4, 8, 0, 0, Math.PI * 2); g.fill();
+        }
       }
       g.fillStyle = '#7a5a3a'; g.fillRect(0, h * 0.86, w, h * 0.14);
       grain(g, w, h, 122);
@@ -421,7 +425,14 @@ function fir(g, x, base, size, color, line) {
     g.moveTo(x - bw, y); g.lineTo(x, y - size * 0.42); g.lineTo(x + bw, y);
   }
   g.fill();
-  ink(g, (kk) => { kk.beginPath(); kk.moveTo(x - size * 0.32, base); kk.lineTo(x, base - size * 0.98); kk.lineTo(x + size * 0.32, base); kk.stroke(); }, line, Math.max(1, size * 0.012));
+  ink(g, (kk) => {
+    kk.beginPath();
+    for (let k = 0; k < 3; k++) {
+      const y = base - k * size * 0.28, bw = size * (0.32 - k * 0.07);
+      kk.moveTo(x - bw, y); kk.lineTo(x, y - size * 0.42); kk.lineTo(x + bw, y);
+    }
+    kk.stroke();
+  }, line, Math.max(1, size * 0.01));
 }
 
 function castle(g, x, base, size, S) {
@@ -431,9 +442,7 @@ function castle(g, x, base, size, S) {
   for (const [dx, hh, ww] of parts) {
     const tx = x + dx * size - (ww * size) / 2, ty = base - hh * size;
     g.fillStyle = '#1b2a3c'; g.fillRect(tx, ty, ww * size, hh * size);
-    g.fillStyle = '#7d2a22'; g.beginPath(); g.moveTo(tx - ww * size * 0.12, ty); g.lineTo(tx + (ww * size) / 2, ty - size * 0.2); g.lineTo(tx + ww * size * 1.12, ty); g.fill();
-    g.fillStyle = S.b;
-    for (let k = 0; k < 2; k++) g.fillRect(tx + ww * size * 0.38, ty + size * (0.1 + k * 0.14), ww * size * 0.24, size * 0.06);
+    g.fillStyle = '#1b2a3c'; g.beginPath(); g.moveTo(tx - ww * size * 0.12, ty); g.lineTo(tx + (ww * size) / 2, ty - size * 0.2); g.lineTo(tx + ww * size * 1.12, ty); g.fill();
   }
   ink(g, (k) => { for (const [dx, hh, ww] of parts) { const tx = x + dx * size - (ww * size) / 2, ty = base - hh * size; k.strokeRect(tx, ty, ww * size, hh * size); k.beginPath(); k.moveTo(tx - ww * size * 0.12, ty); k.lineTo(tx + (ww * size) / 2, ty - size * 0.2); k.lineTo(tx + ww * size * 1.12, ty); k.stroke(); } }, S.ink, Math.max(1.2, size * 0.008));
 }

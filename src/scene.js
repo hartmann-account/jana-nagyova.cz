@@ -1,8 +1,8 @@
 // Hero: a Czech paper theatre (papírové divadlo). Printed proscenium with her name,
 // wings and backdrop at real depths, and Jana Nagyová as a cardboard cut-out on stage.
 // Pointer or device tilt moves the camera a few degrees, so the layers shift against
-// each other. Changing the portrait is a scene change: the light dims, she is drawn
-// off to the side, wings and backdrop are swapped, the next figure slides in and swings.
+// each other. Changing the portrait is a scene change behind the curtain: the light dims,
+// the curtain closes, wings, backdrop and figure are swapped, and she sways as it opens.
 import {
   WebGLRenderer, Scene, PerspectiveCamera, Group, Mesh, PlaneGeometry, BoxGeometry, SphereGeometry,
   ExtrudeGeometry, Shape, Vector2, MathUtils, Raycaster,
@@ -20,7 +20,7 @@ const html = document.documentElement;
 const FOV = 32;
 const D = 9; // camera distance to the proscenium
 const BACK = -2.8; // backdrop depth
-const FIG_Z = -1.05;
+const FIG_Z = -0.75;
 const WING_Z = [-0.55, -1.6];
 
 function webglAvailable() {
@@ -32,7 +32,6 @@ function webglAvailable() {
 
 const clamp01 = (x) => Math.min(1, Math.max(0, x));
 const ease = (x) => (x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
-const easeOutBack = (x) => { const c1 = 1.2, c3 = c1 + 1; return 1 + c3 * Math.pow(x - 1, 3) + c1 * Math.pow(x - 1, 2); };
 const seg = (t, a, b) => ease(clamp01((t - a) / (b - a)));
 
 function tex(canvasEl, repeat = false) {
@@ -62,12 +61,12 @@ async function init() {
   camera.position.set(0, 0, D);
 
   // light: warm house light, a stage spot with crisp shadows, footlights
-  const ambient = new AmbientLight(0xfff0dc, 1.7);
+  const ambient = new AmbientLight(0xfff0dc, 1.85);
   scene.add(ambient);
   const spot = new SpotLight(0xffecd0, 1.9, 0, 0.62, 0.55, 0);
   spot.castShadow = true;
   spot.shadow.mapSize.set(coarse ? 1024 : 2048, coarse ? 1024 : 2048);
-  spot.shadow.radius = 2.2;
+  spot.shadow.radius = 4;
   spot.shadow.bias = -0.0006;
   spot.shadow.normalBias = 0.01;
   scene.add(spot, spot.target);
@@ -78,6 +77,7 @@ async function init() {
   const setLight = (k) => {
     lightLevel = k;
     ambient.intensity = LIGHT.ambient * (0.45 + 0.55 * k);
+    prosMat.color.setScalar(0.72 + 0.28 * k); // the house lights dim a little too
     spot.intensity = LIGHT.spot * k;
     foot.forEach((l) => { l.intensity = LIGHT.foot * (0.3 + 0.7 * k); });
   };
@@ -135,7 +135,7 @@ async function init() {
       m.customDepthMaterial = depthMat;
       m.castShadow = true;
       m.receiveShadow = true;
-      m.userData = { k, z, side, depthMat, base: 0, slide: 0 };
+      m.userData = { k, z, side, depthMat, base: 0 };
       scene.add(m);
       wings.push(m);
     }
@@ -159,8 +159,8 @@ async function init() {
     // same rule as the preload in the page head: sharp figure on high-density screens
     const size = (window.devicePixelRatio || 1) >= 1.5 ? 1280 : 768;
     const promise = Promise.all([
-      new Promise((res, rej) => loader.load(`/img/figure/jana-${p.photo}-${size}.webp`, res, undefined, rej)),
-      fetch(`/img/figure/jana-${p.photo}-card.json`).then((r) => r.json()),
+      new Promise((res, rej) => loader.load(`/img/figure/jana-${p.photo}-${size}.webp`, res, undefined, () => rej(new Error(`figure ${p.photo}`)))),
+      Promise.resolve(p.card),
     ]).then(([photo, card]) => {
       photo.colorSpace = SRGBColorSpace;
       photo.anisotropy = 8;
@@ -209,15 +209,17 @@ async function init() {
     const frameW = frameH * camera.aspect;
     const tall = camera.aspect < 0.9;
     const pw = frameW * 1.08, ph = frameH * 1.08;
-    const o = tall ? { x0: 0.06, x1: 0.94, y0: 0.2, y1: 0.86, arch: 0.05 } : { x0: 0.19, x1: 0.81, y0: 0.16, y1: 0.82, arch: 0.09 };
+    const o = tall ? { x0: 0.05, x1: 0.95, y0: 0.22, y1: 0.9, arch: 0.04 } : { x0: 0.13, x1: 0.87, y0: 0.2, y1: 0.89, arch: 0.07 };
 
     // printed proscenium sheet at a resolution matching the screen
     const sw = Math.min(2048, Math.round(w * renderer.getPixelRatio() * 1.08));
     const sh = Math.round(sw * (ph / pw));
-    const key = `${tall}|${Math.round(sw / 160)}`;
+    const key = `${tall}|${Math.round(sw / 160)}|${Math.round(h / 40)}`;
     if (key !== prosKey) {
       prosKey = key;
-      const c = art.proscenium(sw, sh, { x0: o.x0 * sw, x1: o.x1 * sw, y0: o.y0 * sh, y1: o.y1 * sh, arch: o.arch * sh }, 'JANA NAGYOVÁ', sub);
+      const headerPx = (document.querySelector('.top')?.offsetHeight || 56) + 8;
+      const minTop = ((ph - frameH) / 2 / ph + headerPx / h / 1.08) * sh; // sheet px below the header
+      const c = art.proscenium(sw, sh, { x0: o.x0 * sw, x1: o.x1 * sw, y0: o.y0 * sh, y1: o.y1 * sh, arch: o.arch * sh }, 'JANA NAGYOVÁ', sub, minTop);
       if (prosMat.map) prosMat.map.dispose();
       prosMat.map = tex(c); prosMat.needsUpdate = true;
     }
@@ -247,7 +249,6 @@ async function init() {
     const backW = Wo * sB * 1.2, backH = (oyT * sB - floorY) * 1.18;
     backdropMesh.scale.set(backW, backH, 1);
     backdropMesh.position.set(0, floorY + backH / 2, BACK);
-    L.backBase = backdropMesh.position.y; L.backRise = backH;
     // cover-fit the 1.6:1 backdrop sheet, anchored at the bottom
     const pa = backW / backH, ta = 1.6;
     const bt = scenery(portraits[index].scene).backdrop;
@@ -265,7 +266,6 @@ async function init() {
       const wh = oyT * s * 1.05 - floorY;
       m.scale.set(wa * s * (side < 0 ? -1 : 1), wh, 1);
       m.userData.base = side * ((xi + xo) / 2) * s;
-      m.userData.slide = side * wa * s * 1.1;
       m.position.set(m.userData.base, floorY + wh / 2, z);
     }
 
@@ -273,18 +273,17 @@ async function init() {
     const sF = (D - FIG_Z) / D;
     const hide = (oyB + rampH) * ((D - FIG_Z) / (D + 0.04));
     const bottom = hide - Ho * 0.05;
-    let top = (oyT - Ho * (tall ? 0.06 : 0.08)) * sF;
+    let top = (oyT - Ho * (tall ? 0.05 : 0.04)) * sF;
     const aspect = current ? current.card.aspect : 0.66;
     let H = top - bottom;
-    const maxW = Wo * (tall ? 0.86 : 0.62) * sF;
+    const maxW = Wo * (tall ? 0.86 : 0.78) * sF;
     if (H * aspect > maxW) H = maxW / aspect;
     fig.height = H; fig.bottom = bottom;
-    L.exit = Wo * 0.8 * sF;
     figure.position.set(fig.x, bottom, FIG_Z);
     buildFigure();
 
     // spot from above the house, aimed at her face
-    spot.position.set(Wo * 0.18, oyT * 1.5 + 1.2, 3.4);
+    spot.position.set(Wo * 0.06, oyT * 2.2 + 1.6, 3.4); // steep, so her shadow falls behind her
     spot.target.position.set(0, bottom + H * 0.62, FIG_Z);
     const sc = spot.shadow.camera; sc.near = 1; sc.far = 20; sc.updateProjectionMatrix();
 
@@ -327,18 +326,24 @@ async function init() {
     pointer.x = ((e.clientX - r.left) / r.width) * 2 - 1;
     pointer.y = -(((e.clientY - r.top) / r.height) * 2 - 1);
     pointer.active = performance.now();
+    clearTimeout(pointer.back); pointer.back = setTimeout(requestRender, 3050); // glide back to centre afterwards
     if (e.pointerType === 'mouse') {
       const over = onFigure(e);
       if (over !== fig.hover) { fig.hover = over; canvas.style.cursor = over ? 'pointer' : 'default'; }
     }
     requestRender();
   });
-  canvas.addEventListener('pointerleave', () => { fig.hover = false; requestRender(); });
+  canvas.addEventListener('pointerleave', () => { fig.hover = false; requestRender(); setTimeout(requestRender, 3050); });
   canvas.addEventListener('pointerdown', (e) => {
     pointer.down = onFigure(e);
     pointer.startX = e.clientX; pointer.startY = e.clientY;
   });
+  let askedMotion = false;
   canvas.addEventListener('pointerup', (e) => {
+    if (!askedMotion && typeof window.DeviceOrientationEvent?.requestPermission === 'function') {
+      askedMotion = true;
+      window.DeviceOrientationEvent.requestPermission().catch(() => {});
+    }
     const was = pointer.down;
     pointer.down = null;
     if (was && Math.hypot(e.clientX - pointer.startX, e.clientY - pointer.startY) < 10) {
@@ -348,35 +353,48 @@ async function init() {
   canvas.addEventListener('pointercancel', () => { pointer.down = null; });
   window.addEventListener('deviceorientation', (e) => {
     if (e.gamma == null || e.beta == null) return;
-    tilt.x = MathUtils.clamp(e.gamma / 25, -1, 1);
-    tilt.y = MathUtils.clamp((e.beta - 50) / 25, -1, 1);
+    const side = Math.abs(screen.orientation?.angle || 0) === 90;
+    const nx = MathUtils.clamp((side ? e.beta : e.gamma) / 25, -1, 1);
+    const ny = MathUtils.clamp(((side ? -e.gamma : e.beta) - (side ? 0 : 50)) / 25, -1, 1);
+    if (Math.abs(nx - tilt.x) + Math.abs(ny - tilt.y) < 0.02) return; // ignore sensor noise
+    tilt.x += (nx - tilt.x) * 0.3;
+    tilt.y += (ny - tilt.y) * 0.3;
     tilt.on = true;
     pointer.active = performance.now();
     requestRender();
   });
 
-  /* ---------- scene changes ---------- */
+  /* ---------- scene changes: behind the curtain ---------- */
   let index = 0;
   let pending = null;
-  const change = { active: false, t: 0, to: 0, swapped: false, data: null, dur: 1.9 };
+  let busy = false;
+  const change = { active: false, t: 0, to: 0, swapped: false, kicked: false, data: null, dur: 1.8 };
+  function drainPending() {
+    if (pending !== null && pending !== index) { const p = pending; pending = null; startChange(p); } else pending = null;
+  }
   async function startChange(to) {
+    busy = true;
     let data;
     try { data = await loadPortrait(to); } catch (err) {
       console.error(err);
+      busy = false;
       document.dispatchEvent(new CustomEvent('portrait-failed', { detail: index }));
+      drainPending();
       return;
     }
     scenery(portraits[to].scene);
+    busy = false;
     if (reduceMotion.matches) {
       index = to; current = data; applyScenery(portraits[to].scene); layout();
+      drainPending();
       return;
     }
-    Object.assign(change, { active: true, t: 0, to, swapped: false, data });
+    Object.assign(change, { active: true, t: 0, to, swapped: false, kicked: false, data });
     start();
   }
   document.addEventListener('portrait-show', (e) => {
     const to = e.detail;
-    if (change.active) { pending = to; return; }
+    if (busy || change.active) { pending = to; return; }
     if (to !== index) startChange(to);
   });
 
@@ -385,7 +403,7 @@ async function init() {
   const startTime = performance.now();
   function frame(now) {
     raf = 0;
-    const dt = Math.min((now - last) / 1000, 0.05);
+    const dt = Math.min(Math.max((now - last) / 1000, 0), 0.05);
     last = now;
     const motion = !reduceMotion.matches;
 
@@ -395,11 +413,12 @@ async function init() {
     const tx = now - pointer.active < 3000 ? (tilt.on ? tilt.x : pointer.x) : idle ? Math.sin(t * 0.5) * 0.5 : 0;
     const ty = now - pointer.active < 3000 ? (tilt.on ? tilt.y : pointer.y) : idle ? Math.sin(t * 0.37) * 0.3 : 0;
     const k = motion ? 1 - Math.pow(0.004, dt) : 1;
-    pointer.sx += ((motion ? tx : 0) - pointer.sx) * k;
-    pointer.sy += ((motion ? ty : 0) - pointer.sy) * k;
+    const gx = motion ? tx : 0, gy = motion ? ty : 0;
+    pointer.sx += (gx - pointer.sx) * k;
+    pointer.sy += (gy - pointer.sy) * k;
     camera.position.set(pointer.sx * 0.55, pointer.sy * 0.3, D);
     camera.lookAt(pointer.sx * 0.08, pointer.sy * 0.05, -1.2);
-    const camMoving = Math.abs(tx - pointer.sx) + Math.abs(ty - pointer.sy) > 0.002;
+    const camMoving = Math.abs(gx - pointer.sx) + Math.abs(gy - pointer.sy) > 0.002;
 
     // curtain on first load
     if (curtainAnim.active) {
@@ -409,43 +428,36 @@ async function init() {
       if (p >= 1) curtainAnim.active = false;
     }
 
-    // scene change
+    // scene change: curtain closes, the stage is reset behind it, curtain opens
     if (change.active) {
       change.t = Math.min(1, change.t + dt / change.dur);
       const c = change.t;
-      setLight(1 - 0.6 * seg(c, 0, 0.22) + 0.6 * seg(c, 0.78, 1));
+      setLight(1 - 0.35 * seg(c, 0, 0.3) + 0.35 * seg(c, 0.6, 1));
       if (!change.swapped) {
-        fig.x = seg(c, 0, 0.3) * L.exit;
-        fig.swing = -0.07 * Math.sin(Math.PI * clamp01(c / 0.3));
-        const wOut = seg(c, 0.14, 0.42);
-        wings.forEach((m) => { m.position.x = m.userData.base + m.userData.slide * wOut; });
-        backdropMesh.position.y = L.backBase + L.backRise * 1.05 * seg(c, 0.16, 0.45);
-        if (c >= 0.45) {
+        setCurtains(1 - seg(c, 0, 0.4));
+        if (c >= 0.44) {
           change.swapped = true;
           index = change.to; current = change.data;
           applyScenery(portraits[index].scene);
-          fig.x = -L.exit;
+          fig.swing = 0; fig.swingV = 0;
           layout();
+          setCurtains(0);
         }
       } else {
-        backdropMesh.position.y = L.backBase + L.backRise * 1.05 * (1 - seg(c, 0.45, 0.72));
-        const wIn = 1 - seg(c, 0.48, 0.74);
-        wings.forEach((m) => { m.position.x = m.userData.base + m.userData.slide * wIn; });
-        const f = clamp01((c - 0.6) / 0.32);
-        fig.x = -L.exit * (1 - easeOutBack(f));
-        if (c >= 0.92 && fig.swingV === 0 && Math.abs(fig.swing) < 1e-4) fig.swingV = 0.32;
+        setCurtains(seg(c, 0.5, 1));
+        if (c >= 0.62 && !change.kicked) { change.kicked = true; fig.swingV = 0.3; } // she sways as the curtain opens
       }
       if (change.t >= 1) {
         change.active = false;
         setLight(1);
-        if (pending !== null && pending !== index) { const p = pending; pending = null; startChange(p); } else pending = null;
+        drainPending();
       }
     }
 
     // swing on its wire, lift on hover
     if (motion) {
       fig.swingV += (-fig.swing * 26 - fig.swingV * 3.2) * dt;
-      if (!change.active || change.swapped) fig.swing += fig.swingV * dt;
+      fig.swing += fig.swingV * dt;
       const liftTarget = fig.hover ? 0.035 : 0;
       fig.liftV += ((liftTarget - fig.lift) * 90 - fig.liftV * 14) * dt;
       fig.lift += fig.liftV * dt;
@@ -456,7 +468,7 @@ async function init() {
     figure.rotation.z = fig.swing;
 
     renderer.render(scene, camera);
-    const keepGoing = change.active || curtainAnim.active || settling || camMoving || idle;
+    const keepGoing = change.active || curtainAnim.active || settling || camMoving || (motion && idle);
     if (running && keepGoing) raf = requestAnimationFrame(frame);
   }
   function requestRender() {
@@ -465,6 +477,8 @@ async function init() {
   function start() { running = true; requestRender(); }
   function stop() { running = false; if (raf) { cancelAnimationFrame(raf); raf = 0; } }
   document.addEventListener('visibilitychange', () => (document.hidden ? stop() : start()));
+  canvas.addEventListener('webglcontextlost', (e) => { e.preventDefault(); stop(); html.classList.replace('has-3d', 'no-3d'); });
+  canvas.addEventListener('webglcontextrestored', () => { html.classList.replace('no-3d', 'has-3d'); layout(); start(); });
   if ('IntersectionObserver' in window) {
     new IntersectionObserver(([en]) => { visible = en.isIntersecting; if (visible) start(); else stop(); }).observe(canvas);
   }
@@ -482,7 +496,10 @@ async function init() {
   start();
   requestAnimationFrame(() => html.classList.add('has-3d'));
   // paint the other scenes and fetch the other figures while the curtain opens
-  setTimeout(() => portraits.forEach((p, i) => { if (i) { loadPortrait(i).catch(() => {}); scenery(p.scene); } }), 2400);
+  if (!navigator.connection?.saveData) {
+    const idle = window.requestIdleCallback || ((f) => setTimeout(f, 2400));
+    idle(() => portraits.forEach((p, i) => { if (i) { loadPortrait(i).catch(() => {}); scenery(p.scene); } }), { timeout: 4000 });
+  }
 }
 
 if (!canvas || !dataEl || !webglAvailable()) {

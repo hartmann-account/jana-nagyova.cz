@@ -63,7 +63,11 @@ if (hero && portraits.length) {
     if (credit) credit.textContent = p.credit;
     buttons.forEach((b, k) => b.setAttribute('aria-pressed', String(k === index)));
     if (live && announce) live.textContent = p.live;
-    if (fallbackImg) { fallbackImg.src = `/img/figure/jana-${p.photo}-768.webp`; fallbackImg.alt = p.alt; }
+    if (fallbackImg && !document.documentElement.classList.contains('has-3d')) {
+      fallbackImg.srcset = `/img/figure/jana-${p.photo}-768.webp 1x, /img/figure/jana-${p.photo}-1280.webp 2x`;
+      fallbackImg.src = `/img/figure/jana-${p.photo}-768.webp`;
+      fallbackImg.alt = p.alt;
+    }
     document.dispatchEvent(new CustomEvent('portrait-show', { detail: index }));
   };
   buttons.forEach((b) => b.addEventListener('click', () => show(Number(b.dataset.index))));
@@ -73,7 +77,7 @@ if (hero && portraits.length) {
     if (e.key === 'ArrowLeft') { show(index - 1); buttons[index].focus(); }
   });
   document.addEventListener('portrait-next', () => show(index + 1));
-  document.addEventListener('portrait-failed', (e) => show(e.detail, false));
+  document.addEventListener('portrait-failed', (e) => show(e.detail, true)); // announce the scene that is really on stage
 }
 
 /* filmography: type filter, year from the timeline, decades folded on small screens */
@@ -84,7 +88,7 @@ if (filters) {
   const decades = $$('.decade');
   const years = $$('.tl-year[data-year]');
   const count = $('.films__count');
-  const tpl = count?.dataset.countTemplate;
+  const plural = (n) => { const d = count?.dataset || {}; return (n === 1 ? d.one : n > 1 && n < 5 ? d.few : d.many) || ''; };
   const yearBox = $('.filters__year', filters);
   const yearLabel = $('.filters__yearlabel', filters);
   let type = 'all';
@@ -103,7 +107,7 @@ if (filters) {
     });
     years.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.year === year)));
     if (yearBox) { yearBox.hidden = year === null; if (yearLabel) yearLabel.textContent = year ? `${yearLabel.dataset.label} ${year}` : ''; }
-    if (count && tpl) count.textContent = tpl.replace('{n}', n);
+    if (count) count.textContent = plural(n).replace('{n}', n);
   };
   filters.addEventListener('click', (e) => {
     const btn = e.target.closest('button[data-filter]');
@@ -114,6 +118,18 @@ if (filters) {
     }
     if (e.target.closest('.filters__clear')) { year = null; apply(); }
   });
+  // one tab stop for the whole timeline, arrows move between years
+  years.forEach((b, i) => {
+    b.tabIndex = i === years.length - 1 ? 0 : -1;
+    b.addEventListener('keydown', (e) => {
+      const k = { ArrowRight: 1, ArrowLeft: -1, Home: -years.length, End: years.length }[e.key];
+      if (!k) return;
+      e.preventDefault();
+      const next = years[Math.max(0, Math.min(years.length - 1, i + k))];
+      years.forEach((x) => { x.tabIndex = x === next ? 0 : -1; });
+      next.focus();
+    });
+  });
   years.forEach((b) => {
     b.setAttribute('aria-pressed', 'false');
     b.addEventListener('click', () => {
@@ -122,7 +138,6 @@ if (filters) {
       if (year) filters.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
     });
   });
-  if (window.matchMedia('(max-width: 760px)').matches) decades.forEach((d, i) => { if (i > 0) d.open = false; });
 }
 
 /* lightbox */
