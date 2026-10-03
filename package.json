@@ -2,10 +2,17 @@
   "name": "jana-nagyova-cz",
   "private": true,
   "scripts": {
-    "dev": "wrangler dev",
-    "deploy": "wrangler deploy"
+    "build": "node scripts/build.mjs",
+    "dev": "npm run build && wrangler dev",
+    "deploy": "npm run build && wrangler deploy",
+    "test:shots": "node scripts/screenshots.mjs"
   },
   "devDependencies": {
+    "@fontsource/literata": "^5.3.0",
+    "esbuild": "^0.28.2",
+    "playwright": "^1.63.0",
+    "subset-font": "^2.9.0",
+    "three": "^0.186.1",
     "wrangler": "^4"
   }
 }
